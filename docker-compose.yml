@@ -1,0 +1,41 @@
+#version: '3.8'
+
+services:
+  app:
+    container_name: ez-fast-food-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "${API_PORT}:8080"
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: ${API_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - ez_fastfood
+
+  db:
+    container_name: ez-fast-food-db
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    restart: always
+    volumes:
+      - ./src/main/resources/database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - ez_fastfood
+
+volumes:
+  postgres-data:
+
+networks:
+  ez_fastfood:
+    driver: bridge
