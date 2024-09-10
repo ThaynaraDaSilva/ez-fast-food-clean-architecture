@@ -41,39 +41,68 @@ br.com.fiap.ez.fastfood
 ├── adapters
 │   ├── in
 │   │   └── controller
-│   │       └── CustomerController.java         # Input adapters, handles HTTP requests
+│   │       └── CustomerController.java       # Input adapter, handles HTTP requests
 │   └── out
 │       └── repository
-│           └── JpaCustomerRepository.java      # Repository implementation (ORM-specific)
-           └── CustomerRepositoryImpl.java     # Implementation of outbound port
+│           ├── CustomerRepositoryImpl.java   # Repository implementation (converts domain to persistence entities)
+│           └── JpaCustomerRepository.java    # JPA-specific repository interface
 ├── application
 │   ├── usecases
-│   │   ├── customer
-│   │   │   └── CreateCustomerUseCase.java      # Use case for creating customers
-│   │   │   └── UpdateCustomerUseCase.java      # Use case for updating customers
-│   │   │   └── DeleteCustomerUseCase.java      # Use case for deleting customers
-│   │   │   └── GetCustomerUseCase.java         # Use case for fetching customers
-│   │   └── dto
-│   │       └── CustomerDTO.java                # Data transfer object for customer
-│   ├── ports
-│   │   ├── in
-│   │   │   └── CreateCustomer.java             # Input port, defines use case contract for customer creation
-│   │   │   └── UpdateCustomer.java             # Input port, defines use case contract for customer update
-│   │   │   └── DeleteCustomer.java             # Input port, defines use case contract for customer deletion
-│   │   │   └── GetCustomer.java                # Input port, defines use case contract for fetching customers
-│   │   └── out
-│   │       └── CustomerRepository.java         # Outbound port, interface for repository actions
+│   │   └── CustomerUseCase.java              # Centralized use case for CRUD operations
+│   └── dto
+│       └── CustomerDTO.java                  # DTO for customer with validation annotations
 ├── domain
 │   └── model
-│       └── Customer.java                       # Domain model, holds core business rules for customer
-├── frameworks
-│   ├── config
-│   │   └── ApiApplication.java                 # Main entry point
-│   │   └── OpenApiConfig.java                  # Swagger/OpenAPI configuration
-│   │   └── SecurityConfig.java                 # Security-related configurations
-│   ├── exception
-│   │   └── CustomExceptionHandler.java         # Global exception handling
-│   │   └── ErrorResponse.java                  # Error response object
+│       └── Customer.java                     # Pure domain entity without JPA/validation annotations
+│   └── repository
+│       └── CustomerRepository.java           # Domain repository interface (abstraction for persistence)
+├── infrastructure
+│   ├── persistence
+│   │   └── CustomerEntity.java               # Persistence-specific entity with JPA annotations
+│   └── mapper
+│       └── CustomerMapper.java               # Mapper to convert between domain and persistence entities
+├── config
+│   └── exception
+│       └── CustomExceptionHandler.java       # Global exception handler
+│       └── ErrorResponse.java                # Error response object
+│   └── security
+│       └── SecurityConfig.java               # Security configurations
+│       └── OpenApiConfig.java                # Swagger/OpenAPI configuration
+├── APIApplication.java                       # Main entry point for Spring Boot
+
+
+
+Explanation of Each Section:
+1. Adapters
+In (Controller Layer):
+CustomerController.java: Handles incoming HTTP requests, interacts with the use cases, and returns responses.
+Out (Repository Layer):
+CustomerRepositoryImpl.java: Implements the CustomerRepository interface from the domain layer. It converts between domain entities and persistence entities using a mapper.
+JpaCustomerRepository.java: The actual JPA repository interface used for database interactions.
+2. Application
+Use Cases:
+CustomerUseCase.java: The centralized use case that handles CRUD operations for customers. It interacts with the CustomerRepository and performs business logic.
+DTOs:
+CustomerDTO.java: Used for data transfer and validation. Contains validation annotations like @NotNull, @Email, and @Pattern for validating input data before it reaches the use case.
+3. Domain
+Model:
+Customer.java: The domain entity representing a customer. It contains business logic and rules but is not tied to any persistence or validation frameworks (i.e., no JPA or validation annotations).
+Repository:
+CustomerRepository.java: The interface that abstracts the persistence layer. The use case depends on this interface to persist or retrieve customer data, adhering to Dependency Inversion Principle (DIP).
+4. Infrastructure
+Persistence Entities:
+CustomerEntity.java: The entity that contains the JPA annotations (like @Entity, @Table, @Id) for persistence purposes. This entity is different from the domain entity (Customer.java).
+Mappers:
+CustomerMapper.java: This class is responsible for converting domain entities to persistence entities (and vice versa). This separation of concerns ensures the domain layer remains pure and unaware of infrastructure concerns like JPA.
+5. Config
+Exception Handling:
+CustomExceptionHandler.java: A global exception handler that catches and returns standardized error responses.
+Security:
+SecurityConfig.java: Handles security configurations like authentication and authorization.
+OpenAPI:
+OpenApiConfig.java: Configures Swagger or OpenAPI for API documentation.
+6. APIApplication.java
+This is the main class that starts the Spring Boot application.
 
 
 

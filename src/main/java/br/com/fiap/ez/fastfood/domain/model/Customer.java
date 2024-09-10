@@ -1,92 +1,68 @@
 package br.com.fiap.ez.fastfood.domain.model;
 
-import org.hibernate.validator.constraints.Length;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-
-@Entity
-@Table(name = "customer")
 public class Customer {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private Long id;
+    private String name;
+    private String email;
+    private String cpf;
+   
 
-	@Column(name = "name", nullable = false)
-	private String name;
+    // Constructor for creating a new Customer (ID not required for new creation)
+    public Customer(String name, String email, String cpf) {
+        this.name = name;
+        this.email = email;
+        this.cpf = cpf;
+    }
 
-	@Column(name = "cpf", nullable = true)
-	@Pattern(regexp = "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$", message = "Formato do CPF inválido")
-	private String cpf;
+    // Constructor for existing Customer with ID (used for updates or retrieval)
+    public Customer(Long id, String name, String email, String cpf) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.cpf = cpf;
+    }
 
-	@Column(name = "email", nullable = true)
-	private String email;
+    // Business logic method: Validation inside the domain entity
+    public boolean isValid() {
+        return cpf != null && !cpf.isEmpty() && email != null && email.contains("@");
+    }
 
-	/*
-	 * @Column(name = "password", nullable = true)
-	 * 
-	 * @Length (min = 8,
-	 * message="Senha precisa ter no mínimo 8 e maxímo de 15 caracteres") private
-	 * String password;
-	 */
+    // Example of business logic related to CPF format
+    public boolean hasValidCpfFormat() {
+        return cpf.matches("^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$");
+    }
 
-	public Customer() {
-		super();
-	}
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
 
-	public Customer(Long id, String name, String cpf, String email) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.cpf = cpf;
-		this.email = email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	
+    public String getName() {
+        return name;
+    }
 
-	public Customer(String name,
-			@Pattern(regexp = "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$", message = "Formato do CPF inválido") String cpf,
-			String email) {
-		super();
-		this.name = name;
-		this.cpf = cpf;
-		this.email = email;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getCpf() {
+        return cpf;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-
-
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 }
