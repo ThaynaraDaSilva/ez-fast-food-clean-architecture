@@ -70,6 +70,30 @@ br.com.fiap.ez.fastfood
 │       └── OpenApiConfig.java                # Swagger/OpenAPI configuration
 ├── APIApplication.java                       # Main entry point for Spring Boot
 
+10/09/2024
+
+br.com.fiap.ez.fastfood
+├── adapters
+│   ├── in
+│   └── out
+├── application
+│   ├── usecases
+│   └── dto
+├── domain
+│   └── model
+│   └── repository
+├── infrastructure
+│   ├── persistence
+│   ├── mapper
+│   └── config
+│       └── UseCaseConfiguration.java         # Bean configuration for use cases
+│       └── RepositoryConfiguration.java      # Bean configuration for repositories
+├── config
+│   └── exception
+│   └── security
+├── APIApplication.java
+
+
 
 
 Explanation of Each Section:

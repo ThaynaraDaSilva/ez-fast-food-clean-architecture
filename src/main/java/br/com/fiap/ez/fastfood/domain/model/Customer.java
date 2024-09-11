@@ -7,21 +7,19 @@ public class Customer {
     private String email;
     private String cpf;
    
+    
 
-    // Constructor for creating a new Customer (ID not required for new creation)
+    public Customer() {
+		super();
+	}
+
+	// Constructor for creating a new Customer (ID not required for new creation)
     public Customer(String name, String email, String cpf) {
         this.name = name;
         this.email = email;
         this.cpf = cpf;
     }
 
-    // Constructor for existing Customer with ID (used for updates or retrieval)
-    public Customer(Long id, String name, String email, String cpf) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.cpf = cpf;
-    }
 
     // Business logic method: Validation inside the domain entity
     public boolean isValid() {

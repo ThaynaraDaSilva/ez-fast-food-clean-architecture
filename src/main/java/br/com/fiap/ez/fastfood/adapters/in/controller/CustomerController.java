@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
 import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.application.dto.LoginDTO;
-import br.com.fiap.ez.fastfood.application.ports.in.CustomerService;
+import br.com.fiap.ez.fastfood.application.usecases.customer.CustomerUseCase;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 
@@ -30,19 +30,21 @@ import java.util.ArrayList;
 @Tag(name = "Customer Operations", description = "Operations related to customers")
 public class CustomerController {
 
-	private final CustomerService customerService;
+	//private final CustomerService customerService;
+	private final CustomerUseCase customerUseCase;
 
-	@Autowired
-	public CustomerController(CustomerService customerService) {
-		this.customerService = customerService;
+	
+	public CustomerController(CustomerUseCase customerUseCase) {
+		this.customerUseCase = customerUseCase;
 	}
+
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
 
 		try {
 			// Customer customer = customerService.authenticate(loginDTO.getCpf(),loginDTO.getPassword());
-			Customer customer = customerService.authenticate(loginDTO.getCpf());
+			Customer customer = customerUseCase.authenticate(loginDTO.getCpf());
 			CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 
@@ -60,7 +62,9 @@ public class CustomerController {
 	public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO createCustomerDTO) {
 
 		try {
-			CustomerDTO customerDTO = customerService.createCustomer(createCustomerDTO);
+			
+			CustomerDTO customerDTO = customerUseCase.create(createCustomerDTO);
+			
 			return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
 		} catch (IllegalArgumentException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -74,7 +78,7 @@ public class CustomerController {
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listCustomers() {
 		try {
-			List<Customer> customers = customerService.listCustomers();
+			List<Customer> customers = customerUseCase.listCustomers();
 			List<CustomerResponseDTO> customersDTO = new ArrayList<>();
 			for (Customer customer : customers) {
 				CustomerResponseDTO customerDTO = new CustomerResponseDTO(customer.getId(), customer.getCpf(), customer.getName(), customer.getEmail());
@@ -92,8 +96,7 @@ public class CustomerController {
 	public ResponseEntity<?> findCustomerByCpf(@PathVariable String cpf) {
 
 		try {
-			Customer customer = customerService.findCustomerByCpf(cpf);
-			CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
+			CustomerDTO customerDTO = customerUseCase.findCustomerByCpf(cpf);
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -107,7 +110,7 @@ public class CustomerController {
 	public ResponseEntity<?> deleteCustomerById(@PathVariable String cpf) {
 
 		try {
-			customerService.deleteCustomerByCpf(cpf);
+			customerUseCase.deleteCustomerByCpf(cpf);
 			return new ResponseEntity<>(cpf + " removido", HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -118,12 +121,11 @@ public class CustomerController {
 	@Hidden
 	@Operation(summary = "Update customer by CPF")
 	@PutMapping("/update-by-cpf/{cpf}")
-	public ResponseEntity<?> updateCustomer(@PathVariable String cpf, @RequestBody Customer updateCustomer) {
+	public ResponseEntity<?> updateCustomer(@PathVariable String cpf, @RequestBody Customer customer) {
 
 		try {
-			Customer updatedCustomer = customerService.updateCustomer(cpf, updateCustomer);
-			CustomerDTO customerDTO = new CustomerDTO(updatedCustomer.getCpf(), updatedCustomer.getName(),
-					updateCustomer.getEmail());
+			//Customer updatedCustomer = customerUseCase.updateCustomer(cpf, updateCustomer);
+			CustomerDTO customerDTO = customerUseCase.updateCustomer(cpf, customer);
 
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 		} catch (BusinessException e) {

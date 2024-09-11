@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.CustomerJpaRepository;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
@@ -27,11 +26,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 	}
 
 	@Override
-	 public List<Customer> findAll() {
-        return customerJpaRepository.findAll().stream()
-            .map(CustomerMapper::entityToDomain)
-            .collect(Collectors.toList());
-    }
+	public List<Customer> findAll() {
+		return customerJpaRepository.findAll().stream().map(CustomerMapper::entityToDomain)
+				.collect(Collectors.toList());
+	}
+
 	@Override
 	public Customer removeByCpf(String cpf) {
 		customerJpaRepository.removeCustomerByCpf(cpf);
@@ -40,13 +39,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
 	@Override
 	public Optional<Customer> findByCpf(String cpf) {
-		 return customerJpaRepository.findCustomerByCpf(cpf).map(CustomerMapper::entityToDomain);
+		CustomerEntity entity = customerJpaRepository.findCustomerByCpf(cpf);
+		return Optional.ofNullable(entity).map(CustomerMapper::entityToDomain);
 	}
 
-	@Override
-	public Customer updateCustomerByCpf(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

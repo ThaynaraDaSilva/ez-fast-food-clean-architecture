@@ -18,12 +18,21 @@ public class CustomerMapper {
 
 	// Convert Persistence Entity to Domain Model
 	public static Customer entityToDomain(CustomerEntity entity) {
-		return new Customer(entity.getId(), entity.getName(), entity.getEmail(), entity.getCpf());
+		Customer customer = new Customer();
+		customer.setCpf(entity.getCpf());
+		customer.setName(entity.getName());
+		customer.setEmail(entity.getEmail());
+		return customer;
 	}
 
 	// Convert DTO to Domain Model
 	public static Customer dtoToDomain(CustomerDTO customerDTO) {
-		return new Customer(customerDTO.getName(), customerDTO.getEmail(), customerDTO.getCpf());
+		Customer customer = new Customer();
+		customer.setCpf(customerDTO.getCpf());
+		System.out.println("CPF: " + customerDTO.getCpf());
+		customer.setName(customerDTO.getName());
+		customer.setEmail(customerDTO.getEmail());
+		return customer;
 	}
 
 	// Convert Domain Model to DTO (if needed)
