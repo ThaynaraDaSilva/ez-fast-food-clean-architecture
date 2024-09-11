@@ -12,7 +12,13 @@ public class CustomerDTO {
 	
 	@JsonProperty("email")
     private String email;
+	
+	
     
+	public CustomerDTO() {
+		super();
+	}
+
 	public CustomerDTO(String cpf, String name, String email) {
 		this.cpf = cpf;
 		this.name = name;

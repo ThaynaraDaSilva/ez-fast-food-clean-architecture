@@ -1,42 +1,34 @@
 package br.com.fiap.ez.fastfood.adapters.out.repository;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
+import br.com.fiap.ez.fastfood.adapters.out.repository.CustomerJpaRepository;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 
-@Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
-	
-	// 1. implemento query customizada no CustomerJpaRepository
-	// 2. Implemento metodo no CustomerRepository
-	// 3. Implemento o metodo aqui, pois essa classe extends CustomerRepository
 
 	private final CustomerJpaRepository customerJpaRepository;
-	
-	/*
-	 * @PersistenceContext private EntityManager entityManager;
-	 */
 
-	@Autowired
 	public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository) {
 		this.customerJpaRepository = customerJpaRepository;
 	}
 
 	@Override
 	public Customer save(Customer customer) {
-		return customerJpaRepository.save(customer);
+		CustomerEntity entity = CustomerMapper.domainToEntity(customer);
+		customerJpaRepository.save(entity);
+		return customer;
 	}
 
 	@Override
 	public List<Customer> findAll() {
-		return customerJpaRepository.findAll();
+		return customerJpaRepository.findAll().stream().map(CustomerMapper::entityToDomain)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -46,16 +38,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 	}
 
 	@Override
-	public Customer findCustomerByCpf(String cpf) {
-	
-		return customerJpaRepository.findCustomerByCpf(cpf);
+	public Optional<Customer> findByCpf(String cpf) {
+		CustomerEntity entity = customerJpaRepository.findCustomerByCpf(cpf);
+		return Optional.ofNullable(entity).map(CustomerMapper::entityToDomain);
 	}
 
-	@Override
-	public Customer updateCustomerByCpf(Customer customer) {
-		return customerJpaRepository.save (customer);
-	}
-
-	
 
 }
