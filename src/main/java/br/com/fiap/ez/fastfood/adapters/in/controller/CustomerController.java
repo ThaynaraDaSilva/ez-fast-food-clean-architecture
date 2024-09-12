@@ -124,7 +124,6 @@ public class CustomerController {
 	public ResponseEntity<?> updateCustomer(@PathVariable String cpf, @RequestBody Customer customer) {
 
 		try {
-			//Customer updatedCustomer = customerUseCase.updateCustomer(cpf, updateCustomer);
 			CustomerDTO customerDTO = customerUseCase.updateCustomer(cpf, customer);
 
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);

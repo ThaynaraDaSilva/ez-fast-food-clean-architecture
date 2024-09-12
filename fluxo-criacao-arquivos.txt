@@ -1,0 +1,19 @@
+1. Core Domain (Entities)
+	Customer.class
+2. Domain Repositories (Abstractions)
+	CustomerRepository.java - interface
+3. Use Cases (Application Business Rules)
+	CustomerUseCase.java
+4. DTOs (Data Transfer Objects)
+	CustomerDTO.java
+5. Repository (Persistence) Layer
+	CustomerRepositoryImpl.java
+6. JPA Entities
+	CustomerEntity.java
+7. Mappers to Convert Between Domain and Entity
+	CustomerMapper.java
+8. Controllers (Interface Adapters)
+	CustomerController.java
+9. Application (Infrastructure Layer)
+	RepositoryConfiguration.java
+	UseCaseConfiguration.java
