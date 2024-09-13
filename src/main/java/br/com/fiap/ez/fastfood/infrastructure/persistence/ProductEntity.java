@@ -1,15 +1,19 @@
 package br.com.fiap.ez.fastfood.infrastructure.persistence;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product")
 public class ProductEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @Column(nullable = false)
     private String name;
 
@@ -19,10 +23,10 @@ public class ProductEntity {
     @Column(nullable = false)
     private Double price;
 
-    public ProductEntity() {
-    }
+    public ProductEntity() {}
 
-    public ProductEntity(String name, String description, Double price) {
+    public ProductEntity(Long id, String name, String description, double price) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -52,12 +56,11 @@ public class ProductEntity {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
-
 }

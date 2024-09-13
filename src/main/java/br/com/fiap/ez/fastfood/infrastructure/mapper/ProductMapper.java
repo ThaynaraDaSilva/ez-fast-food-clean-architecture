@@ -1,24 +1,24 @@
 package br.com.fiap.ez.fastfood.infrastructure.mapper;
 
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
+import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.ProductEntity;
 
 public class ProductMapper {
 
-    // Converter de DTO para o domínio
+    // Converter de DTO para Domínio
     public static Product toDomain(ProductDTO dto) {
         return new Product(null, dto.getName(), dto.getDescription(), dto.getPrice());
     }
 
-    // Converter de domínio para DTO
-    public static ProductDTO domainToDto(Product product) {
-        ProductDTO dto = new ProductDTO();
+    // Converter de Domínio para ResponseDTO (com ID)
+    public static ProductResponseDTO domainToResponseDto(Product product) {
+        ProductResponseDTO dto = new ProductResponseDTO();
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
         dto.setPrice(product.getPrice());
-
         return dto;
     }
 
@@ -34,17 +34,10 @@ public class ProductMapper {
 
     // Converter de Domínio para Entidade de Persistência
     public static ProductEntity domainToEntity(Product product) {
-        return new ProductEntity(
-                product.getName(),
-                product.getDescription(),
-                product.getPrice()
-        );
-    }
-
-    // Atualizar uma entidade existente com dados de um domínio
-    public static void updateEntity(Product product, ProductEntity entity) {
+        ProductEntity entity = new ProductEntity();
         entity.setName(product.getName());
         entity.setDescription(product.getDescription());
         entity.setPrice(product.getPrice());
+        return entity;
     }
 }

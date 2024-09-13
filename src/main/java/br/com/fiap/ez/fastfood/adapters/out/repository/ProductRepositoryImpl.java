@@ -18,10 +18,27 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void save(Product product) {
+    public Product save(Product product) {
         ProductEntity productEntity = ProductMapper.domainToEntity(product);
-        productJpaRepository.save(productEntity);
+        if (product.getId() != null) {
+            productEntity.setId(product.getId());
+        }
+        ProductEntity savedEntity = productJpaRepository.save(productEntity);
+        product.setId(savedEntity.getId());
+		return product;
     }
+    
+    @Override
+    public Product update(Product product) {
+        ProductEntity productEntity = ProductMapper.domainToEntity(product);
+        if (product.getId() != null) {
+            productEntity.setId(product.getId());
+        }
+        ProductEntity updatedEntity = productJpaRepository.save(productEntity);
+        product.setId(updatedEntity.getId());
+        return product;
+    }
+
 
     @Override
     public Optional<Product> findById(Long id) {
@@ -30,12 +47,14 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        return productJpaRepository.findAll().stream().map(ProductMapper::entityToDomain).collect(Collectors.toList());
+        return productJpaRepository.findAll().stream()
+                .map(ProductMapper::entityToDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteById(Long id) {
-    	productJpaRepository.deleteById(id);
+        productJpaRepository.deleteById(id);
     }
 
     @Override
