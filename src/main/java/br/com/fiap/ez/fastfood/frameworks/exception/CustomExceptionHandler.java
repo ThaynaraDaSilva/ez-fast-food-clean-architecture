@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @ControllerAdvice
@@ -49,5 +52,10 @@ public class CustomExceptionHandler {
 			 
 	        ErrorResponse errorResponse = new ErrorResponse(message);
 	        return new ResponseEntity<>(errorResponse, status);
+	    }
+	 
+	 	@ExceptionHandler(EntityNotFoundException.class)
+	    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 	    }
 }
