@@ -1,4 +1,5 @@
-package br.com.fiap.ez.fastfood.application.usecases.customer;
+package br.com.fiap.ez.fastfood.application.usecases.order;
+
 
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
 import br.com.fiap.ez.fastfood.application.dto.OrderItemDTO;
@@ -7,8 +8,8 @@ import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.OrderRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.PaymentRepository;
 import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
-import br.com.fiap.ez.fastfood.config.exception.BusinessException;
 import br.com.fiap.ez.fastfood.domain.model.*;
+import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderItemMapper;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +42,9 @@ public class OrderUseCase {
     @Transactional
     public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
         // Create Order entity from DTO
-        Customer customer = customerRepository.findCustomerByCpf(createOrderDTO.getCustomerCpf())
-                .orElseThrow(() -> new BusinessException("Customer not found"));
+    	
+    	Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
+    		    .orElseThrow(() -> new BusinessException("Customer not found"));
 
         Order newOrder = new Order();
         newOrder.setCustomer(customer);
@@ -52,8 +54,7 @@ public class OrderUseCase {
 
         List<OrderItem> orderItems = new ArrayList<>();
         for (OrderItemDTO itemDTO : createOrderDTO.getOrderItems()) {
-            Product product = productRepository.findById(itemDTO.getProductId())
-                    .orElseThrow(() -> new BusinessException("Product not found"));
+            Product product = productRepository.findById(itemDTO.getProductId()).orElseThrow(() -> new BusinessException("Product not found"));
             OrderItem orderItem = new OrderItem(newOrder, product, itemDTO.getQuantity(), product.getPrice() * itemDTO.getQuantity());
             orderItems.add(orderItem);
         }

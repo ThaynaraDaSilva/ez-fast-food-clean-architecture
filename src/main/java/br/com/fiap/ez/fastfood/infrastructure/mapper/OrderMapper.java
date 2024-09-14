@@ -54,4 +54,30 @@ public class OrderMapper {
                 .map(OrderMapper::domainToEntity)
                 .collect(Collectors.toList());
     }
+    
+    public static OrderResponseDTO domainToResponseDTO(Order order) {
+        OrderResponseDTO dto = new OrderResponseDTO();
+        dto.setOrderId(order.getId());
+        dto.setOrderTime(order.getOrderTime());
+        dto.setTotalPrice(order.getTotalPrice());
+        dto.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : "");
+        dto.setCustomerName(order.getCustomerName());
+        dto.setOrderStatus(order.getStatus());
+
+        List<OrderItemDTO> itemDTOs = order.getOrderItems().stream()
+                .map(item -> new OrderItemDTO(item.getProduct().getId(), item.getQuantity()))
+                .collect(Collectors.toList());
+
+        dto.setOrderItems(itemDTOs);
+        if (order.getCompletedTime() != null) {
+            dto.setCompletedTime(order.getCompletedTime());
+        }
+
+        // Utilize the domain logic for waited time calculation
+        if (order.getStatus() != OrderStatus.WAITING_PAYMENT) {
+            dto.setWaitedTime(order.calculateWaitedTime());
+        }
+
+        return dto;
+    }
 }
