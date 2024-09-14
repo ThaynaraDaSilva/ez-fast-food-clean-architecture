@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
-import br.com.fiap.ez.fastfood.application.usecases.product.ProductUseCase;
+import br.com.fiap.ez.fastfood.application.usecases.ProductUseCase;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;

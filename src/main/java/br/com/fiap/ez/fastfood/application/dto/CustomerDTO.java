@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CustomerDTO {
 	
+	@JsonProperty("id")
+	private Long id;
+	
 	@JsonProperty("cpf")
 	private String cpf;
 	
@@ -19,10 +22,19 @@ public class CustomerDTO {
 		super();
 	}
 
-	public CustomerDTO(String cpf, String name, String email) {
+	public CustomerDTO(Long id,String cpf, String name, String email) {
+		this.id = id;
 		this.cpf = cpf;
 		this.name = name;
 		this.email = email;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getCpf() {

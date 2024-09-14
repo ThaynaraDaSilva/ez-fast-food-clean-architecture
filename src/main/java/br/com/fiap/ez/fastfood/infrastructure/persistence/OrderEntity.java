@@ -97,7 +97,6 @@ public class OrderEntity {
 	}
 
 
-
 	public String getCustomerName() {
         return customerName;
     }

@@ -1,4 +1,4 @@
-package br.com.fiap.ez.fastfood.application.usecases.product;
+package br.com.fiap.ez.fastfood.application.usecases;
 
 import java.util.List;
 import java.util.stream.Collectors;

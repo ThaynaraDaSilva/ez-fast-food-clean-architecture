@@ -14,9 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
-
-import br.com.fiap.ez.fastfood.application.usecases.order.OrderUseCase;
-
+import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 
 @RestController
@@ -51,8 +49,10 @@ public class OrderController {
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listOrders() {
 		try {
+			System.out.println("METODO LIST ALL ODERS -  CONTROLLER");
 			return new ResponseEntity<>(orderUseCase.listAllOrders(), HttpStatus.OK);
 		} catch (BusinessException e) {
+			System.out.println("METODO LIST ALL ODERS -  CONTROLLER EXCEPTION");
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 

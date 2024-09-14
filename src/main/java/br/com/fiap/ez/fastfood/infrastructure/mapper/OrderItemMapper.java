@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 public class OrderItemMapper {
 
-    public static OrderItem entityToDomain(OrderItemEntity entity) {
+	public static OrderItem entityToDomain(OrderItemEntity entity) {
         return new OrderItem(
-            OrderMapper.entityToDomain(entity.getOrder()),
-            ProductMapper.entityToDomain(entity.getProduct()),
+            null, // Skip mapping Order to avoid recursion
+            ProductMapper.entityToDomain(entity.getProduct()), // Ensure this handles null
             entity.getQuantity(),
             entity.getPrice()
         );
@@ -19,8 +19,7 @@ public class OrderItemMapper {
 
     public static OrderItemEntity domainToEntity(OrderItem orderItem) {
         OrderItemEntity entity = new OrderItemEntity();
-        entity.setOrder(OrderMapper.domainToEntity(orderItem.getOrder()));
-        entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct()));
+        entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); // Ensure this handles null
         entity.setQuantity(orderItem.getQuantity());
         entity.setPrice(orderItem.getPrice());
         return entity;

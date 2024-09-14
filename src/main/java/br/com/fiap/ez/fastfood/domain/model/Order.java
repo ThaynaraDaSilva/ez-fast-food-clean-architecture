@@ -110,10 +110,10 @@ public class Order {
 		return total;
 	}
 
-	private String calculateOrderWaitedTime(Order order) {
-		ZonedDateTime orderTime = order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
+	public String calculateOrderWaitedTime(ZonedDateTime orderTime) {
+		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-		Duration duration = Duration.between(orderTime, now);
+		Duration duration = Duration.between(time, now);
 		long hours = duration.toHours();
 		long minutes = duration.toMinutes() % 60;
 		return String.format("%02dh%02d", hours, minutes);

@@ -1,4 +1,4 @@
-package br.com.fiap.ez.fastfood.application.usecases.customer;
+package br.com.fiap.ez.fastfood.application.usecases;
 
 import java.util.Optional;
 

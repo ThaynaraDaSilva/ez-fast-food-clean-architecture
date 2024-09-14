@@ -11,9 +11,9 @@ import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
 
-	private final CustomerJpaRepository customerJpaRepository;
+	private final JpaCustomerRepository customerJpaRepository;
 
-	public CustomerRepositoryImpl(CustomerJpaRepository customerJpaRepository) {
+	public CustomerRepositoryImpl(JpaCustomerRepository customerJpaRepository) {
 		this.customerJpaRepository = customerJpaRepository;
 	}
 

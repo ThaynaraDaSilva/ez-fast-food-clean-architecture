@@ -5,11 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.fiap.ez.fastfood.domain.model.Payment;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.PaymentEntity;
 
-public interface PaymentJpaRepository extends JpaRepository<Payment, Long>{
+public interface JpaPaymentRepository extends JpaRepository<PaymentEntity, Long>{
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.PAYMENT WHERE order_id = :id")
-	Payment findPaymentByOrderId(@Param("id") Long id);
+	PaymentEntity findPaymentByOrderId(@Param("id") Long id);
 	
 
 }

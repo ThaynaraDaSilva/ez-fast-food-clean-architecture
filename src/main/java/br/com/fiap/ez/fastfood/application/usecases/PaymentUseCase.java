@@ -1,4 +1,4 @@
-package br.com.fiap.ez.fastfood.application.usecases.payment;
+package br.com.fiap.ez.fastfood.application.usecases;
 
 import br.com.fiap.ez.fastfood.domain.model.Order;
 import br.com.fiap.ez.fastfood.domain.model.Payment;

@@ -130,6 +130,68 @@ This is the main class that starts the Spring Boot application.
 
 
 
+14/09/2024
+
+br.com.fiap.ez.fastfood
+├── adapters
+│   ├── in
+│   │   └── controller
+│   │       └── CustomerController.java       # Input adapter, handles HTTP requests
+│   │       └── OrderController.java          # Order-related HTTP requests
+│   └── out
+│       └── repository
+│           ├── CustomerRepositoryImpl.java   # Repository implementation (converts domain to persistence entities)
+│           ├── OrderRepositoryImpl.java      # Repository implementation for Order
+│           └── JpaCustomerRepository.java    # JPA-specific repository interface for Customer
+│           └── JpaOrderRepository.java       # JPA-specific repository interface for Order
+│
+├── application
+│   ├── usecases
+│   │   ├── CustomerUseCase.java              # Centralized use case for CRUD operations for Customer
+│   │   └── OrderUseCase.java                 # Centralized use case for order operations
+│   └── dto
+│       ├── CustomerDTO.java                  # DTO for customer with validation annotations
+│       ├── CreateOrderDTO.java               # DTO for order creation
+│       ├── OrderResponseDTO.java             # DTO for order response
+│       └── ProductDTO.java                   # DTO for Product
+│
+├── domain
+│   ├── model
+│   │   ├── Customer.java                     # Pure domain entity without JPA/validation annotations
+│   │   ├── Order.java                        # Pure domain entity for Order
+│   │   └── Product.java                      # Pure domain entity for Product
+│   └── repository
+│       ├── CustomerRepository.java           # Domain repository interface (abstraction for persistence)
+│       └── OrderRepository.java              # Domain repository interface for Order
+│
+├── infrastructure
+│   ├── persistence
+│   │   ├── CustomerEntity.java               # Persistence-specific entity with JPA annotations for Customer
+│   │   ├── OrderEntity.java                  # Persistence-specific entity with JPA annotations for Order
+│   │   └── ProductEntity.java                # Persistence-specific entity with JPA annotations for Product
+│   └── mapper
+│       ├── CustomerMapper.java               # Mapper to convert between domain and persistence entities for Customer
+│       ├── OrderMapper.java                  # Mapper to convert between domain and persistence entities for Order
+│       └── ProductMapper.java                # Mapper to convert between domain and persistence entities for Product
+│
+├── config
+│   ├── exception
+│   │   ├── CustomExceptionHandler.java       # Global exception handler
+│   │   └── ErrorResponse.java                # Error response object
+│   ├── security
+│   │   └── SecurityConfig.java               # Security configurations
+│   │   └── OpenApiConfig.java                # Swagger/OpenAPI configuration
+│   ├── UseCaseConfiguration.java             # Bean configuration for use cases
+│   └── RepositoryConfiguration.java          # Bean configuration for repositories
+│
+├── APIApplication.java                       # Main entry point for Spring Boot
+
+
+In conclusion, keeping repository interfaces in the domain layer is common practice in Clean Architecture as long as only the interface is there, not the actual persistence logic. The persistence logic belongs in the infrastructure layer.
+
+
+
+
 
 
 

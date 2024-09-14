@@ -3,11 +3,11 @@ package br.com.fiap.ez.fastfood.infrastructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import br.com.fiap.ez.fastfood.adapters.out.repository.CustomerJpaRepository;
+import br.com.fiap.ez.fastfood.adapters.out.repository.JpaCustomerRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.CustomerRepositoryImpl;
-import br.com.fiap.ez.fastfood.adapters.out.repository.OrderJpaRepository;
+import br.com.fiap.ez.fastfood.adapters.out.repository.JpaOrderRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.OrderRepositoryImpl;
-import br.com.fiap.ez.fastfood.adapters.out.repository.PaymentJpaRepository;
+import br.com.fiap.ez.fastfood.adapters.out.repository.JpaPaymentRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.PaymentRepositoryImpl;
 import br.com.fiap.ez.fastfood.adapters.out.repository.ProductJpaRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.ProductRepositoryImpl;
@@ -20,7 +20,7 @@ import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 public class RepositoryConfiguration {
 	
 	@Bean
-    public CustomerRepository customerRepository(CustomerJpaRepository customerJpaRepository) {
+    public CustomerRepository customerRepository(JpaCustomerRepository customerJpaRepository) {
         return new CustomerRepositoryImpl(customerJpaRepository);
     }
 	
@@ -30,12 +30,12 @@ public class RepositoryConfiguration {
 	}
 
     @Bean
-    public OrderRepository orderRepository(OrderJpaRepository orderJpaRepository) {
+    public OrderRepository orderRepository(JpaOrderRepository orderJpaRepository) {
         return new OrderRepositoryImpl(orderJpaRepository);
     }
     
     @Bean
-    public PaymentRepository paymentRepository(PaymentJpaRepository paymentJpaRepository) {
+    public PaymentRepository paymentRepository(JpaPaymentRepository paymentJpaRepository) {
         return new PaymentRepositoryImpl(paymentJpaRepository);
     }
 }
