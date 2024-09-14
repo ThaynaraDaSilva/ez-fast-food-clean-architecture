@@ -1,129 +1,83 @@
 package br.com.fiap.ez.fastfood.application.usecases.order;
 
-
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
 import br.com.fiap.ez.fastfood.application.dto.OrderItemDTO;
 import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
-import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
-import br.com.fiap.ez.fastfood.application.ports.out.OrderRepository;
-import br.com.fiap.ez.fastfood.application.ports.out.PaymentRepository;
-import br.com.fiap.ez.fastfood.application.ports.out.ProductRepository;
+import br.com.fiap.ez.fastfood.application.usecases.payment.PaymentUseCase;
 import br.com.fiap.ez.fastfood.domain.model.*;
+import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
+import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
+import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
+import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
-import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderItemMapper;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
+
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 public class OrderUseCase {
 
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final PaymentRepository paymentRepository;
-    private final CustomerRepository customerRepository;
+	private final OrderRepository orderRepository;
+	private final ProductRepository productRepository;
+	private final CustomerRepository customerRepository;
+	private final PaymentRepository paymentRepository;
 
-    public OrderUseCase(OrderRepository orderRepository,
-                        ProductRepository productRepository,
-                        PaymentRepository paymentRepository,
-                        CustomerRepository customerRepository) {
-        this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
-        this.paymentRepository = paymentRepository;
-        this.customerRepository = customerRepository;
-    }
+	public OrderUseCase(OrderRepository orderRepository, br.com.fiap.ez.fastfood.domain.repository.ProductRepository productRepository2,
+			CustomerRepository customerRepository, PaymentRepository paymentRepository) {
+		this.orderRepository = orderRepository;
+		this.productRepository = productRepository2;
+		this.customerRepository = customerRepository;
+		this.paymentRepository = paymentRepository;
+	}
+	
+	
 
-    @Transactional
-    public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
-        // Create Order entity from DTO
-    	
-    	Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
-    		    .orElseThrow(() -> new BusinessException("Customer not found"));
+	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
+		// Create Order entity from DTO
 
-        Order newOrder = new Order();
-        newOrder.setCustomer(customer);
-        newOrder.setCustomerName(createOrderDTO.getCustomerName());
-        newOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-        newOrder.setStatus(OrderStatus.WAITING_PAYMENT);
+		Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
+				.orElseThrow(() -> new BusinessException("Customer not found"));
 
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (OrderItemDTO itemDTO : createOrderDTO.getOrderItems()) {
-            Product product = productRepository.findById(itemDTO.getProductId()).orElseThrow(() -> new BusinessException("Product not found"));
-            OrderItem orderItem = new OrderItem(newOrder, product, itemDTO.getQuantity(), product.getPrice() * itemDTO.getQuantity());
-            orderItems.add(orderItem);
-        }
-        newOrder.setOrderItems(orderItems);
-        newOrder.calculateAndSetTotalPrice();
+		Order newOrder = new Order();
+		newOrder.setCustomer(customer);
+		newOrder.setCustomerName(createOrderDTO.getCustomerName());
+		newOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+		newOrder.setStatus(OrderStatus.WAITING_PAYMENT);
 
-        Order savedOrder = orderRepository.save(newOrder);
+		List<OrderItem> orderItems = new ArrayList<>();
+		for (OrderItemDTO itemDTO : createOrderDTO.getOrderItems()) {
+			Product product = productRepository.findById(itemDTO.getProductId())
+					.orElseThrow(() -> new BusinessException("Product not found"));
+			OrderItem orderItem = new OrderItem(newOrder, product, itemDTO.getQuantity(),
+					product.getPrice() * itemDTO.getQuantity());
+			orderItems.add(orderItem);
+		}
+		newOrder.setOrderItems(orderItems);
+		newOrder.calculateAndSetTotalPrice();
 
-        // Register payment for the order
-        registerPayment(savedOrder);
+		Order savedOrder = orderRepository.save(newOrder);
 
-        // Map order to response DTO using OrderMapper
-        return OrderMapper.entityToDomain(savedOrder);
-    }
+		// Register payment for the order
+		paymentRepository.registerPayment(savedOrder);
 
-    public List<OrderResponseDTO> listUnfinishedOrders() {
-        List<Order> unfinishedOrders = orderRepository.listUnfinishedOrders();
-        return unfinishedOrders.stream()
-                .map(OrderMapper::entityToDomain)
-                .collect(Collectors.toList());
-    }
+		// Map order to response DTO using OrderMapper
+		return OrderMapper.domainToResponseDTO(savedOrder);
+	}
 
-    public List<OrderResponseDTO> listAllOrders() {
-        List<Order> allOrders = orderRepository.findAll();
-        return allOrders.stream()
-                .map(OrderMapper::entityToDomain)
-                .collect(Collectors.toList());
-    }
+	public List<OrderResponseDTO> listUnfinishedOrders() {
+		List<Order> unfinishedOrders = orderRepository.listUnfinishedOrders();
+		return unfinishedOrders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
+	}
 
-    private void registerPayment(Order order) {
-        Payment payment = new Payment();
-        payment.setOrder(order);
-        payment.setCustomer(order.getCustomer());
-        payment.setPaymentPrice(order.getTotalPrice());
-        payment.setPaymentStatus(PaymentStatus.PENDING);
-        paymentRepository.save(payment);
-    }
+	public List<OrderResponseDTO> listAllOrders() {
+		List<Order> allOrders = orderRepository.findAll();
+		return allOrders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
+	}
 
-    private String calculateOrderWaitedTime(Order order) {
-        ZonedDateTime orderTime = order.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-        Duration duration = Duration.between(orderTime, now);
-        long hours = duration.toHours();
-        long minutes = duration.toMinutes() % 60;
-        return String.format("%02dh%02d", hours, minutes);
-    }
-
-    private OrderResponseDTO mapOrderToOrderResponseDTO(Order order) {
-        OrderResponseDTO dto = new OrderResponseDTO();
-        dto.setOrderId(order.getId());
-        dto.setOrderTime(order.getOrderTime());
-        dto.setTotalPrice(order.getTotalPrice());
-        dto.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : "");
-        dto.setCustomerName(order.getCustomerName());
-        dto.setOrderStatus(order.getStatus());
-
-        List<OrderItemDTO> itemDTOs = order.getOrderItems().stream()
-                .map(item -> new OrderItemDTO(item.getProduct().getId(), item.getQuantity()))
-                .collect(Collectors.toList());
-
-        dto.setOrderItems(itemDTOs);
-        if (order.getCompletedTime() != null) {
-            dto.setCompletedTime(order.getCompletedTime());
-        }
-
-        if (order.getStatus() != OrderStatus.WAITING_PAYMENT) {
-            dto.setWaitedTime(calculateOrderWaitedTime(order));
-        }
-
-        return dto;
-    }
 }

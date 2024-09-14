@@ -6,8 +6,8 @@ import java.util.Optional;
 import java.util.List;
 
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
-import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
+import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
 

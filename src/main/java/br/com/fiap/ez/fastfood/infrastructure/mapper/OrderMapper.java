@@ -1,5 +1,7 @@
 package br.com.fiap.ez.fastfood.infrastructure.mapper;
 
+import br.com.fiap.ez.fastfood.application.dto.OrderItemDTO;
+import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Order;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import java.util.List;
@@ -56,28 +58,26 @@ public class OrderMapper {
     }
     
     public static OrderResponseDTO domainToResponseDTO(Order order) {
-        OrderResponseDTO dto = new OrderResponseDTO();
-        dto.setOrderId(order.getId());
-        dto.setOrderTime(order.getOrderTime());
-        dto.setTotalPrice(order.getTotalPrice());
-        dto.setCustomerCpf(order.getCustomer() != null ? order.getCustomer().getCpf() : "");
-        dto.setCustomerName(order.getCustomerName());
-        dto.setOrderStatus(order.getStatus());
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+        orderResponseDTO.setOrderId(order.getId());
 
-        List<OrderItemDTO> itemDTOs = order.getOrderItems().stream()
-                .map(item -> new OrderItemDTO(item.getProduct().getId(), item.getQuantity()))
+        orderResponseDTO.setOrderTime(order.getOrderTime());
+
+        orderResponseDTO.setTotalPrice(order.getTotalPrice());
+
+        if (order.getCustomer() != null) {
+            orderResponseDTO.setCustomerCpf(order.getCustomer().getCpf());
+        }
+
+        orderResponseDTO.setCustomerName(order.getCustomerName());
+        orderResponseDTO.setOrderStatus(order.getStatus());
+
+        // Map Order Items to DTO
+        List<OrderItemDTO> orderItemDTOs = order.getOrderItems().stream()
+                .map(orderItem -> new OrderItemDTO(orderItem.getProduct().getId(), orderItem.getQuantity()))
                 .collect(Collectors.toList());
+        orderResponseDTO.setOrderItems(orderItemDTOs);
 
-        dto.setOrderItems(itemDTOs);
-        if (order.getCompletedTime() != null) {
-            dto.setCompletedTime(order.getCompletedTime());
-        }
-
-        // Utilize the domain logic for waited time calculation
-        if (order.getStatus() != OrderStatus.WAITING_PAYMENT) {
-            dto.setWaitedTime(order.calculateWaitedTime());
-        }
-
-        return dto;
+        return orderResponseDTO;
     }
 }

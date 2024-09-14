@@ -1,4 +1,4 @@
-package br.com.fiap.ez.fastfood.application.ports.out;
+package br.com.fiap.ez.fastfood.domain.repository;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public interface OrderRepository {
 
 	Order save(Order Order);
 	List<Order> findAll();
-	Order updateOrderStatus(String status);
+	//Order updateOrderStatus(String status);
 	List<Order> listUnfinishedOrders();
 	Order findOrderById(Long id);
 
