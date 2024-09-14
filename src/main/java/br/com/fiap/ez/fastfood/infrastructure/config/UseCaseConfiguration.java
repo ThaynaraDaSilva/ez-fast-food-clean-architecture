@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.fiap.ez.fastfood.application.ports.out.CustomerRepository;
 import br.com.fiap.ez.fastfood.application.usecases.customer.CustomerUseCase;
+import br.com.fiap.ez.fastfood.application.usecases.product.ProductUseCase;
+import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 
 @Configuration
 public class UseCaseConfiguration {
@@ -12,6 +14,11 @@ public class UseCaseConfiguration {
 	@Bean
 	public CustomerUseCase customerUseCase(CustomerRepository customerRepository) {
 		return new CustomerUseCase(customerRepository);
+	}
+	
+	@Bean
+	public ProductUseCase productUseCase(ProductRepository productRepository) {
+		return new ProductUseCase(productRepository);
 	}
 
 }
