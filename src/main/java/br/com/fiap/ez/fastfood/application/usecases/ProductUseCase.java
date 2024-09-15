@@ -1,6 +1,7 @@
 package br.com.fiap.ez.fastfood.application.usecases;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
@@ -43,6 +44,10 @@ public class ProductUseCase {
         return productRepository.findById(id)
                 .map(ProductMapper::domainToResponseDto)
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado com id " + id));
+    }
+    //metodo inserido para utilizacao em orderUseCase
+    public Optional<Product> findProductById(Long id) {
+    	return productRepository.findById(id);
     }
 
     public List<ProductResponseDTO> findAll() {

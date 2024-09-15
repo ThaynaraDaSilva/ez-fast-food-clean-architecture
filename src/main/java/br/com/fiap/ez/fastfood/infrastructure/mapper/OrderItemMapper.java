@@ -19,6 +19,7 @@ public class OrderItemMapper {
 
     public static OrderItemEntity domainToEntity(OrderItem orderItem) {
         OrderItemEntity entity = new OrderItemEntity();
+        //entity.setOrder(OrderMapper.domainToEntity(entity.getOrder()));
         entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); // Ensure this handles null
         entity.setQuantity(orderItem.getQuantity());
         entity.setPrice(orderItem.getPrice());

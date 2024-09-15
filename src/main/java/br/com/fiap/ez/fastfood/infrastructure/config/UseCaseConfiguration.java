@@ -25,10 +25,17 @@ public class UseCaseConfiguration {
 		return new ProductUseCase(productRepository);
 	}
 
+	/*
+	 * @Bean public OrderUseCase orderUseCase(OrderRepository orderRepository,
+	 * ProductRepository productRepository, CustomerRepository customerRepository,
+	 * PaymentUseCase paymentUseCase) { return new OrderUseCase(orderRepository,
+	 * productRepository, customerRepository, paymentUseCase); }
+	 */
+	
 	@Bean
-	public OrderUseCase orderUseCase(OrderRepository orderRepository, ProductRepository productRepository,
-			CustomerRepository customerRepository, PaymentUseCase paymentUseCase) {
-		return new OrderUseCase(orderRepository, productRepository, customerRepository, paymentUseCase);
+	public OrderUseCase orderUseCase(OrderRepository orderRepository, ProductUseCase productUseCase,
+			CustomerUseCase customerUseCase, PaymentUseCase paymentUseCase) {
+		return new OrderUseCase(orderRepository, productUseCase, customerUseCase, paymentUseCase);
 	}
 
 	@Bean
