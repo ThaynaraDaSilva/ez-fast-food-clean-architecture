@@ -15,7 +15,6 @@ public class OrderMapper {
 
 	// Convert OrderEntity (Persistence) to Order (Domain)
 	public static Order entityToDomain(OrderEntity entity) {
-		System.out.println("ENTREI NO ENTITY TO DOMAIN");
 		Order order = new Order();
 		order.setId(entity.getId());
 		if (entity.getCustomer() != null) {
@@ -28,7 +27,6 @@ public class OrderMapper {
 		order.setStatus(entity.getStatus());
 		order.setOrderItems(OrderItemMapper.entityToDomain(entity.getOrderItems()));
 
-		System.out.println("SAI DO ENTITY TO DOMAIN");
 		return order;
 	}
 
@@ -77,6 +75,7 @@ public class OrderMapper {
 
 		orderResponseDTO.setCustomerName(order.getCustomerName());
 		orderResponseDTO.setOrderStatus(order.getStatus());
+		orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
 
 		// Map Order Items to DTO
 		List<OrderItemDTO> orderItemDTOs = order.getOrderItems().stream()
