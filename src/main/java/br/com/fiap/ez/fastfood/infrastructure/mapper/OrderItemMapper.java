@@ -9,33 +9,26 @@ import java.util.stream.Collectors;
 public class OrderItemMapper {
 
 	public static OrderItem entityToDomain(OrderItemEntity entity) {
-        return new OrderItem(
-            null, // Skip mapping Order to avoid recursion
-            ProductMapper.entityToDomain(entity.getProduct()), // Ensure this handles null
-            entity.getQuantity(),
-            entity.getPrice()
-        );
-    }
+		return new OrderItem(entity.getOrder() != null ? OrderMapper.entityToDomain(entity.getOrder()) : null,
+				ProductMapper.entityToDomain(entity.getProduct()), // Ensure this handles null
+				entity.getQuantity(), entity.getPrice());
+	}
 
-    public static OrderItemEntity domainToEntity(OrderItem orderItem) {
-        OrderItemEntity entity = new OrderItemEntity();
-        //entity.setOrder(OrderMapper.domainToEntity(entity.getOrder()));
-        entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); // Ensure this handles null
-        entity.setQuantity(orderItem.getQuantity());
-        entity.setPrice(orderItem.getPrice());
-        return entity;
-    }
+	public static OrderItemEntity domainToEntity(OrderItem orderItem) {
+		OrderItemEntity entity = new OrderItemEntity();
+		entity.setOrder(OrderMapper.domainToEntity(orderItem.getOrder())); 
+		entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); // Ensure this handles null
+		entity.setQuantity(orderItem.getQuantity());
+		entity.setPrice(orderItem.getPrice());
+		return entity;
+	}
 
-    // New methods for handling lists
-    public static List<OrderItem> entityToDomain(List<OrderItemEntity> entities) {
-        return entities.stream()
-                .map(OrderItemMapper::entityToDomain)
-                .collect(Collectors.toList());
-    }
+	// New methods for handling lists
+	public static List<OrderItem> entityToDomain(List<OrderItemEntity> entities) {
+		return entities.stream().map(OrderItemMapper::entityToDomain).collect(Collectors.toList());
+	}
 
-    public static List<OrderItemEntity> domainToEntity(List<OrderItem> orderItems) {
-        return orderItems.stream()
-                .map(OrderItemMapper::domainToEntity)
-                .collect(Collectors.toList());
-    }
+	public static List<OrderItemEntity> domainToEntity(List<OrderItem> orderItems) {
+		return orderItems.stream().map(OrderItemMapper::domainToEntity).collect(Collectors.toList());
+	}
 }

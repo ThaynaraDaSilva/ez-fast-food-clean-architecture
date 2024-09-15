@@ -1,5 +1,7 @@
 package br.com.fiap.ez.fastfood.infrastructure.mapper;
 
+import java.util.Optional;
+
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Product;
@@ -35,6 +37,7 @@ public class ProductMapper {
     // Converter de Domínio para Entidade de Persistência
     public static ProductEntity domainToEntity(Product product) {
         ProductEntity entity = new ProductEntity();
+        entity.setId(product.getId());
         entity.setName(product.getName());
         entity.setDescription(product.getDescription());
         entity.setPrice(product.getPrice());
@@ -50,12 +53,6 @@ public class ProductMapper {
         return product;
     }
     
-    public static ProductEntity dtoToEntity(ProductResponseDTO dto) {
-        ProductEntity entity = new ProductEntity();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setPrice(dto.getPrice());
-        return entity;
-    }
+    
+  
 }
