@@ -39,15 +39,13 @@ public class CustomerEntity {
 		this.email = email;
 	}
 
-	public CustomerEntity(String name,
-			@Pattern(regexp = "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$", message = "Formato do CPF inválido") String cpf,
-			String email) {
-		super();
-		this.name = name;
-		this.cpf = cpf;
-		this.email = email;
-	}
-
+	/*
+	 * public CustomerEntity(String name,
+	 * 
+	 * @Pattern(regexp = "^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$", message =
+	 * "Formato do CPF inválido") String cpf, String email) { super(); this.name =
+	 * name; this.cpf = cpf; this.email = email; }
+	 */
 	public Long getId() {
 		return id;
 	}

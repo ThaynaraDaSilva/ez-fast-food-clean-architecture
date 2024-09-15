@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 
 
-public interface CustomerJpaRepository extends JpaRepository<CustomerEntity, Long>{
+public interface JpaCustomerRepository extends JpaRepository<CustomerEntity, Long>{
 	
 	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.CUSTOMER WHERE cpf = :cpf")
 	CustomerEntity findCustomerByCpf(@Param("cpf") String cpf);

@@ -1,21 +1,16 @@
 package br.com.fiap.ez.fastfood.domain.repository;
 
+
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 public interface CustomerRepository {
-
-	// Save or update a customer
+	
 	Customer save(Customer customer);
-
-	// Find a customer by CPF
-	Optional<Customer> findByCpf(String cpf);
-
-	// Delete a customer by CPF
-	void removeByCpf(String cpf);
-
-	// Find all customers
-	List<Customer> findAll();
-
+    List <Customer> findAll();
+	Customer removeByCpf(String cpf);
+	Optional<Customer> findByCpf(String cpf);	
 }
