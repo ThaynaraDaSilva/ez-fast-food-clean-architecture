@@ -25,8 +25,8 @@ public class OrderMapper {
 		order.setCompletedTime(entity.getCompletedTime());
 		order.setTotalPrice(entity.getTotalPrice());
 		order.setStatus(entity.getStatus());
-		order.setOrderItems(OrderItemMapper.entityToDomain(entity.getOrderItems()));
-
+		order.setOrderItems(entity.getOrderItems().stream().map(OrderItemMapper::entityToDomain).collect(Collectors.toList()));
+		
 		return order;
 	}
 
@@ -87,7 +87,7 @@ public class OrderMapper {
 	}
 
 	public static OrderResponseDTO entityToOrderResponseDTO(OrderEntity entity) {
-    	System.out.println("ENTREI NO ENTITY TO DOMAIN");
+    	
     	Order order = new Order();
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setOrderId(entity.getId());
@@ -104,7 +104,9 @@ public class OrderMapper {
 				.map(orderItem -> new OrderItemDTO(orderItem.getProduct().getId(), orderItem.getQuantity()))
 				.collect(Collectors.toList());
         orderResponseDTO.setOrderItems(orderItemDTOs);
-        System.out.println("SAI DO ENTITY TO DOMAIN");
+       
         return orderResponseDTO;
     }
+	
+	
 }

@@ -34,48 +34,52 @@ public class OrderUseCase {
 	}
 
 	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
-		// Create Order entity from DTO
+	    // Create Order entity from DTO
+	    Order saveOrder = new Order();
+	    Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
+	            .orElseThrow(() -> new BusinessException("Customer not found"));
+	    saveOrder.setCustomer(customer);
+	    saveOrder.setCustomerName(createOrderDTO.getCustomerName());
+	    saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+	    saveOrder.setStatus(OrderStatus.WAITING_PAYMENT);
 
-		Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
-				.orElseThrow(() -> new BusinessException("Customer not found"));
+	    List<OrderItem> orderItemList = new ArrayList<>();
+	    for (OrderItemDTO item : createOrderDTO.getOrderItems()) {
+	        OrderItem orderItem = new OrderItem();
+	        Product product = productRepository.findById(item.getProductId())
+	                .orElseThrow(() -> new BusinessException("Product not found"));
+	        orderItem.setProduct(product);
+	        orderItem.setQuantity(item.getQuantity());
+	        orderItem.setPrice(orderItem.getProduct().getPrice() * item.getQuantity());
+	        
+	        orderItem.setOrder(saveOrder);  
 
-		Order newOrder = new Order();
-		newOrder.setCustomer(customer);
-		newOrder.setCustomerName(createOrderDTO.getCustomerName());
-		newOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-		newOrder.setStatus(OrderStatus.WAITING_PAYMENT);
+	        orderItemList.add(orderItem);
+	    }
+	    
+	    saveOrder.setOrderItems(orderItemList);
+	    saveOrder.calculateAndSetTotalPrice();
 
-		List<OrderItem> orderItems = new ArrayList<>();
-		for (OrderItemDTO itemDTO : createOrderDTO.getOrderItems()) {
-			Product product = productRepository.findById(itemDTO.getProductId())
-					.orElseThrow(() -> new BusinessException("Product not found"));
-			OrderItem orderItem = new OrderItem(newOrder, product, itemDTO.getQuantity(),
-					product.getPrice() * itemDTO.getQuantity());
-			orderItems.add(orderItem);
-		}
-		newOrder.setOrderItems(orderItems);
-		newOrder.calculateAndSetTotalPrice();
+	    // Save the order (cascades will save the order items)
+	    Order savedOrder = orderRepository.save(saveOrder);
 
-		Order savedOrder = orderRepository.save(newOrder);
+	    // Register payment for the order
+	    paymentUseCase.registerPayment(savedOrder);
 
-		// Register payment for the order
-		paymentUseCase.registerPayment(savedOrder);
-
-		// Map order to response DTO using OrderMapper
-		return OrderMapper.domainToResponseDTO(savedOrder);
+	    // Map order to response DTO using OrderMapper
+	    return OrderMapper.domainToResponseDTO(savedOrder);
 	}
-
+	
+	
 	public List<OrderResponseDTO> listUnfinishedOrders() {
 		List<Order> unfinishedOrders = orderRepository.listUnfinishedOrders();
 		return unfinishedOrders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
 	}
 
 	public List<OrderResponseDTO> listAllOrders() {
-		System.out.println("METODO LIST ALL ODERS -  USE CASE");
 		List<Order> orders = orderRepository.findAll();
-		System.out.println("TAMANHO DA LISTA: " + orders.size());
 		return orders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
-		//return null;
+		// return null;
 	}
 
 }

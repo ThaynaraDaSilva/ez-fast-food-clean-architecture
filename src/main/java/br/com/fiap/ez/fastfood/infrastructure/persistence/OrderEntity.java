@@ -2,6 +2,7 @@ package br.com.fiap.ez.fastfood.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
@@ -35,7 +36,7 @@ public class OrderEntity {
     private String customerName;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItemEntity> orderItems;
+    private List<OrderItemEntity> orderItems = new ArrayList<>();
 
     public OrderEntity() {
         // Default constructor
