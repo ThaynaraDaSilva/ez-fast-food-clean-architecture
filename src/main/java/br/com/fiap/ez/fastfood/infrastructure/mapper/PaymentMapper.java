@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.domain.model.Payment;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.PaymentEntity;
 
 public class PaymentMapper {
@@ -24,7 +25,12 @@ public class PaymentMapper {
 		}
 		PaymentEntity entity = new PaymentEntity();
 		entity.setId(payment.getId());
-		entity.setOrder(OrderMapper.domainToEntity(payment.getOrder())); 
+		//entity.setOrder(OrderMapper.domainToEntity(payment.getOrder())); 
+		if (payment.getOrder() != null && payment.getOrder().getId() != null) {
+	        OrderEntity orderEntity = new OrderEntity();
+	        orderEntity.setId(payment.getOrder().getId());
+	        entity.setOrder(orderEntity);  // Set the OrderEntity with the ID
+	    }
 		entity.setCustomer(CustomerMapper.domainToEntity(payment.getCustomer())); 
 																					
 		entity.setPaymentDate(payment.getPaymentDate());

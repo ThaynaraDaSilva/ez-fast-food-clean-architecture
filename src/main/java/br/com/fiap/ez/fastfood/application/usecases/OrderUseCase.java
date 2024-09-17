@@ -10,6 +10,7 @@ import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
+import jakarta.transaction.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -33,42 +34,56 @@ public class OrderUseCase {
 		this.paymentUseCase = paymentUseCase; // Assign it here
 	}
 
+
 	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
 	    // Create Order entity from DTO
 	    Order saveOrder = new Order();
 	    Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
 	            .orElseThrow(() -> new BusinessException("Customer not found"));
+	    
 	    saveOrder.setCustomer(customer);
 	    saveOrder.setCustomerName(createOrderDTO.getCustomerName());
 	    saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
 	    saveOrder.setStatus(OrderStatus.WAITING_PAYMENT);
-
+	    
+	   
 	    List<OrderItem> orderItemList = new ArrayList<>();
+	    
 	    for (OrderItemDTO item : createOrderDTO.getOrderItems()) {
 	        OrderItem orderItem = new OrderItem();
 	        Product product = productRepository.findById(item.getProductId())
 	                .orElseThrow(() -> new BusinessException("Product not found"));
+
+	        // Set the product, quantity, and price
 	        orderItem.setProduct(product);
 	        orderItem.setQuantity(item.getQuantity());
-	        orderItem.setPrice(orderItem.getProduct().getPrice() * item.getQuantity());
-	        
-	        orderItem.setOrder(saveOrder);  
+	        orderItem.setPrice(product.getPrice() * item.getQuantity());
 
+	        // Set the order reference in the order item
+	        orderItem.setOrder(saveOrder);
+	        // Add the order item to the list
 	        orderItemList.add(orderItem);
 	    }
-	    
+
+	    // Set the order items list in the order
 	    saveOrder.setOrderItems(orderItemList);
+
+	    // Calculate and set the total price
 	    saveOrder.calculateAndSetTotalPrice();
 
-	    // Save the order (cascades will save the order items)
-	    Order savedOrder = orderRepository.save(saveOrder);
+	    // Save the order (which cascades and saves the order items)
+	    //Order savedOrder = orderRepository.save(saveOrder);
+	    //orderRepository.save(saveOrder);
+	    System.out.println("==========================================");
+	    //System.out.println("ORDER ID AFTER BEIN SAVED: " + savedOrder.getId());
 
 	    // Register payment for the order
-	    paymentUseCase.registerPayment(savedOrder);
+	    paymentUseCase.registerPayment(orderRepository.save(saveOrder));
 
 	    // Map order to response DTO using OrderMapper
-	    return OrderMapper.domainToResponseDTO(savedOrder);
+	    return OrderMapper.domainToResponseDTO(saveOrder);
 	}
+
 	
 	
 	public List<OrderResponseDTO> listUnfinishedOrders() {

@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Order;
+import br.com.fiap.ez.fastfood.domain.model.OrderItem;
 import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderItemEntity;
 
 
 public class OrderRepositoryImpl implements OrderRepository {
@@ -26,7 +28,15 @@ public class OrderRepositoryImpl implements OrderRepository {
 	@Override
 	public Order save(Order order) {
         OrderEntity entity = OrderMapper.domainToEntity(order);
+		/*
+		 * System.out.println("==========================================");
+		 * for(OrderItem ent: order.getOrderItems()) {
+		 * System.out.println("ORDER ITEMS ORDER ID: " + ent.getOrder().getId()); }
+		 * System.out.println("==========================================");
+		 */
+        System.out.println("===================ANTES DO SAVE ENTITY=======================");
         jpaOrderRepository.save(entity);
+        System.out.println("===================APOS DO SAVE ENTITY=======================");
         return order;
     }
 

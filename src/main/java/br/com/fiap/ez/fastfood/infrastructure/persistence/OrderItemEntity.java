@@ -30,7 +30,17 @@ public class OrderItemEntity {
     }
 
 
-    public Long getId() {
+    public OrderItemEntity(Long id, OrderEntity order, ProductEntity product, Integer quantity, Double price) {
+		super();
+		this.id = id;
+		this.order = order;
+		this.product = product;
+		this.quantity = quantity;
+		this.price = price;
+	}
+
+
+	public Long getId() {
         return id;
     }
 

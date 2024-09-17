@@ -8,6 +8,8 @@ import br.com.fiap.ez.fastfood.domain.model.OrderItem;
 import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderItemEntity;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,24 +33,46 @@ public class OrderMapper {
 	}
 
 	// Convert Order (Domain) to OrderEntity (Persistence)
+	/*
+	 * public static OrderEntity domainToEntity(Order order) {
+	 * 
+	 * OrderEntity entity = new OrderEntity(); entity.setId(order.getId()); if
+	 * (order.getCustomer() != null) {
+	 * entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer())); }
+	 * else { System.out.println("else condition do domainToEntity");
+	 * entity.setCustomer(null); // Set customer as null if it's not present }
+	 * entity.setOrderTime(order.getOrderTime());
+	 * entity.setCompletedTime(order.getCompletedTime());
+	 * entity.setTotalPrice(order.getTotalPrice());
+	 * entity.setStatus(order.getStatus());
+	 * entity.setCustomerName(order.getCustomerName());
+	 * entity.setOrderItems(OrderItemMapper.domainToEntity(order.getOrderItems()));
+	 * return entity; }
+	 */
+	
 	public static OrderEntity domainToEntity(Order order) {
-		if (order == null) {
-			return null;
-		}
-		OrderEntity entity = new OrderEntity();
-		entity.setId(order.getId());
-		if (order.getCustomer() != null) {
-			entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer()));
-		} else {
-			entity.setCustomer(null); // Set customer as null if it's not present
-		}
-		entity.setOrderTime(order.getOrderTime());
-		entity.setCompletedTime(order.getCompletedTime());
-		entity.setTotalPrice(order.getTotalPrice());
-		entity.setStatus(order.getStatus());
-		entity.setCustomerName(order.getCustomerName());
-		entity.setOrderItems(OrderItemMapper.domainToEntity(order.getOrderItems()));
-		return entity;
+	    if (order == null) {
+	        return null;
+	    }
+
+	    OrderEntity entity = new OrderEntity();
+	    entity.setId(order.getId());
+	    entity.setOrderTime(order.getOrderTime());
+	    entity.setCompletedTime(order.getCompletedTime());
+	    entity.setTotalPrice(order.getTotalPrice());
+	    entity.setStatus(order.getStatus());
+	    entity.setCustomerName(order.getCustomerName());
+	    entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer()));
+
+	    // Map and set order items
+	    List<OrderItemEntity> orderItemEntities = order.getOrderItems().stream()
+	            .map(OrderItemMapper::domainToEntity)
+	            .collect(Collectors.toList());
+	    
+	    orderItemEntities.forEach(item -> item.setOrder(entity)); 
+	    entity.setOrderItems(orderItemEntities);
+	    
+	    return entity;
 	}
 
 	// Convert a List of OrderEntity (Persistence) to a List of Order (Domain)

@@ -36,13 +36,33 @@ public class OrderEntity {
     private String customerName;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    
     private List<OrderItemEntity> orderItems = new ArrayList<>();
 
-    public OrderEntity() {
-        // Default constructor
-    }
-
     
+	public OrderEntity() {
+		super();
+	}
+
+	public OrderEntity(Long id, CustomerEntity customer, ZonedDateTime orderTime, ZonedDateTime completedTime,
+			Double totalPrice, OrderStatus status, String customerName, List<OrderItemEntity> orderItems) {
+		super();
+		this.id = id;
+		this.customer = customer;
+		this.orderTime = orderTime;
+		this.completedTime = completedTime;
+		this.totalPrice = totalPrice;
+		this.status = status;
+		this.customerName = customerName;
+		this.orderItems = orderItems;
+	}
+
+	public void addOrderItem(OrderItemEntity orderItem) {
+	    orderItems.add(orderItem);
+	    orderItem.setOrder(this);  // Ensure bidirectional relationship
+	}
+
+	
 
     public Long getId() {
         return id;
@@ -109,5 +129,9 @@ public class OrderEntity {
 	public void setOrderItems(List<OrderItemEntity> orderItems) {
 		this.orderItems = orderItems;
 	}
+
+
+	
+	
 
 }
