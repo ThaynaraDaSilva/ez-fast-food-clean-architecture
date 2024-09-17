@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,17 +24,23 @@ public class ProductEntity {
 
     @Column(nullable = false)
     private Double price;
+    
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
     public ProductEntity() {}
+    
+    public ProductEntity(Long id, String name, String description, Double price, CategoryEntity category) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category = category;
+	}
 
-    public ProductEntity(Long id, String name, String description, double price) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
-
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -63,4 +71,18 @@ public class ProductEntity {
     public void setPrice(double price) {
         this.price = price;
     }
+
+	public CategoryEntity getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryEntity category) {
+		this.category = category;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+    
+    
 }

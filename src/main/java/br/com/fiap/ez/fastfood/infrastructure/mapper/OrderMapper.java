@@ -8,6 +8,8 @@ import br.com.fiap.ez.fastfood.domain.model.OrderItem;
 import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderItemEntity;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,30 +27,52 @@ public class OrderMapper {
 		order.setCompletedTime(entity.getCompletedTime());
 		order.setTotalPrice(entity.getTotalPrice());
 		order.setStatus(entity.getStatus());
-		order.setOrderItems(OrderItemMapper.entityToDomain(entity.getOrderItems()));
-
+		order.setOrderItems(entity.getOrderItems().stream().map(OrderItemMapper::entityToDomain).collect(Collectors.toList()));
+		
 		return order;
 	}
 
 	// Convert Order (Domain) to OrderEntity (Persistence)
+	/*
+	 * public static OrderEntity domainToEntity(Order order) {
+	 * 
+	 * OrderEntity entity = new OrderEntity(); entity.setId(order.getId()); if
+	 * (order.getCustomer() != null) {
+	 * entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer())); }
+	 * else { System.out.println("else condition do domainToEntity");
+	 * entity.setCustomer(null); // Set customer as null if it's not present }
+	 * entity.setOrderTime(order.getOrderTime());
+	 * entity.setCompletedTime(order.getCompletedTime());
+	 * entity.setTotalPrice(order.getTotalPrice());
+	 * entity.setStatus(order.getStatus());
+	 * entity.setCustomerName(order.getCustomerName());
+	 * entity.setOrderItems(OrderItemMapper.domainToEntity(order.getOrderItems()));
+	 * return entity; }
+	 */
+	
 	public static OrderEntity domainToEntity(Order order) {
-		if (order == null) {
-			return null;
-		}
-		OrderEntity entity = new OrderEntity();
-		entity.setId(order.getId());
-		if (order.getCustomer() != null) {
-			entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer()));
-		} else {
-			entity.setCustomer(null); // Set customer as null if it's not present
-		}
-		entity.setOrderTime(order.getOrderTime());
-		entity.setCompletedTime(order.getCompletedTime());
-		entity.setTotalPrice(order.getTotalPrice());
-		entity.setStatus(order.getStatus());
-		entity.setCustomerName(order.getCustomerName());
-		entity.setOrderItems(OrderItemMapper.domainToEntity(order.getOrderItems()));
-		return entity;
+	    if (order == null) {
+	        return null;
+	    }
+
+	    OrderEntity entity = new OrderEntity();
+	    entity.setId(order.getId());
+	    entity.setOrderTime(order.getOrderTime());
+	    entity.setCompletedTime(order.getCompletedTime());
+	    entity.setTotalPrice(order.getTotalPrice());
+	    entity.setStatus(order.getStatus());
+	    entity.setCustomerName(order.getCustomerName());
+	    entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer()));
+
+	    // Map and set order items
+	    List<OrderItemEntity> orderItemEntities = order.getOrderItems().stream()
+	            .map(OrderItemMapper::domainToEntity)
+	            .collect(Collectors.toList());
+	    
+	    orderItemEntities.forEach(item -> item.setOrder(entity)); 
+	    entity.setOrderItems(orderItemEntities);
+	    
+	    return entity;
 	}
 
 	// Convert a List of OrderEntity (Persistence) to a List of Order (Domain)
@@ -75,7 +99,9 @@ public class OrderMapper {
 
 		orderResponseDTO.setCustomerName(order.getCustomerName());
 		orderResponseDTO.setOrderStatus(order.getStatus());
-		orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
+		if(order.getStatus() == OrderStatus.RECEIVED || order.getStatus() == OrderStatus.IN_PREPARATION) {
+			orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
+		}
 
 		// Map Order Items to DTO
 		List<OrderItemDTO> orderItemDTOs = order.getOrderItems().stream()
@@ -87,7 +113,7 @@ public class OrderMapper {
 	}
 
 	public static OrderResponseDTO entityToOrderResponseDTO(OrderEntity entity) {
-    	System.out.println("ENTREI NO ENTITY TO DOMAIN");
+    	
     	Order order = new Order();
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setOrderId(entity.getId());
@@ -104,7 +130,9 @@ public class OrderMapper {
 				.map(orderItem -> new OrderItemDTO(orderItem.getProduct().getId(), orderItem.getQuantity()))
 				.collect(Collectors.toList());
         orderResponseDTO.setOrderItems(orderItemDTOs);
-        System.out.println("SAI DO ENTITY TO DOMAIN");
+       
         return orderResponseDTO;
     }
+	
+	
 }

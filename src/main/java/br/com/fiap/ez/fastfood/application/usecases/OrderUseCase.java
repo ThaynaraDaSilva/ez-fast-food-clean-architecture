@@ -10,6 +10,7 @@ import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
+import jakarta.transaction.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -35,34 +36,44 @@ public class OrderUseCase {
 
 	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
 		// Create Order entity from DTO
-
+		Order saveOrder = new Order();
 		Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
 				.orElseThrow(() -> new BusinessException("Customer not found"));
 
-		Order newOrder = new Order();
-		newOrder.setCustomer(customer);
-		newOrder.setCustomerName(createOrderDTO.getCustomerName());
-		newOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-		newOrder.setStatus(OrderStatus.WAITING_PAYMENT);
+		saveOrder.setCustomer(customer);
+		saveOrder.setCustomerName(createOrderDTO.getCustomerName());
+		saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+		saveOrder.setStatus(OrderStatus.WAITING_PAYMENT);
 
-		List<OrderItem> orderItems = new ArrayList<>();
-		for (OrderItemDTO itemDTO : createOrderDTO.getOrderItems()) {
-			Product product = productRepository.findById(itemDTO.getProductId())
+		List<OrderItem> orderItemList = new ArrayList<>();
+
+		for (OrderItemDTO item : createOrderDTO.getOrderItems()) {
+			OrderItem orderItem = new OrderItem();
+			Product product = productRepository.findById(item.getProductId())
 					.orElseThrow(() -> new BusinessException("Product not found"));
-			OrderItem orderItem = new OrderItem(newOrder, product, itemDTO.getQuantity(),
-					product.getPrice() * itemDTO.getQuantity());
-			orderItems.add(orderItem);
-		}
-		newOrder.setOrderItems(orderItems);
-		newOrder.calculateAndSetTotalPrice();
 
-		Order savedOrder = orderRepository.save(newOrder);
+			// Set the product, quantity, and price
+			orderItem.setProduct(product);
+			orderItem.setQuantity(item.getQuantity());
+			orderItem.setPrice(product.getPrice() * item.getQuantity());
+
+			// Set the order reference in the order item
+			orderItem.setOrder(saveOrder);
+			// Add the order item to the list
+			orderItemList.add(orderItem);
+		}
+
+		// Set the order items list in the order
+		saveOrder.setOrderItems(orderItemList);
+
+		// Calculate and set the total price
+		saveOrder.calculateAndSetTotalPrice();
 
 		// Register payment for the order
-		paymentUseCase.registerPayment(savedOrder);
+		paymentUseCase.registerPayment(orderRepository.save(saveOrder));
 
 		// Map order to response DTO using OrderMapper
-		return OrderMapper.domainToResponseDTO(savedOrder);
+		return OrderMapper.domainToResponseDTO(saveOrder);
 	}
 
 	public List<OrderResponseDTO> listUnfinishedOrders() {
@@ -71,11 +82,8 @@ public class OrderUseCase {
 	}
 
 	public List<OrderResponseDTO> listAllOrders() {
-		System.out.println("METODO LIST ALL ODERS -  USE CASE");
 		List<Order> orders = orderRepository.findAll();
-		System.out.println("TAMANHO DA LISTA: " + orders.size());
 		return orders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
-		//return null;
 	}
 
 }

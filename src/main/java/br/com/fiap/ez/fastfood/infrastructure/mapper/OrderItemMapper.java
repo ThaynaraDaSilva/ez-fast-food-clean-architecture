@@ -10,7 +10,8 @@ public class OrderItemMapper {
 
 	public static OrderItem entityToDomain(OrderItemEntity entity) {
         return new OrderItem(
-            null, // Skip mapping Order to avoid recursion
+        	null,
+        	//OrderMapper.entityToDomain(entity.getOrder()),
             ProductMapper.entityToDomain(entity.getProduct()), // Ensure this handles null
             entity.getQuantity(),
             entity.getPrice()
@@ -22,6 +23,7 @@ public class OrderItemMapper {
         entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); // Ensure this handles null
         entity.setQuantity(orderItem.getQuantity());
         entity.setPrice(orderItem.getPrice());
+        //entity.setOrder(OrderMapper.domainToEntity(orderItem.getOrder()));
         return entity;
     }
 
