@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
 import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.application.dto.LoginDTO;
-import br.com.fiap.ez.fastfood.application.usecases.customer.CustomerUseCase;
+import br.com.fiap.ez.fastfood.application.usecases.CustomerUseCase;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 
@@ -45,7 +45,7 @@ public class CustomerController {
 		try {
 			// Customer customer = customerService.authenticate(loginDTO.getCpf(),loginDTO.getPassword());
 			Customer customer = customerUseCase.authenticate(loginDTO.getCpf());
-			CustomerDTO customerDTO = new CustomerDTO(customer.getCpf(), customer.getName(), customer.getEmail());
+			CustomerDTO customerDTO = new CustomerDTO(customer.getId(), customer.getCpf(), customer.getName(), customer.getEmail());
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 
 		} catch (BusinessException e) {
@@ -124,7 +124,6 @@ public class CustomerController {
 	public ResponseEntity<?> updateCustomer(@PathVariable String cpf, @RequestBody Customer customer) {
 
 		try {
-			//Customer updatedCustomer = customerUseCase.updateCustomer(cpf, updateCustomer);
 			CustomerDTO customerDTO = customerUseCase.updateCustomer(cpf, customer);
 
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
