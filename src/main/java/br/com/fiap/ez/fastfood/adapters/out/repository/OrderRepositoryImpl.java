@@ -28,16 +28,8 @@ public class OrderRepositoryImpl implements OrderRepository {
 	@Override
 	public Order save(Order order) {
         OrderEntity entity = OrderMapper.domainToEntity(order);
-		/*
-		 * System.out.println("==========================================");
-		 * for(OrderItem ent: order.getOrderItems()) {
-		 * System.out.println("ORDER ITEMS ORDER ID: " + ent.getOrder().getId()); }
-		 * System.out.println("==========================================");
-		 */
-        System.out.println("===================ANTES DO SAVE ENTITY=======================");
-        jpaOrderRepository.save(entity);
-        System.out.println("===================APOS DO SAVE ENTITY=======================");
-        return order;
+	
+        return OrderMapper.entityToDomain(jpaOrderRepository.save(entity));
     }
 
 

@@ -25,11 +25,11 @@ public class PaymentMapper {
 		}
 		PaymentEntity entity = new PaymentEntity();
 		entity.setId(payment.getId());
-		//entity.setOrder(OrderMapper.domainToEntity(payment.getOrder())); 
+		
 		if (payment.getOrder() != null && payment.getOrder().getId() != null) {
 	        OrderEntity orderEntity = new OrderEntity();
 	        orderEntity.setId(payment.getOrder().getId());
-	        entity.setOrder(orderEntity);  // Set the OrderEntity with the ID
+	        entity.setOrder(orderEntity);  
 	    }
 		entity.setCustomer(CustomerMapper.domainToEntity(payment.getCustomer())); 
 																					

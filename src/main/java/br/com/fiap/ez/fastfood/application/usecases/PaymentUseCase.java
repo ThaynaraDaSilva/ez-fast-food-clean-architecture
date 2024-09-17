@@ -8,37 +8,23 @@ import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
 
 public class PaymentUseCase {
 
-    private final PaymentRepository paymentRepository;
-    //private final OrderRepository orderRepository;
+	private final PaymentRepository paymentRepository;
 
-	/*
-	 * public PaymentUseCase(PaymentRepository paymentRepository, OrderRepository
-	 * orderRepository) { this.paymentRepository = paymentRepository;
-	 * this.orderRepository = orderRepository; }
-	 */
-    public PaymentUseCase(PaymentRepository paymentRepository) {
-        this.paymentRepository = paymentRepository;
-       
-    }
+	public PaymentUseCase(PaymentRepository paymentRepository) {
+		this.paymentRepository = paymentRepository;
 
-    public void registerPayment(Order order) {
-    	//Order savedOrder = orderRepository.findById(orderId).orElseThrow(() -> new BusinessException("Order not found"));
-    	//Order savedOrder = orderRepository.findById(payment.getOrder().getId()).orElseThrow(() -> new BusinessException("Order not found"));
-        Payment payment = new Payment();
-        
-        System.out.println("====================ANTES DO SAVE PAYMENT NO USE CASE ======================");
-        System.out.println("ORDER ID " + order.getId());
-        System.out.println("==========================================");
+	}
 
-        
-        payment.setOrder(order);
-       
-        
-        payment.setCustomer(order.getCustomer());
-        payment.setPaymentPrice(order.getTotalPrice());
-        payment.setPaymentStatus(PaymentStatus.PENDING);
-        paymentRepository.registerPayment(payment);
-        System.out.println("====================APOS DO SAVE PAYMENT NO USE CASE ======================");
-    }
+	public void registerPayment(Order order) {
+
+		Payment payment = new Payment();
+
+		payment.setOrder(order);
+
+		payment.setCustomer(order.getCustomer());
+		payment.setPaymentPrice(order.getTotalPrice());
+		payment.setPaymentStatus(PaymentStatus.PENDING);
+		paymentRepository.registerPayment(payment);
+
+	}
 }
-

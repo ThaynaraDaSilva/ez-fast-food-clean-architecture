@@ -99,7 +99,9 @@ public class OrderMapper {
 
 		orderResponseDTO.setCustomerName(order.getCustomerName());
 		orderResponseDTO.setOrderStatus(order.getStatus());
-		orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
+		if(order.getStatus() == OrderStatus.RECEIVED || order.getStatus() == OrderStatus.IN_PREPARATION) {
+			orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
+		}
 
 		// Map Order Items to DTO
 		List<OrderItemDTO> orderItemDTOs = order.getOrderItems().stream()
