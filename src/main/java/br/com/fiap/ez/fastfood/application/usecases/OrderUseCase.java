@@ -68,6 +68,8 @@ public class OrderUseCase {
 
 		// Calculate and set the total price
 		saveOrder.calculateAndSetTotalPrice();
+		Order lastOrder = orderRepository.findLastOrder();
+		saveOrder.setOrderNumber(saveOrder.generateOrderNumber(lastOrder.getOrderTime(),lastOrder.getOrderNumber()));
 
 		// Register payment for the order
 		paymentUseCase.registerPayment(orderRepository.save(saveOrder));

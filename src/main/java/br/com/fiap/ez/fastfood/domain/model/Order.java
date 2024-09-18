@@ -1,6 +1,7 @@
 package br.com.fiap.ez.fastfood.domain.model;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public class Order {
 
 	private Long id;
+	private String orderNumber;
 	private Customer customer;
 	private ZonedDateTime orderTime;
 	private ZonedDateTime completedTime;
@@ -20,9 +22,10 @@ public class Order {
 		// Default constructor
 	}
 
-	public Order(Long id, Customer customer, ZonedDateTime orderTime, ZonedDateTime completedTime, Double totalPrice,
-			OrderStatus status, String customerName, List<OrderItem> orderItems) {
+	public Order(Long id, String orderNumber, Customer customer, ZonedDateTime orderTime, ZonedDateTime completedTime,
+			Double totalPrice, OrderStatus status, String customerName, List<OrderItem> orderItems) {
 		this.id = id;
+		this.orderNumber = orderNumber;
 		this.customer = customer;
 		this.orderTime = orderTime;
 		this.completedTime = completedTime;
@@ -30,6 +33,26 @@ public class Order {
 		this.status = status;
 		this.customerName = customerName;
 		this.orderItems = orderItems;
+	}
+
+	public String generateOrderNumber(ZonedDateTime orderTime, String lastOrderIdentification) {
+		ZonedDateTime zonedDateTime = ZonedDateTime.now();
+		// LocalDate date = LocalDate.now();
+		LocalDate todayDate = zonedDateTime.toLocalDate();
+		int nextOrderNumber;
+
+		if (orderTime.toLocalDate() == todayDate) {
+
+			String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
+			nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
+		} else {
+			// Se a data for diferente, reseta para 0000
+			nextOrderNumber = 0;
+		}
+
+		// Gera o número de pedido no formato "0000" + Nome do Cliente
+		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
+		return formattedOrderNumber + " " + customerName;
 	}
 
 	// Getters and Setters
@@ -40,6 +63,14 @@ public class Order {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
 	}
 
 	public Customer getCustomer() {
@@ -118,6 +149,5 @@ public class Order {
 		long minutes = duration.toMinutes() % 60;
 		return String.format("%02dh%02d", hours, minutes);
 	}
-	
-	
+
 }

@@ -99,6 +99,5 @@ As APIs foram documentadas utilizando OpenAPI e estão disponíveis em http://lo
 ## Desenvolvido por:
 @tchfer : RM357414<br>
 @ThaynaraDaSilva : RM357418<br>
-@W4GN3R: RM357088
 
 
