@@ -40,6 +40,7 @@ public class OrderMapper {
 
 	    OrderEntity entity = new OrderEntity();
 	    entity.setId(order.getId());
+	    entity.setOrderNumber(order.getOrderNumber());
 	    entity.setOrderTime(order.getOrderTime());
 	    entity.setCompletedTime(order.getCompletedTime());
 	    entity.setTotalPrice(order.getTotalPrice());

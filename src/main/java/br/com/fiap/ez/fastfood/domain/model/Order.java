@@ -52,6 +52,8 @@ public class Order {
 
 		// Gera o número de pedido no formato "0000" + Nome do Cliente
 		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
+		System.out.println("==========================GENERATED NUMBER====================");
+		System.out.println(formattedOrderNumber+customerName);
 		return formattedOrderNumber + " " + customerName;
 	}
 
