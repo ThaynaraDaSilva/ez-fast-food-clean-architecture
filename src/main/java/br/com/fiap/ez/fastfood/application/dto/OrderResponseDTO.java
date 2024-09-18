@@ -21,7 +21,7 @@ public class OrderResponseDTO {
 	private Long orderId = 0L;
 	
 	@JsonProperty("order_number")
-	private String order_number = "";
+	private String orderNumber = "";
 	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonProperty("customer_cpf")
@@ -99,12 +99,12 @@ public class OrderResponseDTO {
 	}
 
 	
-	public OrderResponseDTO(Long orderId, String order_number, String customerCpf, String customerName,
+	public OrderResponseDTO(Long orderId, String orderNumber, String customerCpf, String customerName,
 			ZonedDateTime orderTime, ZonedDateTime completedTime, Double totalPrice, OrderStatus orderStatus,
 			List<OrderItemDTO> orderItems, String waitedTime) {
 		super();
 		this.orderId = orderId;
-		this.order_number = order_number;
+		this.orderNumber = orderNumber;
 		this.customerCpf = customerCpf;
 		this.customerName = customerName;
 		this.orderTime = orderTime;
@@ -118,13 +118,13 @@ public class OrderResponseDTO {
 
 	// Getters and setters
 
-	public String getOrder_number() {
-		return order_number;
+	public String getOrderNumber() {
+		return orderNumber;
 	}
 
 
 	public void setOrder_number(String order_number) {
-		this.order_number = order_number;
+		this.orderNumber = order_number;
 	}
 
 

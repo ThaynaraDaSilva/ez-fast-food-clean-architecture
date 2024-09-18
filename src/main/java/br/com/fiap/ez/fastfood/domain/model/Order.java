@@ -34,15 +34,36 @@ public class Order {
 		this.customerName = customerName;
 		this.orderItems = orderItems;
 	}
+	
+	public static double calculateTotalPrice(List<OrderItem> orderItems) {
+		double total = 0;
+		for (OrderItem item : orderItems) {
+			total += item.getQuantity() * item.getProduct().getPrice();
+		}
+		return total;
+	}
+
+	public String calculateOrderWaitedTime(ZonedDateTime orderTime) {
+		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
+		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+		Duration duration = Duration.between(time, now);
+		long hours = duration.toHours();
+		long minutes = duration.toMinutes() % 60;
+		return String.format("%02dh%02d", hours, minutes);
+	}
 
 	public String generateOrderNumber(ZonedDateTime orderTime, String lastOrderIdentification) {
-		ZonedDateTime zonedDateTime = ZonedDateTime.now();
-		// LocalDate date = LocalDate.now();
-		LocalDate todayDate = zonedDateTime.toLocalDate();
+		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+		
+	    LocalDate now = zonedDateTime.toLocalDate();
+	
+		LocalDate orderDate = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDate();
+		
 		int nextOrderNumber;
+		
 
-		if (orderTime.toLocalDate() == todayDate) {
-
+		if (orderDate.equals(now)) {
+	
 			String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
 			nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
 		} else {
@@ -52,8 +73,6 @@ public class Order {
 
 		// Gera o número de pedido no formato "0000" + Nome do Cliente
 		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
-		System.out.println("==========================GENERATED NUMBER====================");
-		System.out.println(formattedOrderNumber+customerName);
 		return formattedOrderNumber + " " + customerName;
 	}
 
@@ -135,21 +154,5 @@ public class Order {
 		this.totalPrice = calculateTotalPrice(this.orderItems);
 	}
 
-	public static double calculateTotalPrice(List<OrderItem> orderItems) {
-		double total = 0;
-		for (OrderItem item : orderItems) {
-			total += item.getQuantity() * item.getProduct().getPrice();
-		}
-		return total;
-	}
-
-	public String calculateOrderWaitedTime(ZonedDateTime orderTime) {
-		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
-		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-		Duration duration = Duration.between(time, now);
-		long hours = duration.toHours();
-		long minutes = duration.toMinutes() % 60;
-		return String.format("%02dh%02d", hours, minutes);
-	}
 
 }
