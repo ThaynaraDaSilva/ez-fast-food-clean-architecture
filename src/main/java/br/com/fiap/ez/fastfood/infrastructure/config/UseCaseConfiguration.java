@@ -32,8 +32,8 @@ public class UseCaseConfiguration {
 	}
 
 	@Bean
-	public PaymentUseCase paymentUseCase(PaymentRepository paymentRepository) {
-		return new PaymentUseCase(paymentRepository); 
+	public PaymentUseCase paymentUseCase(PaymentRepository paymentRepository, OrderRepository orderRepository) {
+		return new PaymentUseCase(paymentRepository,orderRepository); 
 	}
 
 }

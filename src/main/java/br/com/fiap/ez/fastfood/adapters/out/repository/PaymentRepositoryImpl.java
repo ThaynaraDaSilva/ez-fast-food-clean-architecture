@@ -27,4 +27,12 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 		return PaymentMapper.entityToDomain(entity);
 	}
 
+	@Override
+	public Payment registerPaymentStatus(Payment payment) {
+		PaymentEntity entity =  PaymentMapper.domainToEntity(payment);
+		jpaPaymentRepository.save(entity);
+		return payment;
+		
+	}
+
 }

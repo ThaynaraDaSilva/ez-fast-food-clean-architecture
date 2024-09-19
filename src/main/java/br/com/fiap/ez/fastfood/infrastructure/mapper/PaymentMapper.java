@@ -3,6 +3,7 @@ package br.com.fiap.ez.fastfood.infrastructure.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
 import br.com.fiap.ez.fastfood.domain.model.Payment;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.PaymentEntity;
@@ -48,5 +49,15 @@ public class PaymentMapper {
 	public static List<PaymentEntity> domainToEntity(List<Payment> payments) {
 		return payments.stream().map(PaymentMapper::domainToEntity).collect(Collectors.toList());
 	}
+	
+	  public static PaymentDTO domainToResponseDto(Payment payment) {
+	        if (payment == null) {
+	            return null;
+	        }
+	        PaymentDTO dto = new PaymentDTO();
+	        dto.setPaymentId(payment.getOrder() != null ? payment.getOrder().getId() : null);
+	        dto.setPaymentStatus(payment.getPaymentStatus().name());
+	        return dto;
+	    }
 
 }

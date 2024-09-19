@@ -8,5 +8,6 @@ public interface PaymentRepository {
 	
 	Payment registerPayment(Payment payment);
 	Payment findPaymentByOrderId(Long orderId);
+	Payment registerPaymentStatus (Payment payment);
 
 }
