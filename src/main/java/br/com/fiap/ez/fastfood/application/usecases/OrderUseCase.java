@@ -57,20 +57,14 @@ public class OrderUseCase {
 			orderItem.setQuantity(item.getQuantity());
 			orderItem.setPrice(product.getPrice() * item.getQuantity());
 			orderItem.setOrder(saveOrder);
-
 			orderItemList.add(orderItem);
 		}
 
-		// Set the order items list in the order
-		saveOrder.setOrderItems(orderItemList);
 
-		// Calculate and set the total price
+		saveOrder.setOrderItems(orderItemList);
 		saveOrder.calculateAndSetTotalPrice();
 		Order lastOrder = orderRepository.findLastOrder();
-
 		saveOrder.setOrderNumber(saveOrder.generateOrderNumber(lastOrder.getOrderTime(),lastOrder.getOrderNumber()));
-		
-		
 		
 
 		// Register payment for the order

@@ -60,12 +60,17 @@ public class Order {
 		LocalDate orderDate = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDate();
 		
 		int nextOrderNumber;
-		
+		//String lastOrderNumber="";	
 
 		if (orderDate.equals(now)) {
+			
+			if(lastOrderIdentification !=null) {
+				String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
+				nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
+			}else {
+				nextOrderNumber =+ 1;
+			}
 	
-			String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
-			nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
 		} else {
 			// Se a data for diferente, reseta para 0000
 			nextOrderNumber = 0;

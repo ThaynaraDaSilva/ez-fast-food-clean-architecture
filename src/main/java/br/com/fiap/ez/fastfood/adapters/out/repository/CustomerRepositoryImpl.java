@@ -40,10 +40,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 	@Override
 	public Customer findByCpf(String cpf) {
 		CustomerEntity entity = customerJpaRepository.findCustomerByCpf(cpf);
-		if(entity !=null) {
+		if(entity != null) {
 			return CustomerMapper.entityToDomain(entity);
+		}else{
+			return null;
 		}
-		return null;
 	}
 
 

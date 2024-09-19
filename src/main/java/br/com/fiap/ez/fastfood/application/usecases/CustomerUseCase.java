@@ -27,8 +27,8 @@ public class CustomerUseCase {
 
 		if (customer != null && customer.isValid()) {
 			
-			Optional<Customer> existingCustomer = customerRepository.findByCpf(customer.getCpf());
-			if (!existingCustomer.isPresent()) {
+			//Customer existingCustomer = customerRepository.findByCpf(customer.getCpf());
+			if (customerRepository.findByCpf(customer.getCpf()) ==  null) {
 				// customer.setPassword(passwordEncoder.encode(customer.getPassword()));
 				
 				customerRepository.save(customer);
@@ -44,11 +44,11 @@ public class CustomerUseCase {
 	}
 
 	public CustomerDTO deleteCustomerByCpf(String cpf) {
-		Optional<Customer> customer = customerRepository.findByCpf(cpf);
+		Customer customer = customerRepository.findByCpf(cpf);
 
-		if (customer.isPresent()) {
+		if (customer != null) {
 			customerRepository.removeByCpf(cpf);
-			return CustomerMapper.domainToDto(customer.get());
+			return CustomerMapper.domainToDto(customer);
 		} else {
 			throw new BusinessException("Cliente não encontrado");
 		}
@@ -57,9 +57,9 @@ public class CustomerUseCase {
 	public CustomerDTO updateCustomer(String cpf, Customer customerToUpdate) {
 		//Customer updatedCustomer = CustomerMapper.dtoToDomain(updateCustomerDTO);
 
-		Optional<Customer> existingCustomer = customerRepository.findByCpf(cpf);
-		if (existingCustomer.isPresent() && customerToUpdate.isValid()) {
-			Customer customer = existingCustomer.get();
+		Customer existingCustomer = customerRepository.findByCpf(cpf);
+		if (existingCustomer != null && customerToUpdate.isValid()) {
+			Customer customer = existingCustomer;
 			customer.setName(customerToUpdate.getName());
 			customer.setEmail(customerToUpdate.getEmail());
 			customer.setCpf(customerToUpdate.getCpf());
@@ -73,8 +73,12 @@ public class CustomerUseCase {
 	}
 
 	public CustomerDTO findCustomerByCpf(String cpf) {
-		return customerRepository.findByCpf(cpf).map(CustomerMapper::domainToDto)
-				.orElseThrow(() -> new BusinessException("Cliente não encontrado"));
+		CustomerDTO customer = CustomerMapper.domainToDto(customerRepository.findByCpf(cpf));
+		if(customer!=null) {
+			return customer;
+		}else {
+			throw new BusinessException("Cliente não encontrado");
+		}
 	}
 	
 	public List<Customer> listCustomers() {
@@ -82,7 +86,12 @@ public class CustomerUseCase {
 	}
 
 	public Customer authenticate(String cpf) {
-		return customerRepository.findByCpf(cpf).orElseThrow(() -> new BusinessException("CPF ou senha errada."));
+		Customer customer =  customerRepository.findByCpf(cpf);
+		if(customer!=null) {
+			return customer;
+		}else {
+			throw new BusinessException("CPF ou senha errada.");
+		}
 	}
 
 }
