@@ -22,8 +22,8 @@ public class PaymentRepositoryImpl implements PaymentRepository {
 	}
 
 	@Override
-	public Payment findPaymentByOrderId(Long orderId) {
-		PaymentEntity entity =  jpaPaymentRepository.findPaymentByOrderId(orderId);
+	public Payment findPaymentById(Long orderId) {
+		PaymentEntity entity =  jpaPaymentRepository.findPaymentById(orderId);
 		return PaymentMapper.entityToDomain(entity);
 	}
 

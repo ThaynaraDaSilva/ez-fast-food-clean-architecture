@@ -26,8 +26,8 @@ public class PaymentController {
 		this.paymentUseCase = paymentUseCase;
 	}
 
-	@PostMapping("/make-payment")
-	public ResponseEntity<?> makePayment(@RequestBody PaymentDTO paymentDTO) {
+	@PostMapping("/status")
+	public ResponseEntity<?> registirPaymentStatus(@RequestBody PaymentDTO paymentDTO) {
 		try {
 			return new ResponseEntity<>(paymentUseCase.registerPaymentStatus(paymentDTO),HttpStatus.OK);
 		}catch (BusinessException e) {

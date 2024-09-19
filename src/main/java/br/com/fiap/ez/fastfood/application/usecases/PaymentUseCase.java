@@ -41,7 +41,7 @@ public class PaymentUseCase {
 	}
 
 	public PaymentDTO registerPaymentStatus(PaymentDTO paymentDto) {
-		Payment payment = paymentRepository.findPaymentByOrderId(paymentDto.getPaymentId());
+		Payment payment = paymentRepository.findPaymentById(paymentDto.getPaymentId());
 		Order order = orderRepository.findOrderById(payment.getOrder().getId());
 		
 		//payment
@@ -49,12 +49,14 @@ public class PaymentUseCase {
 		payment.setPaymentStatus(PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()));
 		paymentRepository.registerPaymentStatus(payment);
 		
-
+		//order
 	    if(PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()) == PaymentStatus.OK) {
 	    	order.setStatus(OrderStatus.RECEIVED);
+	    	order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+	    	orderRepository.save(order);
 	    }
 		
-		order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+		
 
 		return PaymentMapper.domainToResponseDto(payment);
 
