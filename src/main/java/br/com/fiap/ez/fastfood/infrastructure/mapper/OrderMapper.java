@@ -22,6 +22,7 @@ public class OrderMapper {
 		if (entity.getCustomer() != null) {
 			order.setCustomer(CustomerMapper.entityToDomain(entity.getCustomer()));
 		}
+		order.setOrderNumber(entity.getOrderNumber());
 		order.setCustomerName(entity.getCustomerName());
 		order.setOrderTime(entity.getOrderTime());
 		order.setCompletedTime(entity.getCompletedTime());
@@ -31,24 +32,6 @@ public class OrderMapper {
 		
 		return order;
 	}
-
-	// Convert Order (Domain) to OrderEntity (Persistence)
-	/*
-	 * public static OrderEntity domainToEntity(Order order) {
-	 * 
-	 * OrderEntity entity = new OrderEntity(); entity.setId(order.getId()); if
-	 * (order.getCustomer() != null) {
-	 * entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer())); }
-	 * else { System.out.println("else condition do domainToEntity");
-	 * entity.setCustomer(null); // Set customer as null if it's not present }
-	 * entity.setOrderTime(order.getOrderTime());
-	 * entity.setCompletedTime(order.getCompletedTime());
-	 * entity.setTotalPrice(order.getTotalPrice());
-	 * entity.setStatus(order.getStatus());
-	 * entity.setCustomerName(order.getCustomerName());
-	 * entity.setOrderItems(OrderItemMapper.domainToEntity(order.getOrderItems()));
-	 * return entity; }
-	 */
 	
 	public static OrderEntity domainToEntity(Order order) {
 	    if (order == null) {
@@ -57,6 +40,7 @@ public class OrderMapper {
 
 	    OrderEntity entity = new OrderEntity();
 	    entity.setId(order.getId());
+	    entity.setOrderNumber(order.getOrderNumber());
 	    entity.setOrderTime(order.getOrderTime());
 	    entity.setCompletedTime(order.getCompletedTime());
 	    entity.setTotalPrice(order.getTotalPrice());
@@ -88,6 +72,8 @@ public class OrderMapper {
 	public static OrderResponseDTO domainToResponseDTO(Order order) {
 		OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
 		orderResponseDTO.setOrderId(order.getId());
+		
+		orderResponseDTO.setOrder_number(order.getOrderNumber());
 
 		orderResponseDTO.setOrderTime(order.getOrderTime());
 
