@@ -37,10 +37,11 @@ public class OrderUseCase {
 	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
 		// Create Order entity from DTO
 		Order saveOrder = new Order();
-		Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf())
-				.orElseThrow(() -> new BusinessException("Customer not found"));
+		Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf());
 
-		saveOrder.setCustomer(customer);
+		if (customer != null) {
+			saveOrder.setCustomer(customer);
+		}
 		saveOrder.setCustomerName(createOrderDTO.getCustomerName());
 		saveOrder.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
 		saveOrder.setStatus(OrderStatus.WAITING_PAYMENT);
@@ -52,14 +53,11 @@ public class OrderUseCase {
 			Product product = productRepository.findById(item.getProductId())
 					.orElseThrow(() -> new BusinessException("Product not found"));
 
-			// Set the product, quantity, and price
 			orderItem.setProduct(product);
 			orderItem.setQuantity(item.getQuantity());
 			orderItem.setPrice(product.getPrice() * item.getQuantity());
-
-			// Set the order reference in the order item
 			orderItem.setOrder(saveOrder);
-			// Add the order item to the list
+
 			orderItemList.add(orderItem);
 		}
 

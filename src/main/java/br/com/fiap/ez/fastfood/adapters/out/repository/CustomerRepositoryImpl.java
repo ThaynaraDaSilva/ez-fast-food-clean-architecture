@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
+import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
@@ -37,9 +38,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 	}
 
 	@Override
-	public Optional<Customer> findByCpf(String cpf) {
+	public Customer findByCpf(String cpf) {
 		CustomerEntity entity = customerJpaRepository.findCustomerByCpf(cpf);
-		return Optional.ofNullable(entity).map(CustomerMapper::entityToDomain);
+		if(entity !=null) {
+			return CustomerMapper.entityToDomain(entity);
+		}
+		return null;
 	}
 
 
