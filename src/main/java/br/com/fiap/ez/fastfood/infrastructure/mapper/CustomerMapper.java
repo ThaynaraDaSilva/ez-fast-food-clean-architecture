@@ -37,7 +37,6 @@ public class CustomerMapper {
 		Customer customer = new Customer();
 		customer.setId(customerDTO.getId());
 		customer.setCpf(customerDTO.getCpf());
-		System.out.println("CPF: " + customerDTO.getCpf());
 		customer.setName(customerDTO.getName());
 		customer.setEmail(customerDTO.getEmail());
 		return customer;

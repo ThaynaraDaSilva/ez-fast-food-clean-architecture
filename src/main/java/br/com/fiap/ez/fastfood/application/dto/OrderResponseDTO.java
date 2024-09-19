@@ -20,6 +20,9 @@ public class OrderResponseDTO {
 	@JsonProperty("order_id")
 	private Long orderId = 0L;
 	
+	@JsonProperty("order_number")
+	private String orderNumber = "";
+	
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonProperty("customer_cpf")
 	@Schema(description = "Customer CPF (optional)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
@@ -35,6 +38,7 @@ public class OrderResponseDTO {
 	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	@JsonProperty("completed_time")
 	private ZonedDateTime completedTime=null;
+	
 	
 	
 
@@ -94,7 +98,35 @@ public class OrderResponseDTO {
 		this.orderItems = orderItems;
 	}
 
+	
+	public OrderResponseDTO(Long orderId, String orderNumber, String customerCpf, String customerName,
+			ZonedDateTime orderTime, ZonedDateTime completedTime, Double totalPrice, OrderStatus orderStatus,
+			List<OrderItemDTO> orderItems, String waitedTime) {
+		super();
+		this.orderId = orderId;
+		this.orderNumber = orderNumber;
+		this.customerCpf = customerCpf;
+		this.customerName = customerName;
+		this.orderTime = orderTime;
+		this.completedTime = completedTime;
+		this.totalPrice = totalPrice;
+		this.orderStatus = orderStatus;
+		this.orderItems = orderItems;
+		this.waitedTime = waitedTime;
+	}
+
+
 	// Getters and setters
+
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+
+	public void setOrderNumber(String order_number) {
+		this.orderNumber = order_number;
+	}
+
 
 	public String getCustomerName() {
 		return customerName;

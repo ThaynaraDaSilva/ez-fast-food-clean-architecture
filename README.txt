@@ -1,75 +1,6 @@
 # ez-fast-food-clean-arch
 Tech Challenge 2 - Clean Architecture e Kubernetes
 
-
-# Estrutura Hexagonal
-br.com.fiap.ez.fastfood
-├── adapters
-│   ├── in
-│   │   └── controller
-│   │       ├── CustomerController.java
-│   └── out
-│       └── repository
-│           ├── CustomerRepositoryImpl.java
-│           └── JpaCustomerRepository.java
-├── application
-│   ├── ports
-│   │   ├── in
-│   │   │   └── CustomerService.java
-│   │   └── out
-│   │       └── CustomerRepository.java
-│   ├── service
-│   │   └── CustomerServiceImpl.java
-│   └── dto
-│       └── CustomerDTO.java
-├── config
-│   └── exception
-│       └── CustomExceptionHandler.java
-|        └── ErrorResponse.java
-│   └── security
-│       └── SecurityConfig.java
-│        OpenApiConfig.java
-├── domain
-│   └── model
-│       └── Customer.java
-├── APIApplication.java
-
-
-# Estrutura Limpa
-
-br.com.fiap.ez.fastfood
-├── adapters
-│   ├── in
-│   │   └── controller
-│   │       └── CustomerController.java       # Input adapter, handles HTTP requests
-│   └── out
-│       └── repository
-│           ├── CustomerRepositoryImpl.java   # Repository implementation (converts domain to persistence entities)
-│           └── JpaCustomerRepository.java    # JPA-specific repository interface
-├── application
-│   ├── usecases
-│   │   └── CustomerUseCase.java              # Centralized use case for CRUD operations
-│   └── dto
-│       └── CustomerDTO.java                  # DTO for customer with validation annotations
-├── domain
-│   └── model
-│       └── Customer.java                     # Pure domain entity without JPA/validation annotations
-│   └── repository
-│       └── CustomerRepository.java           # Domain repository interface (abstraction for persistence)
-├── infrastructure
-│   ├── persistence
-│   │   └── CustomerEntity.java               # Persistence-specific entity with JPA annotations
-│   └── mapper
-│       └── CustomerMapper.java               # Mapper to convert between domain and persistence entities
-├── config
-│   └── exception
-│       └── CustomExceptionHandler.java       # Global exception handler
-│       └── ErrorResponse.java                # Error response object
-│   └── security
-│       └── SecurityConfig.java               # Security configurations
-│       └── OpenApiConfig.java                # Swagger/OpenAPI configuration
-├── APIApplication.java                       # Main entry point for Spring Boot
-
 10/09/2024
 
 br.com.fiap.ez.fastfood
@@ -128,6 +59,28 @@ OpenApiConfig.java: Configures Swagger or OpenAPI for API documentation.
 6. APIApplication.java
 This is the main class that starts the Spring Boot application.
 
+
+
+Colinha:
+1. Core Domain (Entities)
+	Customer.class
+2. Domain Repositories (Abstractions)
+	CustomerRepository.java - interface
+3. Use Cases (Application Business Rules)
+	CustomerUseCase.java
+4. DTOs (Data Transfer Objects)
+	CustomerDTO.java
+5. Repository (Persistence) Layer
+	CustomerRepositoryImpl.java
+6. JPA Entities
+	CustomerEntity.java
+7. Mappers to Convert Between Domain and Entity
+	CustomerMapper.java
+8. Controllers (Interface Adapters)
+	CustomerController.java
+9. Application (Infrastructure Layer)
+	RepositoryConfiguration.java
+	UseCaseConfiguration.java
 
 
 

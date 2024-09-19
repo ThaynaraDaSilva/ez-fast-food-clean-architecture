@@ -12,5 +12,5 @@ public interface CustomerRepository {
 	Customer save(Customer customer);
     List <Customer> findAll();
 	Customer removeByCpf(String cpf);
-	Optional<Customer> findByCpf(String cpf);	
+	Customer findByCpf(String cpf);	
 }
