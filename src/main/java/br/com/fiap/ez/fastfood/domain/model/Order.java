@@ -51,6 +51,10 @@ public class Order {
 		long minutes = duration.toMinutes() % 60;
 		return String.format("%02dh%02d", hours, minutes);
 	}
+	
+	public void calculateAndSetTotalPrice() {
+		this.totalPrice = calculateTotalPrice(this.orderItems);
+	}
 
 	public String generateOrderNumber(ZonedDateTime orderTime, String lastOrderIdentification) {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
@@ -80,6 +84,7 @@ public class Order {
 		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
 		return formattedOrderNumber + " " + customerName;
 	}
+	
 
 	// Getters and Setters
 
@@ -155,9 +160,7 @@ public class Order {
 		this.orderItems = orderItems;
 	}
 
-	public void calculateAndSetTotalPrice() {
-		this.totalPrice = calculateTotalPrice(this.orderItems);
-	}
+
 
 
 }

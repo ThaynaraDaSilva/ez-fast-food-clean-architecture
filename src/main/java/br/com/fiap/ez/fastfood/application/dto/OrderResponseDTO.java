@@ -123,7 +123,7 @@ public class OrderResponseDTO {
 	}
 
 
-	public void setOrder_number(String order_number) {
+	public void setOrderNumber(String order_number) {
 		this.orderNumber = order_number;
 	}
 

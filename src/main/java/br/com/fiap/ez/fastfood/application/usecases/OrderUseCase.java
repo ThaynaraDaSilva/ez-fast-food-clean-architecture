@@ -60,18 +60,18 @@ public class OrderUseCase {
 			orderItemList.add(orderItem);
 		}
 
-
+	
 		saveOrder.setOrderItems(orderItemList);
 		saveOrder.calculateAndSetTotalPrice();
 		Order lastOrder = orderRepository.findLastOrder();
 		saveOrder.setOrderNumber(saveOrder.generateOrderNumber(lastOrder.getOrderTime(),lastOrder.getOrderNumber()));
 		
-
+		Order savedOrder = orderRepository.save(saveOrder);
 		// Register payment for the order
-		paymentUseCase.registerPayment(orderRepository.save(saveOrder));
+		paymentUseCase.registerPayment(savedOrder);
 
 		// Map order to response DTO using OrderMapper
-		return OrderMapper.domainToResponseDTO(saveOrder);
+		return OrderMapper.domainToResponseDTO(savedOrder);
 	}
 
 	public List<OrderResponseDTO> listUnfinishedOrders() {
