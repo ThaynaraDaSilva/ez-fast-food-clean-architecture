@@ -56,8 +56,6 @@ public class PaymentUseCase {
 	    	orderRepository.save(order);
 	    }
 		
-		
-
 		return PaymentMapper.domainToResponseDto(payment);
 
 	}
