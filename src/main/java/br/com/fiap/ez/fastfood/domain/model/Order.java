@@ -51,6 +51,10 @@ public class Order {
 		long minutes = duration.toMinutes() % 60;
 		return String.format("%02dh%02d", hours, minutes);
 	}
+	
+	public void calculateAndSetTotalPrice() {
+		this.totalPrice = calculateTotalPrice(this.orderItems);
+	}
 
 	public String generateOrderNumber(ZonedDateTime orderTime, String lastOrderIdentification) {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
@@ -60,12 +64,17 @@ public class Order {
 		LocalDate orderDate = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDate();
 		
 		int nextOrderNumber;
-		
+		//String lastOrderNumber="";	
 
 		if (orderDate.equals(now)) {
+			
+			if(lastOrderIdentification !=null) {
+				String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
+				nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
+			}else {
+				nextOrderNumber =+ 1;
+			}
 	
-			String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
-			nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
 		} else {
 			// Se a data for diferente, reseta para 0000
 			nextOrderNumber = 0;
@@ -75,6 +84,7 @@ public class Order {
 		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
 		return formattedOrderNumber + " " + customerName;
 	}
+	
 
 	// Getters and Setters
 
@@ -150,9 +160,7 @@ public class Order {
 		this.orderItems = orderItems;
 	}
 
-	public void calculateAndSetTotalPrice() {
-		this.totalPrice = calculateTotalPrice(this.orderItems);
-	}
+
 
 
 }

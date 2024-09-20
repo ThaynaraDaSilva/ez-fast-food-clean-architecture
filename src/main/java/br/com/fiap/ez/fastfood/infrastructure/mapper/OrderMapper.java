@@ -71,12 +71,10 @@ public class OrderMapper {
 
 	public static OrderResponseDTO domainToResponseDTO(Order order) {
 		OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
-		orderResponseDTO.setOrderId(order.getId());
 		
-		orderResponseDTO.setOrder_number(order.getOrderNumber());
-
+		orderResponseDTO.setOrderId(order.getId());
+		orderResponseDTO.setOrderNumber(order.getOrderNumber());
 		orderResponseDTO.setOrderTime(order.getOrderTime());
-
 		orderResponseDTO.setTotalPrice(order.getTotalPrice());
 
 		if (order.getCustomer() != null) {
