@@ -9,8 +9,8 @@ import br.com.fiap.ez.fastfood.infrastructure.persistence.PaymentEntity;
 
 public interface JpaPaymentRepository extends JpaRepository<PaymentEntity, Long>{
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.PAYMENT WHERE order_id = :id")
-	PaymentEntity findPaymentByOrderId(@Param("id") Long id);
+	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.PAYMENT WHERE id = :id")
+	PaymentEntity findPaymentById(@Param("id") Long id);
 	
 
 }
