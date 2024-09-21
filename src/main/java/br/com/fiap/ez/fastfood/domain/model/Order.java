@@ -44,6 +44,7 @@ public class Order {
 	}
 
 	public String calculateOrderWaitedTime(ZonedDateTime orderTime) {
+		
 		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
 		Duration duration = Duration.between(time, now);
@@ -56,7 +57,9 @@ public class Order {
 		this.totalPrice = calculateTotalPrice(this.orderItems);
 	}
 
-	public String generateOrderNumber(ZonedDateTime orderTime, String lastOrderIdentification) {
+	
+	
+	public String generateOrderNumber(Order order) {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
 		
 	    LocalDate now = zonedDateTime.toLocalDate();
@@ -67,9 +70,9 @@ public class Order {
 		//String lastOrderNumber="";	
 
 		if (orderDate.equals(now)) {
-			
-			if(lastOrderIdentification !=null) {
-				String lastOrderNumber = lastOrderIdentification.split(" ")[0]; // Pega a parte numérica
+			System.out.println("===================metodo de generate order");
+			if(order!=null) {
+				String lastOrderNumber = order.getOrderNumber().split(" ")[0]; // Pega a parte numérica
 				nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
 			}else {
 				nextOrderNumber =+ 1;
@@ -79,11 +82,14 @@ public class Order {
 			// Se a data for diferente, reseta para 0000
 			nextOrderNumber = 0;
 		}
+		
+		System.out.println("===================");
 
 		// Gera o número de pedido no formato "0000" + Nome do Cliente
 		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
 		return formattedOrderNumber + " " + customerName;
 	}
+	
 	
 
 	// Getters and Setters
@@ -113,7 +119,7 @@ public class Order {
 	}
 
 	public ZonedDateTime getOrderTime() {
-		return orderTime;
+		return orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 	}
 
 	public void setOrderTime(ZonedDateTime orderTime) {
@@ -121,7 +127,7 @@ public class Order {
 	}
 
 	public ZonedDateTime getCompletedTime() {
-		return completedTime;
+		return completedTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 	}
 
 	public void setCompletedTime(ZonedDateTime completedTime) {

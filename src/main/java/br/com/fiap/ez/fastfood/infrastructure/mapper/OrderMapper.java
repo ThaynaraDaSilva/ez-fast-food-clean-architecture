@@ -10,6 +10,8 @@ import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderItemEntity;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,6 +78,9 @@ public class OrderMapper {
 		orderResponseDTO.setOrderNumber(order.getOrderNumber());
 		orderResponseDTO.setOrderTime(order.getOrderTime());
 		orderResponseDTO.setTotalPrice(order.getTotalPrice());
+		if(order.getCompletedTime()!=null) {
+			orderResponseDTO.setCompletedTime(order.getCompletedTime());
+		}
 
 		if (order.getCustomer() != null) {
 			orderResponseDTO.setCustomerCpf(order.getCustomer().getCpf());
@@ -83,7 +88,7 @@ public class OrderMapper {
 
 		orderResponseDTO.setCustomerName(order.getCustomerName());
 		orderResponseDTO.setOrderStatus(order.getStatus());
-		if(order.getStatus() == OrderStatus.RECEIVED || order.getStatus() == OrderStatus.IN_PREPARATION) {
+		if(order.getStatus() == OrderStatus.RECEIVED || order.getStatus() == OrderStatus.IN_PREPARATION || order.getStatus() == OrderStatus.COMPLETED) {
 			orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
 		}
 

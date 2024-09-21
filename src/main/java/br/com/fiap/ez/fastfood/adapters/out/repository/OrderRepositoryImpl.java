@@ -59,7 +59,16 @@ public class OrderRepositoryImpl implements OrderRepository {
 	@Override
 	public Order findLastOrder() {
 		OrderEntity entity = jpaOrderRepository.findLastOrder();
+		if(entity == null) {
+			return null;
+		}
         return OrderMapper.entityToDomain(entity);
 	}
+
+
+	
+
+
+
 
 }

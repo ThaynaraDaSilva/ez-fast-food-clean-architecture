@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
+import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
 import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 
@@ -68,6 +69,16 @@ public class OrderController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 
+	}
+	
+	@PostMapping(path = "/update-order-status", produces = "application/json")
+	public ResponseEntity<?> updateOrderStatus(@RequestBody Long orderId) {
+		try {
+			return new ResponseEntity<>(orderUseCase.updateOrderStatus(orderId),HttpStatus.OK);
+		}catch (BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	
 	}
 
 }
