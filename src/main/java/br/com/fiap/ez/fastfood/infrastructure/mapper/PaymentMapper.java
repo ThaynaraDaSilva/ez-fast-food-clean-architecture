@@ -55,7 +55,7 @@ public class PaymentMapper {
 	            return null;
 	        }
 	        PaymentDTO dto = new PaymentDTO();
-	        dto.setPaymentId(payment.getOrder() != null ? payment.getOrder().getId() : null);
+	        dto.setPaymentId(payment.getId() != null ? payment.getId() : null);
 	        dto.setPaymentStatus(payment.getPaymentStatus().name());
 	        return dto;
 	    }

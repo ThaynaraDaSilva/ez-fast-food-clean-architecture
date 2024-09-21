@@ -23,10 +23,7 @@ public class PaymentUseCase {
 
 	}
 
-	/*
-	 * public PaymentUseCase(PaymentRepository paymentRepository) {
-	 * this.paymentRepository = paymentRepository; }
-	 */
+
 	public void registerPayment(Order order) {
 
 		Payment payment = new Payment();

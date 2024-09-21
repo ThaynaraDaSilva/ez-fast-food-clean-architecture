@@ -8,7 +8,6 @@ public interface OrderRepository {
 
 	Order save(Order Order);
 	List<Order> findAll();
-	//Order updateOrderStatus(String status);
 	List<Order> listUnfinishedOrders();
 	Order findOrderById(Long id);
 	Order findLastOrder();

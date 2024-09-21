@@ -6,11 +6,10 @@ import br.com.fiap.ez.fastfood.application.dto.OrderResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.*;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
-import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
+
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
-import jakarta.transaction.Transactional;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,11 +26,11 @@ public class OrderUseCase {
 	private final PaymentUseCase paymentUseCase;
 
 	public OrderUseCase(OrderRepository orderRepository, ProductRepository productRepository,
-			CustomerRepository customerRepository, PaymentUseCase paymentUseCase) { // Inject PaymentUseCase here
+			CustomerRepository customerRepository, PaymentUseCase paymentUseCase) {
 		this.orderRepository = orderRepository;
 		this.productRepository = productRepository;
 		this.customerRepository = customerRepository;
-		this.paymentUseCase = paymentUseCase; // Assign it here
+		this.paymentUseCase = paymentUseCase;
 	}
 
 	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
@@ -60,18 +59,36 @@ public class OrderUseCase {
 			orderItemList.add(orderItem);
 		}
 
-	
 		saveOrder.setOrderItems(orderItemList);
 		saveOrder.calculateAndSetTotalPrice();
+
 		Order lastOrder = orderRepository.findLastOrder();
-		saveOrder.setOrderNumber(saveOrder.generateOrderNumber(lastOrder.getOrderTime(),lastOrder.getOrderNumber()));
-		
+
+		saveOrder.setOrderNumber(saveOrder.generateOrderNumber(lastOrder));
+
 		Order savedOrder = orderRepository.save(saveOrder);
+
 		// Register payment for the order
 		paymentUseCase.registerPayment(savedOrder);
 
 		// Map order to response DTO using OrderMapper
 		return OrderMapper.domainToResponseDTO(savedOrder);
+	}
+
+	public OrderResponseDTO updateOrderStatus(Long orderId) {
+		Order order = orderRepository.findOrderById(orderId);
+
+		if (order.getStatus() == OrderStatus.RECEIVED) {
+			order.setStatus(OrderStatus.IN_PREPARATION);
+		} else if (order.getStatus() == OrderStatus.IN_PREPARATION) {
+			order.setStatus(OrderStatus.READY);
+			order.setCompletedTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+		} else if (order.getStatus() == OrderStatus.READY) {
+			order.setStatus(OrderStatus.COMPLETED);
+		}
+
+		order = orderRepository.save(order);
+		return OrderMapper.domainToResponseDTO(order);
 	}
 
 	public List<OrderResponseDTO> listUnfinishedOrders() {

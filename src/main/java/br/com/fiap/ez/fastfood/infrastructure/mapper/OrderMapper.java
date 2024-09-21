@@ -6,9 +6,10 @@ import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.model.Order;
 import br.com.fiap.ez.fastfood.domain.model.OrderItem;
 import br.com.fiap.ez.fastfood.domain.model.OrderStatus;
-import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
+
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderItemEntity;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,6 +77,9 @@ public class OrderMapper {
 		orderResponseDTO.setOrderNumber(order.getOrderNumber());
 		orderResponseDTO.setOrderTime(order.getOrderTime());
 		orderResponseDTO.setTotalPrice(order.getTotalPrice());
+		if(order.getCompletedTime()!=null) {
+			orderResponseDTO.setCompletedTime(order.getCompletedTime());
+		}
 
 		if (order.getCustomer() != null) {
 			orderResponseDTO.setCustomerCpf(order.getCustomer().getCpf());
@@ -83,8 +87,11 @@ public class OrderMapper {
 
 		orderResponseDTO.setCustomerName(order.getCustomerName());
 		orderResponseDTO.setOrderStatus(order.getStatus());
-		if(order.getStatus() == OrderStatus.RECEIVED || order.getStatus() == OrderStatus.IN_PREPARATION) {
-			orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime()));
+		if(order.getStatus() == OrderStatus.RECEIVED 
+				|| order.getStatus() == OrderStatus.IN_PREPARATION 
+				|| order.getStatus() == OrderStatus.READY 
+				|| order.getStatus() == OrderStatus.COMPLETED) {
+			orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(order.getOrderTime(),order.getCompletedTime()));
 		}
 
 		// Map Order Items to DTO
@@ -98,7 +105,7 @@ public class OrderMapper {
 
 	public static OrderResponseDTO entityToOrderResponseDTO(OrderEntity entity) {
     	
-    	Order order = new Order();
+		Order order = new Order();
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
         orderResponseDTO.setOrderId(entity.getId());
         if(entity.getCustomer()!= null) {
@@ -109,7 +116,7 @@ public class OrderMapper {
         orderResponseDTO.setCompletedTime( entity.getCompletedTime());
         orderResponseDTO.setTotalPrice(entity.getTotalPrice());
         orderResponseDTO.setOrderStatus(entity.getStatus());
-        orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(entity.getOrderTime()));
+        orderResponseDTO.setWaitedTime(order.calculateOrderWaitedTime(entity.getOrderTime(),entity.getOrderTime()));
         List<OrderItemDTO> orderItemDTOs = entity.getOrderItems().stream()
 				.map(orderItem -> new OrderItemDTO(orderItem.getProduct().getId(), orderItem.getQuantity()))
 				.collect(Collectors.toList());

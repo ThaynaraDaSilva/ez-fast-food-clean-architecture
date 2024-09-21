@@ -5,15 +5,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
+import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
 import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 
@@ -68,6 +71,16 @@ public class OrderController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 
+	}
+	
+	@PostMapping(path = "/update-order-status")
+	public ResponseEntity<?> updateOrderStatus(@Parameter Long orderId) {
+		try {
+			return new ResponseEntity<>(orderUseCase.updateOrderStatus(orderId),HttpStatus.OK);
+		}catch (BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	
 	}
 
 }
