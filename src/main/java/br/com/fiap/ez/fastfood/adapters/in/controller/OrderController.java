@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -71,8 +73,8 @@ public class OrderController {
 
 	}
 	
-	@PostMapping(path = "/update-order-status", produces = "application/json")
-	public ResponseEntity<?> updateOrderStatus(@RequestBody Long orderId) {
+	@PostMapping(path = "/update-order-status")
+	public ResponseEntity<?> updateOrderStatus(@Parameter Long orderId) {
 		try {
 			return new ResponseEntity<>(orderUseCase.updateOrderStatus(orderId),HttpStatus.OK);
 		}catch (BusinessException e) {
