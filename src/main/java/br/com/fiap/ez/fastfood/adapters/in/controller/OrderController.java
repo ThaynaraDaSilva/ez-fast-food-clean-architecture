@@ -61,7 +61,7 @@ public class OrderController {
 
 	}
 	
-	@Operation(summary = "List orders with status 'READY', 'IN_PREPARATION', 'READY' ordered by order_time")
+	@Operation(summary = "List orders with status 'READY', 'IN_PREPARATION', 'RECEIVED' considering order time")
 
 	@GetMapping(path = "/list-uncompleted-orders", produces = "application/json")
 	public ResponseEntity<?> listUnCompletedOrders() {
