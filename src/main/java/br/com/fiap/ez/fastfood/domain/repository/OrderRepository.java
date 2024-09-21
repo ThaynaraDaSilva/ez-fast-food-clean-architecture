@@ -11,4 +11,6 @@ public interface OrderRepository {
 	List<Order> listUnfinishedOrders();
 	Order findOrderById(Long id);
 	Order findLastOrder();
+	
+	List<Order> listUnCompletedOrders();
 }
