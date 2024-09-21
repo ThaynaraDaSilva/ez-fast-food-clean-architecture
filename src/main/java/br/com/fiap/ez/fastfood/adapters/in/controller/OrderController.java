@@ -74,7 +74,6 @@ public class OrderController {
 	}
 
 	@Operation(summary = "List unfinished orders")
-
 	@GetMapping(path = "/list-orders-in-queue", produces = "application/json")
 	public ResponseEntity<?> listUnfinishedOrders() {
 		try {
