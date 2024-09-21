@@ -11,11 +11,7 @@ import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 
 public interface JpaOrderRepository  extends JpaRepository<OrderEntity, Long> {
 	
-	/*
-	 * @Query(nativeQuery = true, value =
-	 * "SELECT * FROM EZ_FASTFOOD.ORDER WHERE id = :id") OrderEntity
-	 * findOrderById(@Param("id") Long id);
-	 */
+
 	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.ORDER WHERE ORDER_STATUS IN ('RECEIVED', 'IN_PREPARATION')")
 	List<OrderEntity> listUnfinishedOrders();
 	

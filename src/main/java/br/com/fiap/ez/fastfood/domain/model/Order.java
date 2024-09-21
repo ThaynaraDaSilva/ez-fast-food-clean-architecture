@@ -34,7 +34,7 @@ public class Order {
 		this.customerName = customerName;
 		this.orderItems = orderItems;
 	}
-	
+
 	public static double calculateTotalPrice(List<OrderItem> orderItems) {
 		double total = 0;
 		for (OrderItem item : orderItems) {
@@ -43,54 +43,69 @@ public class Order {
 		return total;
 	}
 
-	public String calculateOrderWaitedTime(ZonedDateTime orderTime) {
-		
+	/*
+	 * public String calculateOrderWaitedTime(ZonedDateTime orderTime, ZonedDateTime
+	 * orderCompletedTime) {
+	 * 
+	 * ZonedDateTime time =
+	 * orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")); ZonedDateTime
+	 * now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")); Duration duration =
+	 * Duration.between(time, now); long hours = duration.toHours(); long minutes =
+	 * duration.toMinutes() % 60; return String.format("%02dh%02d", hours, minutes);
+	 * }
+	 */
+
+	public String calculateOrderWaitedTime(ZonedDateTime orderTime, ZonedDateTime orderCompletedTime) {
+
+		// order time
 		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
-		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-		Duration duration = Duration.between(time, now);
+
+		Duration duration;
+		if (orderCompletedTime != null) {
+			duration = Duration.between(time, orderCompletedTime);
+		} else {
+			// now time when theres no completed time 
+			ZonedDateTime now =	ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+			duration = Duration.between(time, now);
+
+		}
+
 		long hours = duration.toHours();
 		long minutes = duration.toMinutes() % 60;
 		return String.format("%02dh%02d", hours, minutes);
 	}
-	
+
 	public void calculateAndSetTotalPrice() {
 		this.totalPrice = calculateTotalPrice(this.orderItems);
 	}
 
-	
-	
 	public String generateOrderNumber(Order order) {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-		
-	    LocalDate now = zonedDateTime.toLocalDate();
-	
+
+		LocalDate now = zonedDateTime.toLocalDate();
+
 		LocalDate orderDate = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDate();
-		
+
 		int nextOrderNumber;
-		//String lastOrderNumber="";	
+		// String lastOrderNumber="";
 
 		if (orderDate.equals(now)) {
-			System.out.println("===================metodo de generate order");
-			if(order!=null) {
+			if (order != null) {
 				String lastOrderNumber = order.getOrderNumber().split(" ")[0]; // Pega a parte numérica
 				nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
-			}else {
-				nextOrderNumber =+ 1;
+			} else {
+				nextOrderNumber = +1;
 			}
-	
+
 		} else {
 			// Se a data for diferente, reseta para 0000
 			nextOrderNumber = 0;
 		}
-		
-		System.out.println("===================");
 
 		// Gera o número de pedido no formato "0000" + Nome do Cliente
 		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
 		return formattedOrderNumber + " " + customerName;
 	}
-	
-	
 
 	// Getters and Setters
 
@@ -127,7 +142,8 @@ public class Order {
 	}
 
 	public ZonedDateTime getCompletedTime() {
-		return completedTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
+		// return completedTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
+		return completedTime;
 	}
 
 	public void setCompletedTime(ZonedDateTime completedTime) {
@@ -165,8 +181,5 @@ public class Order {
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
-
-
-
 
 }
