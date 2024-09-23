@@ -9,7 +9,7 @@ import br.com.fiap.ez.fastfood.adapters.out.repository.JpaOrderRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.OrderRepositoryImpl;
 import br.com.fiap.ez.fastfood.adapters.out.repository.JpaPaymentRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.PaymentRepositoryImpl;
-import br.com.fiap.ez.fastfood.adapters.out.repository.ProductJpaRepository;
+import br.com.fiap.ez.fastfood.adapters.out.repository.JpaProductRepository;
 import br.com.fiap.ez.fastfood.adapters.out.repository.ProductRepositoryImpl;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
@@ -25,7 +25,7 @@ public class RepositoryConfiguration {
     }
 	
 	@Bean
-	public ProductRepository productRepository(ProductJpaRepository productJpaRepository) {
+	public ProductRepository productRepository(JpaProductRepository productJpaRepository) {
 		return new ProductRepositoryImpl(productJpaRepository);
 	}
 
