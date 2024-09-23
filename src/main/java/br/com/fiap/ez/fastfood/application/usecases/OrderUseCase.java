@@ -100,5 +100,12 @@ public class OrderUseCase {
 		List<Order> orders = orderRepository.findAll();
 		return orders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
 	}
+	
+	public List<OrderResponseDTO> listUncompletedOrders() {
+		List<Order> uncompletedOrders = orderRepository.listUnCompletedOrders();
+		return uncompletedOrders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
+	}
+	
+	
 
 }

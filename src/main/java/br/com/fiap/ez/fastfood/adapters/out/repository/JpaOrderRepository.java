@@ -18,6 +18,11 @@ public interface JpaOrderRepository  extends JpaRepository<OrderEntity, Long> {
 	@Query(nativeQuery = true, value = "SELECT * FROM ez_fastfood.order WHERE DATE(order_time) = CURRENT_DATE ORDER BY order_time DESC LIMIT 1")
 	OrderEntity  findLastOrder();
 	
+	@Query(nativeQuery = true, value = "SELECT * FROM EZ_FASTFOOD.ORDER WHERE ORDER_STATUS IN ('RECEIVED', 'IN_PREPARATION', 'READY') ORDER BY CASE WHEN ORDER_STATUS = 'READY' THEN 1 WHEN ORDER_STATUS = 'IN_PREPARATION' THEN 2 WHEN ORDER_STATUS = 'RECEIVED' THEN 3 END, ORDER_TIME;")
+	List<OrderEntity> listUncompletedOrders();
+	
+	
+	
 
 	
 }

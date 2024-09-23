@@ -60,9 +60,20 @@ public class OrderController {
 		}
 
 	}
+	
+	@Operation(summary = "List orders with status 'READY', 'IN_PREPARATION', 'RECEIVED' considering order time")
+
+	@GetMapping(path = "/list-uncompleted-orders", produces = "application/json")
+	public ResponseEntity<?> listUnCompletedOrders() {
+		try {
+			return new ResponseEntity<>(orderUseCase.listUncompletedOrders(), HttpStatus.OK);
+		} catch (BusinessException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+
+	}
 
 	@Operation(summary = "List unfinished orders")
-
 	@GetMapping(path = "/list-orders-in-queue", produces = "application/json")
 	public ResponseEntity<?> listUnfinishedOrders() {
 		try {
