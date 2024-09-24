@@ -38,3 +38,4 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: tchfer/ez-fast-food-clean:latest
+              tchfer/ez-fast-food-clean:${{ env.PROJECT_VERSION }}
