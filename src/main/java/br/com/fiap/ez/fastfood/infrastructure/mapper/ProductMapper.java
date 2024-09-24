@@ -19,6 +19,13 @@ public class ProductMapper {
         ProductResponseDTO dto = new ProductResponseDTO();
         dto.setId(product.getId());
         dto.setName(product.getName());
+        if(product.getCategory()!=null) {
+        	dto.setCategoryName(product.getCategory().getName());
+        	System.out.println("category: "+ product.getCategory().getId());
+        }else {
+        	System.out.println("entrei no else");
+        }
+        
         dto.setDescription(product.getDescription());
         dto.setPrice(product.getPrice());
         return dto;

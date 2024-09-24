@@ -59,5 +59,10 @@ public class ProductUseCase {
             throw new EntityNotFoundException("Produto não encontrado com id " + id);
         }
     }
+    
+    public List<ProductResponseDTO> findProductByCategoryId(Long id){
+    	List <Product> products =  productRepository.findProductByCategoryId(id);
+    	return products.stream().map(ProductMapper::domainToResponseDto).collect(Collectors.toList());
+    }
 
 }

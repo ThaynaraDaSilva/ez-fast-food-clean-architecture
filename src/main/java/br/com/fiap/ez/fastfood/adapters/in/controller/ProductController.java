@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,13 @@ import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
 import br.com.fiap.ez.fastfood.application.usecases.ProductUseCase;
 import br.com.fiap.ez.fastfood.domain.model.Product;
+import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/products")
@@ -78,5 +81,16 @@ public class ProductController {
 	public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
         ProductResponseDTO productResponseDTO = productUseCase.findById(id);
         return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
+    }
+	
+	@Operation(summary = "Find Product by Category Id")
+	@GetMapping("/find-by-category-id/{id}")
+	public ResponseEntity<?> getProductByCategoryId(@PathVariable Long id) {
+        try {
+        	return new ResponseEntity<>(productUseCase.findProductByCategoryId(id), HttpStatus.OK);
+        }catch (BusinessException e){
+        	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        
     }
 }

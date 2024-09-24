@@ -16,6 +16,9 @@ public class ProductResponseDTO {
 
     @JsonProperty("descrição")
     private String description;
+    
+    @JsonProperty("nomeCategoria")
+    private String categoryName;
 
     @Min(value = 0, message = "Preço deve ser positivo")
     @JsonProperty("preço")
@@ -65,4 +68,12 @@ public class ProductResponseDTO {
 		this.price = price;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
 }
