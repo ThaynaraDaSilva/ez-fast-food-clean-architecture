@@ -21,9 +21,7 @@ public class ProductMapper {
         dto.setName(product.getName());
         if(product.getCategory()!=null) {
         	dto.setCategoryName(product.getCategory().getName());
-        	System.out.println("category: "+ product.getCategory().getId());
-        }else {
-        	System.out.println("entrei no else");
+        	System.out.println("entrei no if");
         }
         
         dto.setDescription(product.getDescription());
@@ -33,23 +31,26 @@ public class ProductMapper {
 
     // Convert from Persistence Entity to Domain Model
     public static Product entityToDomain(ProductEntity entity) {
-        return new Product(
-                entity.getId(),
-                entity.getName(),
-                entity.getDescription(),
-                entity.getPrice(),
-                null // Adjust category mapping if needed
-        );
+    	Product product = new Product();
+     
+                product.setId(entity.getId());
+                product.setName(entity.getName());
+                product.setDescription(entity.getDescription());
+                product.setPrice(entity.getPrice());
+                product.setCategory(CategoryMapper.entityToDomain(entity.getCategory()));
+                                
+                return product;
+        
     }
 
     // Convert from Domain Model to Persistence Entity
     public static ProductEntity domainToEntity(Product product) {
         ProductEntity entity = new ProductEntity();
-        entity.setId(product.getId()); // Ensure the ID is set if the domain object has it
+        entity.setId(product.getId()); 
         entity.setName(product.getName());
         entity.setDescription(product.getDescription());
         entity.setPrice(product.getPrice());
-        // Handle category mapping here if needed
+       
         return entity;
     }
 
