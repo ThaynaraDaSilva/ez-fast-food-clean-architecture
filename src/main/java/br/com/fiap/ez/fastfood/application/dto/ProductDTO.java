@@ -8,21 +8,25 @@ import jakarta.validation.constraints.NotBlank;
 public class ProductDTO {
 
     @NotBlank(message = "Nome do produto é obrigatório")
-    @JsonProperty("nome")
+    @JsonProperty("name")
     private String name;
+    
+    @JsonProperty("category_id")
+    private Long categoryId;
 
-    @JsonProperty("descrição")
+    @JsonProperty("description")
     private String description;
 
     @Min(value = 0, message = "Preço deve ser positivo")
-    @JsonProperty("preço")
+    @JsonProperty("price")
     private Double price;
 
-	public ProductDTO(@NotBlank(message = "Nome do produto é obrigatório") String name, String description,
+	public ProductDTO(@NotBlank(message = "Nome do produto é obrigatório") String name, String description,Long categoryId,
 			@Min(value = 0, message = "Preço deve ser positivo") Double price) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.categoryId = categoryId;
 		this.price = price;
 	}
 
@@ -52,5 +56,14 @@ public class ProductDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
 
 }

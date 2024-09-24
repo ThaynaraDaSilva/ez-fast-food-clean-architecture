@@ -16,10 +16,25 @@ public class ProductResponseDTO {
 
     @JsonProperty("descrição")
     private String description;
+    
+    @JsonProperty("nome_categoria")
+    private String categoryName;
 
     @Min(value = 0, message = "Preço deve ser positivo")
     @JsonProperty("preço")
     private Double price;
+    
+    
+
+	public ProductResponseDTO(Long id, @NotBlank(message = "Nome do produto é obrigatório") String name, String description,String categoryName,
+			@Min(value = 0, message = "Preço deve ser positivo") Double price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.categoryName = categoryName;
+		this.price = price;
+	}
 
 	public ProductResponseDTO(Long id, @NotBlank(message = "Nome do produto é obrigatório") String name, String description,
 			@Min(value = 0, message = "Preço deve ser positivo") Double price) {
@@ -29,7 +44,6 @@ public class ProductResponseDTO {
 		this.description = description;
 		this.price = price;
 	}
-
 	public ProductResponseDTO() {
     }
 	
@@ -65,4 +79,12 @@ public class ProductResponseDTO {
 		this.price = price;
 	}
 
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	
 }

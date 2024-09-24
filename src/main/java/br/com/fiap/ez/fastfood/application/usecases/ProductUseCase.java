@@ -5,21 +5,33 @@ import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
+import br.com.fiap.ez.fastfood.domain.model.Category;
 import br.com.fiap.ez.fastfood.domain.model.Product;
+import br.com.fiap.ez.fastfood.domain.repository.CategoryRepository;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
+import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.ProductMapper;
 import jakarta.persistence.EntityNotFoundException;
 
 public class ProductUseCase {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductUseCase(ProductRepository productRepository) {
+    public ProductUseCase(ProductRepository productRepository,CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository  = categoryRepository;
     }
 
     public ProductResponseDTO save(ProductDTO productDTO) {
+    	
         Product product = ProductMapper.toDomain(productDTO);
+        Category category = categoryRepository.findById(productDTO.getCategoryId());
+        if(category !=null) {
+        	product.setCategory(category);
+        }else {
+        	throw new BusinessException("Categoria não existe");
+        }
         product = productRepository.save(product);
         return ProductMapper.domainToResponseDto(product);
     }
@@ -31,11 +43,18 @@ public class ProductUseCase {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
+        Category category = categoryRepository.findById(productDTO.getCategoryId());
+        if(category !=null) {
+        	product.setCategory(category);
+        }else {
+        	throw new BusinessException("Categoria não existe");
+        }
+        product.setCategory(category);
 
         Product updatedProduct = productRepository.save(product);
 
         return new ProductResponseDTO(updatedProduct.getId(), updatedProduct.getName(),
-                updatedProduct.getDescription(), updatedProduct.getPrice());
+                updatedProduct.getDescription(), updatedProduct.getCategory().getName(), updatedProduct.getPrice());
     }
 
 
@@ -58,6 +77,11 @@ public class ProductUseCase {
         } else {
             throw new EntityNotFoundException("Produto não encontrado com id " + id);
         }
+    }
+    
+    public List<ProductResponseDTO> findProductByCategoryId(Long id){
+    	List <Product> products =  productRepository.findProductByCategoryId(id);
+    	return products.stream().map(ProductMapper::domainToResponseDto).collect(Collectors.toList());
     }
 
 }

@@ -7,15 +7,17 @@ import java.util.stream.Collectors;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
+import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.ProductEntity;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
+import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.ProductMapper;
 
 public class ProductRepositoryImpl implements ProductRepository {
 
-	private final ProductJpaRepository productJpaRepository;
+	private final JpaProductRepository productJpaRepository;
 
-	public ProductRepositoryImpl(ProductJpaRepository productJpaRepository) {
+	public ProductRepositoryImpl(JpaProductRepository productJpaRepository) {
 		this.productJpaRepository = productJpaRepository;
 	}
 
@@ -44,7 +46,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Override
 	public Optional<Product> findById(Long id) {
 		return productJpaRepository.findById(id).map(ProductMapper::entityToDomain);
-	
+
 	}
 
 	@Override
@@ -67,4 +69,11 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return ProductMapper.entityToDomain(productJpaRepository.findProductById(id));
 
 	}
+
+	@Override
+	public List<Product> findProductByCategoryId(Long id) {
+		return productJpaRepository.findProductByCategoryId(id).stream().map(ProductMapper::entityToDomain)
+				.collect(Collectors.toList());
+	}
+
 }
