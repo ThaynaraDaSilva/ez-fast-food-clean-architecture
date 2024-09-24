@@ -1,17 +1,15 @@
 package br.com.fiap.ez.fastfood.adapters.out.repository;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.fiap.ez.fastfood.domain.model.Customer;
+
 import br.com.fiap.ez.fastfood.domain.model.Order;
-import br.com.fiap.ez.fastfood.domain.model.OrderItem;
 import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
-import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
-import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderItemEntity;
+
 
 
 public class OrderRepositoryImpl implements OrderRepository {
@@ -63,6 +61,14 @@ public class OrderRepositoryImpl implements OrderRepository {
 			return null;
 		}
         return OrderMapper.entityToDomain(entity);
+	}
+
+
+	@Override
+	public List<Order> listUnCompletedOrders() {
+		return jpaOrderRepository.listUncompletedOrders().stream()
+                .map(OrderMapper::entityToDomain)
+                .collect(Collectors.toList());
 	}
 
 
