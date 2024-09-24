@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.application.dto.ProductDTO;
 import br.com.fiap.ez.fastfood.application.dto.ProductResponseDTO;
+import br.com.fiap.ez.fastfood.domain.model.Category;
 import br.com.fiap.ez.fastfood.domain.model.Product;
+import br.com.fiap.ez.fastfood.domain.repository.CategoryRepository;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.ProductMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,13 +15,21 @@ import jakarta.persistence.EntityNotFoundException;
 public class ProductUseCase {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductUseCase(ProductRepository productRepository) {
+    public ProductUseCase(ProductRepository productRepository,CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
+        this.categoryRepository  = categoryRepository;
     }
 
     public ProductResponseDTO save(ProductDTO productDTO) {
+    	
         Product product = ProductMapper.toDomain(productDTO);
+        Category category = categoryRepository.findById(productDTO.getCategoryId());
+        if(category !=null) {
+        	System.out.println("ENTREI NO IF DE PRODUCT CASE. VALOR DO CATEGORY: " + category.getName());
+        	product.setCategory(category);
+        }
         product = productRepository.save(product);
         return ProductMapper.domainToResponseDto(product);
     }
@@ -31,6 +41,11 @@ public class ProductUseCase {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
+        Category category = categoryRepository.findById(productDTO.getCategoryId());
+        if(category !=null) {
+        	System.out.println("ENTREI NO IF DE PRODUCT CASE. VALOR DO CATEGORY: " + category.getName());
+        }
+        product.setCategory(category);
 
         Product updatedProduct = productRepository.save(product);
 

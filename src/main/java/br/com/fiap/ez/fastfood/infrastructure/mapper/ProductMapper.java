@@ -50,6 +50,7 @@ public class ProductMapper {
         entity.setName(product.getName());
         entity.setDescription(product.getDescription());
         entity.setPrice(product.getPrice());
+        entity.setCategory(CategoryMapper.domainToEntity(product.getCategory()));
        
         return entity;
     }

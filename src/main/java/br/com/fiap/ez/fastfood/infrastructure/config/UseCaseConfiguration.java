@@ -7,6 +7,7 @@ import br.com.fiap.ez.fastfood.application.usecases.CustomerUseCase;
 import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
 import br.com.fiap.ez.fastfood.application.usecases.PaymentUseCase;
 import br.com.fiap.ez.fastfood.application.usecases.ProductUseCase;
+import br.com.fiap.ez.fastfood.domain.repository.CategoryRepository;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
 import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
@@ -21,8 +22,8 @@ public class UseCaseConfiguration {
 	}
 
 	@Bean
-	public ProductUseCase productUseCase(ProductRepository productRepository) {
-		return new ProductUseCase(productRepository);
+	public ProductUseCase productUseCase(ProductRepository productRepository,CategoryRepository categoryRepository) {
+		return new ProductUseCase(productRepository,categoryRepository);
 	}
 
 	@Bean
