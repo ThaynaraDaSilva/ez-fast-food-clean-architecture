@@ -10,6 +10,7 @@ import br.com.fiap.ez.fastfood.domain.model.Payment;
 import br.com.fiap.ez.fastfood.domain.model.PaymentStatus;
 import br.com.fiap.ez.fastfood.domain.repository.OrderRepository;
 import br.com.fiap.ez.fastfood.domain.repository.PaymentRepository;
+import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.PaymentMapper;
 
 public class PaymentUseCase {
@@ -55,5 +56,16 @@ public class PaymentUseCase {
 		
 		return PaymentMapper.domainToResponseDto(payment);
 
+	}
+	
+	public PaymentDTO checkPaymentStatus(Long paymentId) {
+		Payment payment = paymentRepository.findPaymentById(paymentId);
+		if(payment !=null) {
+			return PaymentMapper.domainToResponseDto(payment);
+		}else {
+			throw new BusinessException("Não existe pagamento com este id");
+		}
+		
+		
 	}
 }
