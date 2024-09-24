@@ -9,6 +9,7 @@ import br.com.fiap.ez.fastfood.domain.model.Category;
 import br.com.fiap.ez.fastfood.domain.model.Product;
 import br.com.fiap.ez.fastfood.domain.repository.CategoryRepository;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
+import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.ProductMapper;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -27,8 +28,9 @@ public class ProductUseCase {
         Product product = ProductMapper.toDomain(productDTO);
         Category category = categoryRepository.findById(productDTO.getCategoryId());
         if(category !=null) {
-        	System.out.println("ENTREI NO IF DE PRODUCT CASE. VALOR DO CATEGORY: " + category.getName());
         	product.setCategory(category);
+        }else {
+        	throw new BusinessException("Categoria não existe");
         }
         product = productRepository.save(product);
         return ProductMapper.domainToResponseDto(product);
@@ -43,14 +45,16 @@ public class ProductUseCase {
         product.setPrice(productDTO.getPrice());
         Category category = categoryRepository.findById(productDTO.getCategoryId());
         if(category !=null) {
-        	System.out.println("ENTREI NO IF DE PRODUCT CASE. VALOR DO CATEGORY: " + category.getName());
+        	product.setCategory(category);
+        }else {
+        	throw new BusinessException("Categoria não existe");
         }
         product.setCategory(category);
 
         Product updatedProduct = productRepository.save(product);
 
         return new ProductResponseDTO(updatedProduct.getId(), updatedProduct.getName(),
-                updatedProduct.getDescription(), updatedProduct.getPrice());
+                updatedProduct.getDescription(), updatedProduct.getCategory().getName(), updatedProduct.getPrice());
     }
 
 
