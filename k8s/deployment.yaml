@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ez-fast-food-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ez-fast-food
+  template:
+    metadata:
+      labels:
+        app: ez-fast-food
+    spec:
+      containers:
+      - name: ez-fast-food-container
+        image: tchfer/ez-fast-food-clean:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "200Mi"
+          limits:
+            cpu: "500m"
+            memory: "500Mi"
