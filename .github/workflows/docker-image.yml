@@ -38,3 +38,17 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: tchfer/ez-fast-food-clean:latest
+              tchfer/ez-fast-food-clean:${{ env.PROJECT_VERSION }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set Kubernetes context
+      run: kubectl config set-context --current --namespace=default
+
+    - name: Apply Kubernetes manifests
+      run: kubectl apply -f k8s/
