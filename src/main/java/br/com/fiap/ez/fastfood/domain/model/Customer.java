@@ -13,7 +13,7 @@ public class Customer {
 		super();
 	}
 
-	// Constructor for creating a new Customer (ID not required for new creation)
+
     public Customer(String name, String email, String cpf) {
         this.name = name;
         this.email = email;
@@ -21,17 +21,15 @@ public class Customer {
     }
 
 
-    // Business logic method: Validation inside the domain entity
+
     public boolean isValid() {
         return cpf != null && !cpf.isEmpty() && email != null && email.contains("@");
     }
 
-    // Example of business logic related to CPF format
     public boolean hasValidCpfFormat() {
         return cpf.matches("^[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}$");
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

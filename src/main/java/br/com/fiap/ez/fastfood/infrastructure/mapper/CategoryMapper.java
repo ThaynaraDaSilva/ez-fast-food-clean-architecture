@@ -5,7 +5,7 @@ import br.com.fiap.ez.fastfood.infrastructure.persistence.CategoryEntity;
 
 public class CategoryMapper {
 
-    // Convert CategoryEntity (Persistence) to Category (Domain)
+
     public static Category entityToDomain(CategoryEntity categoryEntity) {
         return new Category(
             categoryEntity.getId(),
@@ -13,7 +13,7 @@ public class CategoryMapper {
         );
     }
 
-    // Convert Category (Domain) to CategoryEntity (Persistence)
+
     public static CategoryEntity domainToEntity(Category category) {
         CategoryEntity entity = new CategoryEntity();
         entity.setId(category.getId());

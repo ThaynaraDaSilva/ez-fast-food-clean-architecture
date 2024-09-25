@@ -11,17 +11,17 @@ public class ProductResponseDTO {
 	private Long id;
 
     @NotBlank(message = "Nome do produto é obrigatório")
-    @JsonProperty("nome")
+    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("descrição")
+    @JsonProperty("description")
     private String description;
     
-    @JsonProperty("nome_categoria")
+    @JsonProperty("category_name")
     private String categoryName;
 
     @Min(value = 0, message = "Preço deve ser positivo")
-    @JsonProperty("preço")
+    @JsonProperty("price")
     private Double price;
     
     

@@ -11,8 +11,8 @@ public class OrderItemMapper {
 	public static OrderItem entityToDomain(OrderItemEntity entity) {
         return new OrderItem(
         	null,
-        	//OrderMapper.entityToDomain(entity.getOrder()),
-            ProductMapper.entityToDomain(entity.getProduct()), // Ensure this handles null
+
+            ProductMapper.entityToDomain(entity.getProduct()), 
             entity.getQuantity(),
             entity.getPrice()
         );
@@ -20,14 +20,14 @@ public class OrderItemMapper {
 
     public static OrderItemEntity domainToEntity(OrderItem orderItem) {
         OrderItemEntity entity = new OrderItemEntity();
-        entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); // Ensure this handles null
+        entity.setProduct(ProductMapper.domainToEntity(orderItem.getProduct())); 
         entity.setQuantity(orderItem.getQuantity());
         entity.setPrice(orderItem.getPrice());
-        //entity.setOrder(OrderMapper.domainToEntity(orderItem.getOrder()));
+        
         return entity;
     }
 
-    // New methods for handling lists
+   
     public static List<OrderItem> entityToDomain(List<OrderItemEntity> entities) {
         return entities.stream()
                 .map(OrderItemMapper::entityToDomain)

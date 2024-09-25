@@ -63,7 +63,7 @@ public class OrderEntity {
 
 	public void addOrderItem(OrderItemEntity orderItem) {
 		orderItems.add(orderItem);
-		orderItem.setOrder(this); // Ensure bidirectional relationship
+		orderItem.setOrder(this); 
 	}
 
 	public Long getId() {

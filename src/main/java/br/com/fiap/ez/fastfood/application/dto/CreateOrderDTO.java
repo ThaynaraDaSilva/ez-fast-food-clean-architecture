@@ -12,7 +12,6 @@ public class CreateOrderDTO {
 	@JsonProperty("customer_name")
 	private String customerName;
 
-	//@JsonInclude(JsonInclude.Include.NON_NULL)
 	@JsonProperty("customer_cpf")
 	@Schema(description = "Customer CPF (optional)", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
 	private String customerCpf = "";

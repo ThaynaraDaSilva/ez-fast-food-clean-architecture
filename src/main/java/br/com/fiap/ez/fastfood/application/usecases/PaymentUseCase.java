@@ -50,10 +50,12 @@ public class PaymentUseCase {
 		//order
 	    if(PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()) == PaymentStatus.OK) {
 	    	order.setStatus(OrderStatus.RECEIVED);
-	    	order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-	    	orderRepository.save(order);
+	    }else {
+	    	order.setStatus(OrderStatus.CANCELLED); 	
 	    }
-		
+	    order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+	    orderRepository.save(order);
+	    
 		return PaymentMapper.domainToResponseDto(payment);
 
 	}

@@ -11,10 +11,6 @@ public class OrderItemDTO {
 	@JsonProperty("quantity")
 	private Integer quantity;
 
-	/*
-	 * @JsonProperty("price") private Double price;
-	 */
-
 
 	public OrderItemDTO() {
 		super();

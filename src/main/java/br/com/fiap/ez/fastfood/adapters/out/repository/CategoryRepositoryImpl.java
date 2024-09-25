@@ -17,8 +17,6 @@ public class CategoryRepositoryImpl  implements CategoryRepository{
 		this.jpaCategoryRepository = jpaCategoryRepository;
 	}
 
-
-
 	@Override
 	public Category findById(Long id) {
 		CategoryEntity entity = jpaCategoryRepository.findCategoryById(id);
