@@ -49,7 +49,7 @@ public class OrderMapper {
 	    entity.setCustomerName(order.getCustomerName());
 	    entity.setCustomer(CustomerMapper.domainToEntity(order.getCustomer()));
 
-	    // Map and set order items
+	    
 	    List<OrderItemEntity> orderItemEntities = order.getOrderItems().stream()
 	            .map(OrderItemMapper::domainToEntity)
 	            .collect(Collectors.toList());

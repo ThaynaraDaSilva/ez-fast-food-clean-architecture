@@ -77,5 +77,10 @@ VALUES
 ('BATATA FRITA', 'FRITAS ONDULADAS','11.90',3),
 ('PETIT GATEAU', 'TIRA GOSTO','7.00',4);
 
-
+/*
+CODIGO PARA QUANDO ENUM EH ALTERADO
+ALTER TABLE ez_fastfood.order DROP CONSTRAINT order_order_status_check;
+ALTER TABLE ez_fastfood.order ADD CONSTRAINT order_order_status_check 
+CHECK (order_status IN ('WAITING_PAYMENT', 'CANCELLED', 'RECEIVED', 'IN_PREPARATION', 'READY', 'COMPLETED'));
+*/
 

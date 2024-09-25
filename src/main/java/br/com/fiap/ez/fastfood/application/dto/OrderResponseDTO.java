@@ -35,7 +35,6 @@ public class OrderResponseDTO {
 	@JsonProperty("order_time")
 	private ZonedDateTime  orderTime;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	@JsonProperty("completed_time")
 	private ZonedDateTime completedTime=null;
 	

@@ -34,7 +34,6 @@ public class OrderUseCase {
 	}
 
 	public OrderResponseDTO registerOrder(CreateOrderDTO createOrderDTO) {
-		// Create Order entity from DTO
 		Order saveOrder = new Order();
 		Customer customer = customerRepository.findByCpf(createOrderDTO.getCustomerCpf());
 
@@ -68,10 +67,10 @@ public class OrderUseCase {
 
 		Order savedOrder = orderRepository.save(saveOrder);
 
-		// Register payment for the order
+		
 		paymentUseCase.registerPayment(savedOrder);
 
-		// Map order to response DTO using OrderMapper
+		
 		return OrderMapper.domainToResponseDTO(savedOrder);
 	}
 

@@ -19,7 +19,6 @@ public class Order {
 	private List<OrderItem> orderItems;
 
 	public Order() {
-		// Default constructor
 	}
 
 	public Order(Long id, String orderNumber, Customer customer, ZonedDateTime orderTime, ZonedDateTime completedTime,
@@ -43,28 +42,18 @@ public class Order {
 		return total;
 	}
 
-	/*
-	 * public String calculateOrderWaitedTime(ZonedDateTime orderTime, ZonedDateTime
-	 * orderCompletedTime) {
-	 * 
-	 * ZonedDateTime time =
-	 * orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")); ZonedDateTime
-	 * now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")); Duration duration =
-	 * Duration.between(time, now); long hours = duration.toHours(); long minutes =
-	 * duration.toMinutes() % 60; return String.format("%02dh%02d", hours, minutes);
-	 * }
-	 */
+
 
 	public String calculateOrderWaitedTime(ZonedDateTime orderTime, ZonedDateTime orderCompletedTime) {
 
-		// order time
+	
 		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 
 		Duration duration;
 		if (orderCompletedTime != null) {
 			duration = Duration.between(time, orderCompletedTime);
 		} else {
-			// now time when theres no completed time 
+			
 			ZonedDateTime now =	ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
 			duration = Duration.between(time, now);
 

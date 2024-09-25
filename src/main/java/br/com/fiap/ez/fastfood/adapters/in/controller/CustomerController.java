@@ -30,7 +30,6 @@ import java.util.ArrayList;
 @Tag(name = "Customer Operations", description = "Operations related to customers")
 public class CustomerController {
 
-	//private final CustomerService customerService;
 	private final CustomerUseCase customerUseCase;
 
 	
