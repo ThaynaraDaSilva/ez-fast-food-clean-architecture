@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ez-fast-food-container
-        image: tch/ez-fast-food-clean:latest
+        image: tchfer/ez-fast-food-clean:latest
         ports:
         - containerPort: 8080
         resources:
