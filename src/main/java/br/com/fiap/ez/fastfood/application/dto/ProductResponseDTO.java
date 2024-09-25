@@ -17,7 +17,7 @@ public class ProductResponseDTO {
     @JsonProperty("description")
     private String description;
     
-    @JsonProperty("category_nme")
+    @JsonProperty("category_name")
     private String categoryName;
 
     @Min(value = 0, message = "Preço deve ser positivo")
