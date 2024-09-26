@@ -4,7 +4,7 @@ metadata:
   name: ez-fast-food-deployment
   namespace: ez-fast-food
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ez-fast-food
@@ -25,3 +25,7 @@ spec:
           limits:
             cpu: "500m"
             memory: "500Mi"
+        # Aqui você adiciona a referência ao ConfigMap
+        envFrom:
+        - configMapRef:
+            name: ez-fast-food-config  # O nome do ConfigMap que você criou
