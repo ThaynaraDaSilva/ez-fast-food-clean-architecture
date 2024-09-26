@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ez-fast-food-db-deployment
+  namespace: ez-fast-food
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: ez-fast-food-config
+        volumeMounts:
+        - name: db-init-script
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: db-init-script
+        configMap:
+          name: ez-fast-food-sql-configmap

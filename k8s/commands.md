@@ -59,12 +59,21 @@ kubectl delete service ez-fast-food-service -n ez-fast-food
 
 
 //LOGS
-kubectl logs <nome-do-pod> -n ez-fast-food
+kubectl logs ez-fast-food-deployment-696c587d5d-bjfff -n ez-fast-food
 
 
 
 //
 kubectl get configmap -n ez-fast-food
+kubectl apply -f app-config.yaml
+kubectl apply -f db-config.yaml
+
+
+
+//banco de dados
+kubectl apply -f postgres-pvc.yaml
+kubectl apply -f postgres-deployment.yaml
+kubectl apply -f postgres-service.yaml
 
 
 
@@ -72,9 +81,90 @@ kubectl get configmap -n ez-fast-food
 ´´´kubectl top pod´´´
 ´´´kubectl get deployment metrics-server -n kube-system´´´
 ´´´kubectl version --client´´´
-´´´kubectl version --client´´´
-´´´kubectl version --client´´´
-´´´kubectl version --client´´´
+
+
+## RECRIAÇÃO DO AMBIENTE
+### Excluir configmaps
+kubectl delete configmap ez-fast-food-config -n ez-fast-food
+kubectl delete configmap ez-fast-food-sql-configmap -n ez-fast-food
+
+### Excluir pods
+kubectl delete pods --all -n ez-fast-food 
+
+//kubectl delete pod <nome-do-pod> -n ez-fast-food
+
+### Excluir deployment (app e bd)
+kubectl delete deployment ez-fast-food-deployment -n ez-fast-food
+kubectl delete deployment postgres-deployment -n ez-fast-food
+
+### Excluir service (app e bd)
+kubectl delete service ez-fast-food-service -n ez-fast-food
+kubectl delete service postgres-service -n ez-fast-food
+
+### Criar configmaps (app e bd)
+kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
+kubectl create configmap ez-fast-food-sql-configmap --from-file=./src/main/resources/database.sql -n ez-fast-food
+
+### Criar deployment (app e bd)
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/postgres-deployment.yaml
+
+### Criar service (app e bd)
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/postgres-service.yaml
+
+
+### list
+
+kubectl get pods -n ez-fast-food
+
+kubectl get configmap -n ez-fast-food
+
+kubectl describe configmap ez-fast-food-sql-configmap -n ez-fast-food
+
+
+### logs
+kubectl logs <nome-pod> -n ez-fast-food
+
+kubectl logs <nome-pod> -n ez-fast-food
+
+
+
+
+kubectl delete configmap ez-fast-food-config -n ez-fast-food
+kubectl delete configmap ez-fast-food-sql-configmap -n ez-fast-food
+
+
+kubectl delete pods --all -n ez-fast-food 
+
+
+kubectl delete deployment ez-fast-food-deployment -n ez-fast-food
+kubectl delete deployment postgres-deployment -n ez-fast-food
+
+
+kubectl delete service ez-fast-food-service -n ez-fast-food
+kubectl delete service postgres-service -n ez-fast-food
+
+
+kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
+kubectl create configmap ez-fast-food-sql-configmap --from-file=./src/main/resources/database.sql -n ez-fast-food
+
+
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/postgres-deployment.yaml
+
+### Criar service (app e bd)
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/postgres-service.yaml
+
+
+
+
+
+
+
+
+
 
 
 	

@@ -18,14 +18,6 @@ spec:
         image: tchfer/ez-fast-food-clean:latest
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "200Mi"
-          limits:
-            cpu: "500m"
-            memory: "500Mi"
-        # Aqui você adiciona a referência ao ConfigMap
         envFrom:
         - configMapRef:
-            name: ez-fast-food-config  # O nome do ConfigMap que você criou
+            name: ez-fast-food-config
