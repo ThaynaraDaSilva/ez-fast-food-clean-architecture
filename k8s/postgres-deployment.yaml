@@ -20,11 +20,11 @@ spec:
         - containerPort: 5432
         envFrom:
         - configMapRef:
-            name: ez-fast-food-config
+            name: ez-fast-food-configmap-app  # This references your .env config map
         volumeMounts:
         - name: db-init-script
           mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: db-init-script
         configMap:
-          name: ez-fast-food-sql-configmap
+          name: ez-fast-food-configmap-sql   # This references your database.sql config map

@@ -20,4 +20,11 @@ spec:
         - containerPort: 8080
         envFrom:
         - configMapRef:
-            name: ez-fast-food-config
+            name: ez-fast-food-configmap-app   # Reference the created ConfigMap
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "200Mi"
+          limits:
+            cpu: "500m"
+            memory: "500Mi"

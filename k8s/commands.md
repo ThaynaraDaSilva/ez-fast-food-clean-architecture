@@ -45,12 +45,13 @@ kubectl scale deployment ez-fast-food-deployment --replicas=2 -n ez-fast-food
 
 
 //criacao de configmap do ENV dentro do cluster
-kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
-kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-app --from-env-file=.env -n ez-fast-food
+kubectl describe configmap ez-fast-food-configmap-app -n ez-fast-food
+
 
 // CONFIG MAP DO SCRIPT
-kubectl create configmap ez-fast-food-sql-configmap --from-file=./src/main/resources/database.sql -n ez-fast-food
-kubectl describe configmap ez-fast-food-sql-configmap -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food
+kubectl describe configmap ez-fast-food-configmap-sql -n ez-fast-food
 
 
 kubectl delete pods --all -n ez-fast-food
@@ -85,8 +86,8 @@ kubectl apply -f postgres-service.yaml
 
 ## RECRIAÇÃO DO AMBIENTE
 ### Excluir configmaps
-kubectl delete configmap ez-fast-food-config -n ez-fast-food
-kubectl delete configmap ez-fast-food-sql-configmap -n ez-fast-food
+kubectl delete configmap ez-fast-food-configmap-app -n ez-fast-food
+kubectl delete configmap ez-fast-food-configmap-sql -n ez-fast-food
 
 ### Excluir pods
 kubectl delete pods --all -n ez-fast-food 
@@ -102,8 +103,12 @@ kubectl delete service ez-fast-food-service -n ez-fast-food
 kubectl delete service postgres-service -n ez-fast-food
 
 ### Criar configmaps (app e bd)
-kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
-kubectl create configmap ez-fast-food-sql-configmap --from-file=./src/main/resources/database.sql -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-app --from-env-file=.env -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food
+
+kubectl apply -f k8s/configmap-app.yaml   # For application ConfigMap
+kubectl apply -f k8s/configmap-sql.yaml   # For SQL ConfigMap
+
 
 ### Criar deployment (app e bd)
 kubectl apply -f k8s/deployment.yaml
@@ -129,10 +134,13 @@ kubectl logs <nome-pod> -n ez-fast-food
 kubectl logs <nome-pod> -n ez-fast-food
 
 
+kubectl logs ez-fast-food-db-deployment-7d75757799-k4rw4 -n ez-fast-food
 
 
-kubectl delete configmap ez-fast-food-config -n ez-fast-food
-kubectl delete configmap ez-fast-food-sql-configmap -n ez-fast-food
+
+
+kubectl delete configmap ez-fast-food-configmap-app -n ez-fast-food
+kubectl delete configmap ez-fast-food-configmap-sql -n ez-fast-food
 
 
 kubectl delete pods --all -n ez-fast-food 
@@ -146,8 +154,8 @@ kubectl delete service ez-fast-food-service -n ez-fast-food
 kubectl delete service postgres-service -n ez-fast-food
 
 
-kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
-kubectl create configmap ez-fast-food-sql-configmap --from-file=./src/main/resources/database.sql -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-app --from-env-file=.env -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food
 
 
 kubectl apply -f k8s/deployment.yaml
@@ -157,6 +165,54 @@ kubectl apply -f k8s/postgres-deployment.yaml
 kubectl apply -f k8s/service.yaml
 kubectl apply -f k8s/postgres-service.yaml
 
+
+kubectl create configmap ez-fast-food-config --from-env-file=.env -n ez-fast-food
+kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food --dry-run=client -o yaml | kubectl apply -f -
+
+
+kubectl apply -f k8s/postgres-deployment.yaml
+
+
+
+
+# 28/09
+
+## BUILD AND PUSH IMAGE
+
+
+```
+kubectl create namespace ez-fast-food
+
+kubectl create configmap ez-fast-food-configmap-app --from-env-file=.env -n ez-fast-food
+
+kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food
+
+kubectl apply -f k8s/postgres-pvc.yaml -n ez-fast-food
+
+
+kubectl apply -f k8s/postgres-deployment.yaml -n ez-fast-food
+
+kubectl apply -f k8s/postgres-service.yaml -n ez-fast-food
+
+kubectl apply -f k8s/deployment.yaml
+
+kubectl apply -f k8s/service.yaml
+
+
+```
+
+kubectl logs ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food
+
+kubectl exec -it ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food -- env
+
+kubectl delete pod <pod-name> -n <namespace>
+
+kubectl delete pod ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food 
+
+
+kubectl logs ez-fast-food-deployment-6fbb55b686-kr76x -n ez-fast-food
+
+7ad5ecff33da
 
 
 
