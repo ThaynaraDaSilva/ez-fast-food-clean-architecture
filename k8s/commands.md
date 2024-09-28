@@ -134,7 +134,9 @@ kubectl logs <nome-pod> -n ez-fast-food
 kubectl logs <nome-pod> -n ez-fast-food
 
 
-kubectl logs ez-fast-food-db-deployment-7d75757799-k4rw4 -n ez-fast-food
+kubectl logs ez-fast-food-deployment-7d645fd448-2jpj5 -n ez-fast-food
+kubectl describe pod ez-fast-food-deployment-7d645fd448-2jpj5 -n ez-fast-food
+
 
 
 
@@ -179,13 +181,28 @@ kubectl apply -f k8s/postgres-deployment.yaml
 
 ## BUILD AND PUSH IMAGE
 
+```
+docker login -u dasilvathaynara
+
+dckr_pat_n05g7tVmcm_KkVPaOkGGjUBissM
+
+docker build -t dasilvathaynara/ez-fast-food-api:lastest .
+docker push dasilvathaynara/ez-fast-food-api:lastest
+
 
 ```
+
+```
+
+docker build -t your-dockerhub-username/your-app-name:tag .
 kubectl create namespace ez-fast-food
 
 kubectl create configmap ez-fast-food-configmap-app --from-env-file=.env -n ez-fast-food
 
 kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food
+
+kubectl apply -f k8s/ez-fast-food-configmap-app.yaml
+
 
 kubectl apply -f k8s/postgres-pvc.yaml -n ez-fast-food
 
@@ -197,6 +214,9 @@ kubectl apply -f k8s/postgres-service.yaml -n ez-fast-food
 kubectl apply -f k8s/deployment.yaml
 
 kubectl apply -f k8s/service.yaml
+
+
+
 
 
 ```
@@ -213,6 +233,8 @@ kubectl delete pod ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food
 kubectl logs ez-fast-food-deployment-6fbb55b686-kr76x -n ez-fast-food
 
 7ad5ecff33da
+
+kubectl get deployments -n ez-fast-food
 
 
 

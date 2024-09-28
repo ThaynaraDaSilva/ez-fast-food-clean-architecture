@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ez-fast-food-container
-        image: tchfer/ez-fast-food-clean:latest
+        image: 	  dasilvathaynara/ez-fast-food-api:lastest
         ports:
         - containerPort: 8080
         envFrom:
