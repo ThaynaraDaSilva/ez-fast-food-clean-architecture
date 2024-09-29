@@ -19,6 +19,9 @@ spec:
         imagePullPolicy: IfNotPresent # Add this line
         ports:
         - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: "-Xms512m -Xmx1024m -XX:+UseG1GC"  # Tuning JVM
         envFrom:
         - configMapRef:
             name: ez-fast-food-configmap-app   # Reference the created ConfigMap
