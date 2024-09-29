@@ -24,6 +24,13 @@ spec:
         volumeMounts:
         - name: db-init-script
           mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests:
+            cpu: "80m"
+            memory: "200Mi"
+          limits:
+            cpu: "150m"
+            memory: "280Mi"
       volumes:
       - name: db-init-script
         configMap:

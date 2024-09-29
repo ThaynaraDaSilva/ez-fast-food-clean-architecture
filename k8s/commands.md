@@ -184,7 +184,7 @@ kubectl apply -f k8s/postgres-deployment.yaml
 ```
 docker login -u dasilvathaynara
 
-dckr_pat_n05g7tVmcm_KkVPaOkGGjUBissM
+<secret>
 
 docker build -t dasilvathaynara/ez-fast-food-api:lastest .
 docker push dasilvathaynara/ez-fast-food-api:lastest
@@ -216,6 +216,35 @@ kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
 
 
+kubectl apply -f k8s/hpa.yaml
+
+
+
+kubectl top pod -n ez-fast-food
+
+
+kubectl apply -f k8s
+
+kubectl get pod -n ez-fast-food -o custom-columns='NAME:.metadata.name,CPU_REQUESTS:.spec.containers[*].resources.requests.cpu,CPU_LIMITS:.spec.containers[*].resources.limits.cpu,MEMORY_REQUESTS:.spec.containers[*].resources.requests.memory,MEMORY_LIMITS:.spec.containers[*].resources.limits.memory' && kubectl top pod -n ez-fast-food
+
+
+kubectl get hpa -n ez-fast-food
+kubectl get hpa -n <namespace>
+kubectl describe hpa <hpa-name> -n <namespace>
+
+kubectl describe hpa ez-fast-food-hpa -n ez-fast-food
+
+EXCUTAR VIA POWERSHELL
+while ($true) { kubectl get hpa -n ez-fast-food; Start-Sleep -Seconds 5 }
+
+
+kubectl get pods -n ez-fast-food -o custom-columns=POD:.metadata.name,CPU_REQUEST:.spec.containers[*].resources.requests.cpu,MEMORY_REQUEST:.spec.containers[*].resources.requests.memory,CPU_LIMIT:.spec.containers[*].resources.limits.cpu,MEMORY_LIMIT:.spec.containers[*].resources.limits.memory
+
+
+while ($true) { kubectl get pods -n ez-fast-food -o custom-columns=POD:.metadata.name,CPU_REQUEST:.spec.containers[*].resources.requests.cpu,MEMORY_REQUEST:.spec.containers[*].resources.requests.memory,CPU_LIMIT:.spec.containers[*].resources.limits.cpu,MEMORY_LIMIT:.spec.containers[*].resources.limits.memory; Start-Sleep -Seconds 2 }
+
+
+
 
 
 
@@ -230,13 +259,19 @@ kubectl delete pod <pod-name> -n <namespace>
 kubectl delete pod ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food 
 
 
-kubectl logs ez-fast-food-deployment-6fbb55b686-kr76x -n ez-fast-food
+kubectl logs ez-fast-food-deployment-7d645fd448-k2cmq -n ez-fast-food
+kubectl exec -it ez-fast-food-deployment-7d645fd448-k2cmq -- /bin/sh
+
 
 7ad5ecff33da
 
 kubectl get deployments -n ez-fast-food
 
+kubectl get pods -n ez-fast-food
 
+
+comando para obter a capacidade do node
+kubectl describe node docker-desktop 
 
 
 
