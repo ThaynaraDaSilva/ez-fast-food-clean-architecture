@@ -155,6 +155,8 @@ kubectl delete deployment postgres-deployment -n ez-fast-food
 kubectl delete service ez-fast-food-service -n ez-fast-food
 kubectl delete service postgres-service -n ez-fast-food
 
+kubectl delete hpa ez-fast-food-hpa -n ez-fast-food
+
 
 kubectl create configmap ez-fast-food-configmap-app --from-env-file=.env -n ez-fast-food
 kubectl create configmap ez-fast-food-configmap-sql --from-file=./src/main/resources/database.sql -n ez-fast-food
@@ -186,8 +188,8 @@ docker login -u dasilvathaynara
 
 <secret>
 
-docker build -t dasilvathaynara/ez-fast-food-api:lastest .
-docker push dasilvathaynara/ez-fast-food-api:lastest
+docker build -t dasilvathaynara/ez-fast-food-api:latest .
+docker push dasilvathaynara/ez-fast-food-api:latest
 
 
 ```
