@@ -149,7 +149,8 @@ kubectl delete pods --all -n ez-fast-food
 
 
 kubectl delete deployment ez-fast-food-deployment -n ez-fast-food
-kubectl delete deployment postgres-deployment -n ez-fast-food
+kubectl delete deployment ez-fast-food-db-deployment -n ez-fast-food
+
 
 
 kubectl delete service ez-fast-food-service -n ez-fast-food
