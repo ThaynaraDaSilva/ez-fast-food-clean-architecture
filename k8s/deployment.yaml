@@ -21,14 +21,14 @@ spec:
         - containerPort: 8080
         env:
         - name: JAVA_OPTS
-          value: "-Xms512m -Xmx1024m -XX:+UseG1GC"  # Tuning JVM
+          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  # Tuning JVM
         envFrom:
         - configMapRef:
             name: ez-fast-food-configmap-app   # Reference the created ConfigMap
         resources:
           requests:
-            cpu: "300m"
-            memory: "600Mi"
+            cpu: "250m" ## a solucao requer mais cpu no momento de inicializacao. Este e o minimo saudavél para que os containers subam sem erro.
+            memory: "150Mi"
           limits:
-            cpu: "660m"
-            memory: "1.2Gi"
+            cpu: "350m"
+            memory: "750Mi"
