@@ -28,14 +28,7 @@ spec:
         resources:
           requests:
             cpu: "300m"
-            memory: "280Mi"
+            memory: "600Mi"
           limits:
             cpu: "660m"
-            memory: "800Mi"
-        livenessProbe:                         # Adding a liveness probe
-            httpGet:
-                path: /actuator/health              # The path to check the health (assuming you're using Spring Boot with Actuator)
-                port: 8080                          # The port to check the health on
-            initialDelaySeconds: 60               # Wait 60 seconds before starting the probe
-            periodSeconds: 30                    # Check every 30 seconds
-            failureThreshold: 3                   # Restart after 3 consecutive failed checks
+            memory: "1.2Gi"

@@ -259,7 +259,7 @@ kubectl exec -it ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food -- env
 
 kubectl delete pod <pod-name> -n <namespace>
 
-kubectl delete pod ez-fast-food-deployment-6fbb55b686-5h5v9 -n ez-fast-food 
+kubectl delete pod ez-fast-food-deployment-95dfbf447-lc9zx -n ez-fast-food 
 
 
 kubectl logs ez-fast-food-deployment-7d645fd448-k2cmq -n ez-fast-food
