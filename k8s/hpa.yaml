@@ -17,18 +17,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: 75   # Reduced target CPU utilization for faster scaling
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 60  # Increased to avoid rapid scale-down
-      policies:
-        - type: Pods
-          value: 2
-          periodSeconds: 300          # Only scale down by 2 pods every 5 minutes
-        - type: Percent
-          value: 50
-          periodSeconds: 300          # Or scale down by 50% every 5 minutes
-    scaleUp:
-      policies:
-        - type: Percent
-          value: 100
-          periodSeconds: 20           # Scale up faster by 100% every 20 seconds

@@ -134,7 +134,7 @@ kubectl logs <nome-pod> -n ez-fast-food
 kubectl logs <nome-pod> -n ez-fast-food
 
 
-kubectl logs ez-fast-food-deployment-7d645fd448-2jpj5 -n ez-fast-food
+kubectl logs ez-fast-food-deployment-6cdcf85886-cqm9p -n ez-fast-food
 kubectl describe pod ez-fast-food-deployment-7d645fd448-2jpj5 -n ez-fast-food
 
 

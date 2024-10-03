@@ -32,3 +32,10 @@ spec:
           limits:
             cpu: "350m"
             memory: "750Mi"
+        readinessProbe:
+            httpGet:
+                path: /actuator/health  # Adjust the path to the actual health endpoint
+                port: 8080
+            initialDelaySeconds: 35   # Adjust the delay based on your app's initialization time
+            periodSeconds: 10
+            failureThreshold: 3
