@@ -17,3 +17,16 @@ spec:
         target:
           type: Utilization
           averageUtilization: 75   # Reduced target CPU utilization for faster scaling
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 10  # Wait 60 seconds before scaling up again
+      policies:
+        - type: Percent
+          value: 100                 # Scale up by 100% (double the pods)
+          periodSeconds: 20          # Evaluate every 60 seconds
+    scaleDown:
+      stabilizationWindowSeconds: 60 # Wait 120 seconds before scaling down
+      policies:
+        - type: Percent
+          value: 50                  # Scale down by 50% (reduce half of the pods)
+          periodSeconds: 20          # Evaluate every 60 seconds
