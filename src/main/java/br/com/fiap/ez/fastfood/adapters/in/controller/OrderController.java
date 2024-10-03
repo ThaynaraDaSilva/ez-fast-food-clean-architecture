@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
+import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
+import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +20,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
-import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
-import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
-import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
+
 
 @RestController
 @RequestMapping("/api/orders")
@@ -52,10 +54,10 @@ public class OrderController {
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listOrders() {
 		try {
-			System.out.println("METODO LIST ALL ODERS -  CONTROLLER");
+			
 			return new ResponseEntity<>(orderUseCase.listAllOrders(), HttpStatus.OK);
 		} catch (BusinessException e) {
-			System.out.println("METODO LIST ALL ODERS -  CONTROLLER EXCEPTION");
+			
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ez-fast-food-deployment
+  namespace: ez-fast-food
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ez-fast-food
+  template:
+    metadata:
+      labels:
+        app: ez-fast-food
+    spec:
+      containers:
+      - name: ez-fast-food-container
+        image: dasilvathaynara/ez-fast-food-api:latest
+        imagePullPolicy: IfNotPresent # Add this line
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: "-Xms512m -Xmx1024m -XX:+UseG1GC"  # Tuning JVM
+        envFrom:
+        - configMapRef:
+            name: ez-fast-food-configmap-app   # Reference the created ConfigMap
+        resources:
+          requests:
+            cpu: "300m"
+            memory: "600Mi"
+          limits:
+            cpu: "660m"
+            memory: "1.2Gi"
+        livenessProbe:                         # Adding a liveness probe
+            httpGet:
+                path: /actuator/health              # The path to check the health (assuming you're using Spring Boot with Actuator)
+                port: 8080                          # The port to check the health on
+            initialDelaySeconds: 10               # Wait 60 seconds before starting the probe
+            periodSeconds: 5                     # Check every 30 seconds
+            timeoutSeconds: 2
+            failureThreshold: 3                   # Restart after 3 consecutive failed checks

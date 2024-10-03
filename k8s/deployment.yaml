@@ -4,7 +4,7 @@ metadata:
   name: ez-fast-food-deployment
   namespace: ez-fast-food
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ez-fast-food
@@ -15,13 +15,27 @@ spec:
     spec:
       containers:
       - name: ez-fast-food-container
-        image: tchfer/ez-fast-food-clean:latest
+        image: dasilvathaynara/ez-fast-food-api:latest
+        imagePullPolicy: IfNotPresent # Add this line
         ports:
         - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  # Tuning JVM
+        envFrom:
+        - configMapRef:
+            name: ez-fast-food-configmap-app   # Reference the created ConfigMap
         resources:
           requests:
-            cpu: "100m"
-            memory: "200Mi"
+            cpu: "250m" ## a solucao requer mais cpu no momento de inicializacao. Este e o minimo saudavél para que os containers subam sem erro.
+            memory: "150Mi"
           limits:
-            cpu: "500m"
-            memory: "500Mi"
+            cpu: "350m"
+            memory: "750Mi"
+        readinessProbe:
+            httpGet:
+                path: /actuator/health  # Adjust the path to the actual health endpoint
+                port: 8080
+            initialDelaySeconds: 35   # Adjust the delay based on your app's initialization time
+            periodSeconds: 10
+            failureThreshold: 3

@@ -28,7 +28,7 @@ COPY --from=build /app/target/ez-fast-food.jar /app/ez-fast-food.jar
 
 
 # Exponha a porta em que a aplicação vai rodar
-EXPOSE 8080
+#EXPOSE 8080
 
 # Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "ez-fast-food.jar"]
