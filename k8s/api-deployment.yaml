@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ez-fast-food-deployment
-  namespace: ez-fast-food
+  name: ezfastfood-api-deployment
+  namespace: ezfastfood
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ez-fast-food
+      app: ezfastfood
   template:
     metadata:
       labels:
-        app: ez-fast-food
+        app: ezfastfood
     spec:
       containers:
-      - name: ez-fast-food-container
+      - name: ezfastfood-container
         image: dasilvathaynara/ez-fast-food-api:latest
         imagePullPolicy: IfNotPresent # Add this line
         ports:
@@ -24,7 +24,7 @@ spec:
           value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  #JVM
         envFrom:
         - configMapRef:
-            name: ez-fast-food-configmap-app   # Reference the created ConfigMap
+            name: ezfastfood-api-configmap   # Reference the created ConfigMap
         resources:
           requests:
             cpu: "250m" ## a solucao requer mais cpu no momento de inicializacao. Este e o minimo saudavél para que os containers subam sem erro.

@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ez-fast-food-db-deployment
-  namespace: ez-fast-food
+  name: ezfastfood-postgres
+  namespace: ezfastfood
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: ezfastfood-postgres
   template:
     metadata:
       labels:
-        app: postgres
+        app: ezfastfood-postgres
     spec:
       containers:
       - name: postgres
@@ -20,10 +20,12 @@ spec:
         - containerPort: 5432
         envFrom:
         - configMapRef:
-            name: ez-fast-food-configmap-app  # This references your .env config map
+            name: ezfastfood-api-configmap  # This contains user and password for PostgreSQL
         volumeMounts:
         - name: db-init-script
-          mountPath: /docker-entrypoint-initdb.d
+          mountPath: /docker-entrypoint-initdb.d  # Mounting for initialization scripts
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data     # Persistent storage for database data
         resources:
           requests:
             cpu: "80m"
@@ -34,4 +36,7 @@ spec:
       volumes:
       - name: db-init-script
         configMap:
-          name: ez-fast-food-configmap-sql   # This references your database.sql config map
+          name: ezfastfood-postgres-configmap     # References your database.sql ConfigMap
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: ezfastfood-postgres-pvc      # Reference to PVC for data persistence
