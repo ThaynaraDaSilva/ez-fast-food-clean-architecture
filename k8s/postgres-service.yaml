@@ -4,11 +4,11 @@ metadata:
   name: ezfastfood-postgres-service
   namespace: ezfastfood
 spec:
-  type: NodePort
+  type: ClusterIP #NodePort
   selector:
     app: ezfastfood-postgres
   ports:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-      nodePort: 30007
+      #nodePort: 30007
