@@ -21,7 +21,7 @@ spec:
         - containerPort: 8080
         env:
         - name: JAVA_OPTS
-          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  # Tuning JVM
+          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  #JVM
         envFrom:
         - configMapRef:
             name: ez-fast-food-configmap-app   # Reference the created ConfigMap
@@ -34,8 +34,8 @@ spec:
             memory: "750Mi"
         readinessProbe:
             httpGet:
-                path: /actuator/health  # Adjust the path to the actual health endpoint
+                path: /actuator/health 
                 port: 8080
-            initialDelaySeconds: 35   # Adjust the delay based on your app's initialization time
+            initialDelaySeconds: 35   # tempo definido de acordo com o tempo de inicializacao da API (~30 a ~40)
             periodSeconds: 10
             failureThreshold: 3
