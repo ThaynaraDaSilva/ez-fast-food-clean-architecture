@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: ezfastfood-manual-storage  # Should match the PV's storageClassName
+  #storageClassName: ezfastfood-manual-storage  # Should match the PV's storageClassName
