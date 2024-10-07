@@ -38,16 +38,16 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: dasilvathaynara/ez-fast-food-api:latest
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+  #deploy:
+    #needs: build
+    #runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    #steps:
+    #- name: Checkout repository
+      #uses: actions/checkout@v3
 
-    - name: Set Kubernetes context
-      run: kubectl config set-context --current --namespace=default
+    #- name: Set Kubernetes context
+      #run: kubectl config set-context --current --namespace=default
 
-    - name: Apply Kubernetes manifests
-      run: kubectl apply -f k8s/
+    #- name: Apply Kubernetes manifests
+      #run: kubectl apply -f k8s/
