@@ -37,7 +37,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: tchfer/ez-fast-food-clean:latest
+        tags: dasilvathaynara/ez-fast-food-api:latest
   deploy:
     needs: build
     runs-on: ubuntu-latest
