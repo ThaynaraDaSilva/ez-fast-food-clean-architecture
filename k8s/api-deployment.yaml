@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ez-fast-food-deployment
-  namespace: ez-fast-food
+  name: ezfastfood-api-deployment
+  namespace: ezfastfood
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ez-fast-food
+      app: ezfastfood
   template:
     metadata:
       labels:
-        app: ez-fast-food
+        app: ezfastfood
     spec:
       containers:
-      - name: ez-fast-food-container
+      - name: ezfastfood-container
         image: dasilvathaynara/ez-fast-food-api:latest
         imagePullPolicy: IfNotPresent # Add this line
         ports:
         - containerPort: 8080
         env:
         - name: JAVA_OPTS
-          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  # Tuning JVM
+          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  #JVM
         envFrom:
         - configMapRef:
-            name: ez-fast-food-configmap-app   # Reference the created ConfigMap
+            name: ezfastfood-api-configmap   # Reference the created ConfigMap
         resources:
           requests:
             cpu: "250m" ## a solucao requer mais cpu no momento de inicializacao. Este e o minimo saudavél para que os containers subam sem erro.
@@ -34,8 +34,8 @@ spec:
             memory: "750Mi"
         readinessProbe:
             httpGet:
-                path: /actuator/health  # Adjust the path to the actual health endpoint
+                path: /actuator/health 
                 port: 8080
-            initialDelaySeconds: 35   # Adjust the delay based on your app's initialization time
+            initialDelaySeconds: 35   # tempo definido de acordo com o tempo de inicializacao da API (~30 a ~40)
             periodSeconds: 10
             failureThreshold: 3
