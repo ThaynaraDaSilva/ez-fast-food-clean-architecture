@@ -4,8 +4,10 @@ metadata:
   name: ezfastfood-postgres-pvc
   namespace: ezfastfood
 spec:
+  #volumeName: ezfastfood-postgres-pv  # This binds the PVC to your manually created PV
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+  #storageClassName: ""
