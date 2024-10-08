@@ -55,21 +55,27 @@ A Clean Architecture foi adotada para garantir uma separação clara das respons
 
 ### Estrutura de Diretórios
 
-- `src/main/java/br/com/fiap/ez/fastfood`
-  - `adapters/in`
-  - `adapters/out`
-  - `application/usecases`
-  - `application/dto`
-  - `domain/model`
-  - `domain/repository`
-  - `infrastructure/persistance`
-  - `infrastructure/mapper`
-  - `infrastructure/config`
-  - `config/exception`
-  - `config/security`
-  - `APIApplication.java`
-- `k8s`		# Arquivos de manifesto Kubernetes
-- `postman`	# Collection para testes no Postman
+```br.com.fiap.ez.fastfood
+├── adapters
+│   ├── in
+│   └── out
+├── application
+│   ├── usecases
+│   └── dto
+├── domain
+│   └── model
+│   └── repository
+├── infrastructure
+│   ├── persistence
+│   ├── mapper
+│   └── config
+├── config
+│   └── exception
+│   └── security
+├── APIApplication.java
+k8s/            # Arquivos de manifesto Kubernetes
+postman/        # Collection para testes no Postman
+```
 
 ## Instruções de Configuração e Execução
 
