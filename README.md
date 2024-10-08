@@ -55,7 +55,8 @@ A Clean Architecture foi adotada para garantir uma separação clara das respons
 
 ### Estrutura de Diretórios
 
-```br.com.fiap.ez.fastfood
+```
+br.com.fiap.ez.fastfood
 ├── adapters
 │   ├── in
 │   └── out
