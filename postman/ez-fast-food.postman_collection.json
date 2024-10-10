@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "e4bcd51f-52ef-4550-943e-491b61488a28",
+		"name": "ez-fast-food",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11520581",
+		"_collection_link": "https://fiap-soat.postman.co/workspace/FIAP-SOAT-Workspace~bd124fac-4caf-4688-8497-6aedef77e56a/collection/11520581-e4bcd51f-52ef-4550-943e-491b61488a28?action=share&source=collection_link&creator=11520581"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "List all customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}customers/list-all",
+							"host": [
+								"{{host}}customers"
+							],
+							"path": [
+								"list-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List customers by CPF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cpf",
+								"value": "000.000.000-01",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}customers/find-by-cpf/000.000.000-01",
+							"host": [
+								"{{host}}customers"
+							],
+							"path": [
+								"find-by-cpf",
+								"000.000.000-01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": \"{{cpf}}\",\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}customers/create-new",
+							"host": [
+								"{{host}}customers"
+							],
+							"path": [
+								"create-new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cpf\": \"000.000.000-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}customers/login",
+							"host": [
+								"{{host}}customers"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Register Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentId\": 1,\r\n  \"paymentStatus\": \"OK\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}payments/webhook/status",
+							"host": [
+								"{{host}}payments"
+							],
+							"path": [
+								"webhook",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}payments/check-status?paymentId=1",
+							"host": [
+								"{{host}}payments"
+							],
+							"path": [
+								"check-status"
+							],
+							"query": [
+								{
+									"key": "paymentId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "List all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}products/list-all",
+							"host": [
+								"{{host}}products"
+							],
+							"path": [
+								"list-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find product by category id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}products/find-by-category-id/2",
+							"host": [
+								"{{host}}products"
+							],
+							"path": [
+								"find-by-category-id",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"X-FILÉ\",\r\n    \"description\": \"FILÉ MIGNON, QUEIJO PRATA, ALFACE, TOMATE, CEBOLA E MOLHO DA CASA\",\r\n    \"category_id\": 1,\r\n    \"price\": 45.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}products/create-new",
+							"host": [
+								"{{host}}products"
+							],
+							"path": [
+								"create-new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify product by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"X-BURGUER\",\r\n    \"description\": \"CARNE BOVINA, QUEIJO PRATA, ALFACE, TOMATE, CEBOLA E MOLHO DA CASA\",\r\n    \"category_id\": 1,\r\n    \"price\": 30.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}products/update-by-id/1",
+							"host": [
+								"{{host}}products"
+							],
+							"path": [
+								"update-by-id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove product by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}products/delete-by-id/1",
+							"host": [
+								"{{host}}products"
+							],
+							"path": [
+								"delete-by-id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "List all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}orders/list-all",
+							"host": [
+								"{{host}}orders"
+							],
+							"path": [
+								"list-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List unfinished orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}orders/list-orders-in-queue",
+							"host": [
+								"{{host}}orders"
+							],
+							"path": [
+								"list-orders-in-queue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List orders with status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}orders/list-uncompleted-orders",
+							"host": [
+								"{{host}}orders"
+							],
+							"path": [
+								"list-uncompleted-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register a new order (Fake checkout)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customer_name\": \"Flavio Fernando da Silva\",\r\n  \"customer_cpf\": \"000.000.000-01\",\r\n  \"order_items\": [\r\n    {\r\n      \"product_id\": 1,\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}orders/checkout",
+							"host": [
+								"{{host}}orders"
+							],
+							"path": [
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}orders/update-order-status?orderId=1",
+							"host": [
+								"{{host}}orders"
+							],
+							"path": [
+								"update-order-status"
+							],
+							"query": [
+								{
+									"key": "orderId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.environment.set(\"cpf\", \"000.000.000-\" + Math.floor(Math.random() * 100).toString().padStart(2, '0'));\r",
+					"pm.environment.set(\"name\", \"User\" + Math.floor(Math.random() * 1000));\r",
+					"pm.environment.set(\"email\", \"user\" + Math.floor(Math.random() * 1000) + \"@gmail.com\");\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
