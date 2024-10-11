@@ -4,9 +4,9 @@ metadata:
   name: ezfastfood-api-configmap
   namespace: ezfastfood
 data:
-  APP_NAME: "ez-fast-food"
-  LOG_LEVEL_SPRINGFRAMEWORK: "ERROR"
-  LOG_LEVEL_SPRINGDOC: "off"
-  LOG_LEVEL_HIBERNATE_SQL: "off"
   API_DATASOURCE_URL: "jdbc:postgresql://ezfastfood-postgres-service:5432/postgres?currentSchema=ez_fastfood"
+  API_PORT: "8080"
+  POSTGRES_DB: "postgres"
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres"
   POSTGRES_PORT: "5432"
