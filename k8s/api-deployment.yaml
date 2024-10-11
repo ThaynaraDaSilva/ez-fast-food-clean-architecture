@@ -16,26 +16,41 @@ spec:
       containers:
       - name: ezfastfood-container
         image: dasilvathaynara/ez-fast-food-api:latest
-        imagePullPolicy: IfNotPresent # Add this line
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         env:
         - name: JAVA_OPTS
-          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  #JVM
+          value: "-Xms100m -Xmx512m -XX:+UseParallelGC"  # JVM options
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: ezfastfood-secret         # Reference to the Secret holding the sensitive info
+              key: POSTGRES_DB                # The key in the Secret
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: ezfastfood-secret         # Reference to the Secret holding the sensitive info
+              key: POSTGRES_USER              # The key in the Secret
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ezfastfood-secret         # Reference to the Secret holding the sensitive info
+              key: POSTGRES_PASSWORD          # The key in the Secret
         envFrom:
         - configMapRef:
-            name: ezfastfood-api-configmap   # Reference the created ConfigMap
+            name: ezfastfood-api-configmap    # Reference to the ConfigMap for non-sensitive data
         resources:
           requests:
-            cpu: "250m" ## a solucao requer mais cpu no momento de inicializacao. Este e o minimo saudavél para que os containers subam sem erro.
+            cpu: "250m"
             memory: "150Mi"
           limits:
             cpu: "350m"
             memory: "750Mi"
         readinessProbe:
-            httpGet:
-                path: /actuator/health 
-                port: 8080
-            initialDelaySeconds: 35   # tempo definido de acordo com o tempo de inicializacao da API (~30 a ~40)
-            periodSeconds: 10
-            failureThreshold: 3
+          httpGet:
+            path: /actuator/health 
+            port: 8080
+          initialDelaySeconds: 35
+          periodSeconds: 10
+          failureThreshold: 3

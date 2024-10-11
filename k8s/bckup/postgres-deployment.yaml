@@ -16,28 +16,11 @@ spec:
       containers:
       - name: postgres
         image: postgres:12
-        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: ezfastfood-secret          # Reference to the Secret that holds sensitive info
-              key: POSTGRES_DB                 # Key from the Secret
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: ezfastfood-secret          # Reference to the Secret that holds sensitive info
-              key: POSTGRES_USER               # Key from the Secret
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: ezfastfood-secret          # Reference to the Secret that holds sensitive info
-              key: POSTGRES_PASSWORD           # Key from the Secret
         envFrom:
         - configMapRef:
-            name: ezfastfood-api-configmap     # Reference to the ConfigMap for other variables
+            name: ezfastfood-api-configmap  # This contains user and password for PostgreSQL
         volumeMounts:
         - name: db-init-script
           mountPath: /docker-entrypoint-initdb.d  # Mounting for initialization scripts
