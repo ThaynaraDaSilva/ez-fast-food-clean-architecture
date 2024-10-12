@@ -2,10 +2,8 @@ package br.com.fiap.ez.fastfood.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CustomerDTO {
-	
-	@JsonProperty("id")
-	private Long id;
+public class CreateCustomerDTO {
+
 	
 	@JsonProperty("cpf")
 	private String cpf;
@@ -15,26 +13,14 @@ public class CustomerDTO {
 	
 	@JsonProperty("email")
     private String email;
-	
-	
     
-	public CustomerDTO() {
-		super();
-	}
+	
 
-	public CustomerDTO(Long id,String cpf, String name, String email) {
-		this.id = id;
+	public CreateCustomerDTO(String cpf, String name, String email) {
+		super();
 		this.cpf = cpf;
 		this.name = name;
 		this.email = email;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getCpf() {
@@ -60,7 +46,4 @@ public class CustomerDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-
 }

@@ -2,8 +2,6 @@ package br.com.fiap.ez.fastfood.adapters.in.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.CreateCustomerDTO;
 import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.application.dto.LoginDTO;
 import br.com.fiap.ez.fastfood.application.usecases.CustomerUseCase;
@@ -44,7 +42,7 @@ public class CustomerController {
 		try {
 			// Customer customer = customerService.authenticate(loginDTO.getCpf(),loginDTO.getPassword());
 			Customer customer = customerUseCase.authenticate(loginDTO.getCpf());
-			CustomerDTO customerDTO = new CustomerDTO(customer.getId(), customer.getCpf(), customer.getName(), customer.getEmail());
+			CustomerResponseDTO customerDTO = new CustomerResponseDTO(customer.getId(), customer.getCpf(), customer.getName(), customer.getEmail());
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 
 		} catch (BusinessException e) {
@@ -58,11 +56,11 @@ public class CustomerController {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Customer created"),
 			@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PostMapping(path = "/create-new", produces = "application/json")
-	public ResponseEntity<?> createCustomer(@Valid @RequestBody CustomerDTO createCustomerDTO) {
+	public ResponseEntity<?> createCustomer(@Valid @RequestBody CreateCustomerDTO createCustomerDTO) {
 
 		try {
 			
-			CustomerDTO customerDTO = customerUseCase.create(createCustomerDTO);
+			 CustomerResponseDTO  customerDTO = customerUseCase.create(createCustomerDTO);
 			
 			return new ResponseEntity<>(customerDTO, HttpStatus.CREATED);
 		} catch (IllegalArgumentException e) {
@@ -95,7 +93,7 @@ public class CustomerController {
 	public ResponseEntity<?> findCustomerByCpf(@PathVariable String cpf) {
 
 		try {
-			CustomerDTO customerDTO = customerUseCase.findCustomerByCpf(cpf);
+			CustomerResponseDTO customerDTO = customerUseCase.findCustomerByCpf(cpf);
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -123,7 +121,7 @@ public class CustomerController {
 	public ResponseEntity<?> updateCustomer(@PathVariable String cpf, @RequestBody Customer customer) {
 
 		try {
-			CustomerDTO customerDTO = customerUseCase.updateCustomer(cpf, customer);
+			CustomerResponseDTO customerDTO = customerUseCase.updateCustomer(cpf, customer);
 
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
