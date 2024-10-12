@@ -73,7 +73,11 @@ public class ProductUseCase {
 
     public void deleteById(Long id) {
         if (productRepository.existsById(id)) {
-            productRepository.deleteById(id);
+        	if(productRepository.isProductAssociatedWithOrderItems(id)) {
+        		throw new BusinessException("Produto não pode ser excluído,pois já faz parte de pedidos.");
+        	}else {
+        		productRepository.deleteById(id);
+        	}
         } else {
             throw new EntityNotFoundException("Produto não encontrado com id " + id);
         }

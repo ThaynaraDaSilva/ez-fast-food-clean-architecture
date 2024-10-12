@@ -15,4 +15,5 @@ public interface ProductRepository {
     void deleteById(Long id);
     boolean existsById(Long id);
     List<Product> findProductByCategoryId(Long id);
+    boolean isProductAssociatedWithOrderItems(Long id);
 }
