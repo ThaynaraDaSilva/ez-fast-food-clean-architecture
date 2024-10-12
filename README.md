@@ -121,11 +121,8 @@ Isso irá:
 1. Subir os contêineres da aplicação e do PostgreSQL no Kubernetes.
 2. Garantir que a aplicação esteja rodando corretamente.
 
-## Acessando a aplicação
-A aplicação estará disponível em http://localhost:80
-
 ## Documentação de APIs
-A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:80/swagger-ui/index.html.
+A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
 
 ## Testes de API com Postman
 
@@ -144,8 +141,9 @@ A documentação das APIs está disponível no Swagger e pode ser acessada em ht
 
 ### **Selecionar o Ambiente:**
 
-- Certifique-se de que o ambiente ez-local está configurado e selecionado no Postman para garantir que as variáveis de ambiente (como a URL base) sejam utilizadas corretamente.
+- Certifique-se de que o ambiente ez-local está configurado e selecionado no Postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
 - Caso o ambiente ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman/, importe-o da mesma forma que fez com a collection e selecione-o no canto superior direito da interface do Postman.
+
 ### **Jornada do Fluxo de Pedido**
 
 - A collection criada para o ez-fast-food contém todos os endpoints documentados no Swagger. Dentro dela, há um conjunto específico chamado Jornada - ez-fast-food, que deve ser usado para seguir o fluxo de pedido na sequência correta. Esse fluxo inclui os seguintes passos:
@@ -154,7 +152,7 @@ A documentação das APIs está disponível no Swagger e pode ser acessada em ht
 
 2. Cadastrar Novo Cliente: Use Create a new customer para criar um cliente.
 
-3. Listar Todos os Produtos: Execute List all products para visualizar os produtos disponíveis.
+3. Listar Todos os Produtos: Execute List all products para visualizar os produtos disponíveis e ver quais os IDs dos produtos para fazer um pedido.
 
 4. Criar um Pedido (Fake Checkout): No endpoint Register a new order, selecione um produto pelo product_id e crie o pedido.
 
@@ -162,11 +160,11 @@ A documentação das APIs está disponível no Swagger e pode ser acessada em ht
 
 6. Verificar Status do Pagamento: Execute Check payment status, passando o paymentId para verificar o status.
 
-7. Listar Todos os Pedidos: Com o endpoint List all orders, visualize todos os pedidos feitos.
+7. Listar Pedidos por Status: Execute List orders with status para ver pedidos que estão na fila de de preparação.
 
 8. Atualizar Status do Pedido: Execute Update order status, alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
 
-9. Listar Pedidos por Status: Execute List orders with status para ver pedidos com o status desejado.
+9. Listar Todos os Pedidos: Com o endpoint List all orders, visualize todos os pedidos feitos.
 
 Siga essa ordem na collection Jornada - ez-fast-food para simular o fluxo completo de um pedido.
 
