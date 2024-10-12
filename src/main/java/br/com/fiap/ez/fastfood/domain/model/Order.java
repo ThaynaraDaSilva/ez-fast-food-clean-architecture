@@ -42,19 +42,16 @@ public class Order {
 		return total;
 	}
 
-
-
 	public String calculateOrderWaitedTime(ZonedDateTime orderTime, ZonedDateTime orderCompletedTime) {
 
-	
 		ZonedDateTime time = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 
 		Duration duration;
 		if (orderCompletedTime != null) {
 			duration = Duration.between(time, orderCompletedTime);
 		} else {
-			
-			ZonedDateTime now =	ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+
+			ZonedDateTime now = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
 			duration = Duration.between(time, now);
 
 		}
@@ -68,35 +65,48 @@ public class Order {
 		this.totalPrice = calculateTotalPrice(this.orderItems);
 	}
 
-	public String generateOrderNumber(Order order) {
+	public String generateOrderNumber(Order lastOrder) {
+
+		int nextOrderNumber = calculateNextOrderNumber(lastOrder);
+
+		return formatOrderNumber(nextOrderNumber, customerName);
+	}
+
+	// Obtem a data atual no fuso horário de São Paulo
+	private LocalDate getCurrentDate() {
 		ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+		return zonedDateTime.toLocalDate();
+	}
 
-		LocalDate now = zonedDateTime.toLocalDate();
-
-		LocalDate orderDate = orderTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDate();
-
-		int nextOrderNumber;
-		// String lastOrderNumber="";
-
-		if (orderDate.equals(now)) {
-			if (order != null) {
-				String lastOrderNumber = order.getOrderNumber().split(" ")[0]; // Pega a parte numérica
-				nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
-			} else {
-				nextOrderNumber = +1;
-			}
-
-		} else {
-			// Se a data for diferente, reseta para 0000
-			nextOrderNumber = 0;
+	// Obtem a data do último pedido, ajustando o fuso horário para São Paulo
+	private LocalDate getLastOrderDate(Order lastOrder) {
+		if (lastOrder != null) {
+			return lastOrder.getOrderTime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDate();
 		}
+		return null; // Caso não exista último pedido
+	}
 
-		// Gera o número de pedido no formato "0000" + Nome do Cliente
-		String formattedOrderNumber = String.format("%04d", nextOrderNumber);
+	// Calcula o próximo número do pedido com base no último pedido e na data atual
+	private int calculateNextOrderNumber(Order lastOrder) {
+		LocalDate lastOrderDate = getLastOrderDate(lastOrder);
+		LocalDate now = getCurrentDate();
+		int nextOrderNumber = 1;
+
+		if (lastOrderDate != null && lastOrderDate.equals(now)) {
+			//extrai parte numerica do pedido
+			String lastOrderNumber = lastOrder.getOrderNumber().split(" ")[0]; 
+			nextOrderNumber = Integer.parseInt(lastOrderNumber) + 1;
+		} 
+		// Novo dia ou primeiro pedido, numero do pedido sera 1
+		return nextOrderNumber;
+	}
+
+	// Formata o numero do pedido no padrão "0000" + Nome do Cliente
+	private String formatOrderNumber(int orderNumber, String customerName) {
+		String formattedOrderNumber = String.format("%04d", orderNumber);
 		return formattedOrderNumber + " " + customerName;
 	}
 
-	// Getters and Setters
 
 	public Long getId() {
 		return id;
@@ -131,7 +141,6 @@ public class Order {
 	}
 
 	public ZonedDateTime getCompletedTime() {
-		// return completedTime.withZoneSameInstant(ZoneId.of("America/Sao_Paulo"));
 		return completedTime;
 	}
 
