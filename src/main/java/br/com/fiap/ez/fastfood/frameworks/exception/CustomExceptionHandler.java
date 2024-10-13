@@ -43,8 +43,10 @@ public class CustomExceptionHandler {
 	        	status = HttpStatus.UNAUTHORIZED;
 	        }else if(message.contains("Lista de pedidos vazia")) {
 	        	status = HttpStatus.BAD_REQUEST;
+	        }else if (message.contains("Produto não pode ser excluído,pois já faz parte de pedidos.")) {
+	        	status = HttpStatus.CONFLICT;
 	        }
-	        
+
 	        else { 
 	        	message = "Erro desconhecido";
 	        	status = HttpStatus.INTERNAL_SERVER_ERROR; // condicao padrao 

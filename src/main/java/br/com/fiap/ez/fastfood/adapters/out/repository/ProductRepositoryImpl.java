@@ -76,4 +76,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public boolean isProductAssociatedWithOrderItems(Long id) {
+		return productJpaRepository.isProductAssociatedWithOrderItems(id);
+	}
+
 }
