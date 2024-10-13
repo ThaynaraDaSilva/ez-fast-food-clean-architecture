@@ -19,6 +19,11 @@ public class CustomerResponseDTO {
     
 	
 
+	public CustomerResponseDTO() {
+		super();
+	}
+
+
 	public CustomerResponseDTO(Long id, String cpf, String name, String email) {
 		super();
 		this.id = id;

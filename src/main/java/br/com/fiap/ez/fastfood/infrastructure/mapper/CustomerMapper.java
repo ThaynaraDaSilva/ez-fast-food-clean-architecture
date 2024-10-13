@@ -1,6 +1,7 @@
 package br.com.fiap.ez.fastfood.infrastructure.mapper;
 
-import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.CreateCustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 
@@ -33,22 +34,24 @@ public class CustomerMapper {
 	}
 
 	// Convert DTO to Domain Model
-	public static Customer dtoToDomain(CustomerDTO customerDTO) {
+	public static Customer dtoToDomain(CreateCustomerDTO customerDTO) {
 		Customer customer = new Customer();
-		customer.setId(customerDTO.getId());
 		customer.setCpf(customerDTO.getCpf());
 		customer.setName(customerDTO.getName());
 		customer.setEmail(customerDTO.getEmail());
 		return customer;
 	}
 
+
+
 	// Convert Domain Model to DTO (if needed)
-	public static CustomerDTO domainToDto(Customer customer) {
-		CustomerDTO customerDTO = new CustomerDTO();
-		customerDTO.setId(customer.getId());
-		customerDTO.setName(customer.getName());
-		customerDTO.setEmail(customer.getEmail());
-		customerDTO.setCpf(customer.getCpf());
-		return customerDTO;
+	public static CustomerResponseDTO domainToResponseDto(Customer customer) {
+		CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
+		customerResponseDTO.setId(customer.getId());
+		customerResponseDTO.setName(customer.getName());
+		customerResponseDTO.setEmail(customer.getEmail());
+		customerResponseDTO.setCpf(customer.getCpf());
+		return customerResponseDTO;
 	}
+
 }

@@ -1,10 +1,9 @@
 package br.com.fiap.ez.fastfood.application.usecases;
 
-import java.util.Optional;
-
 import java.util.List;
 
-import br.com.fiap.ez.fastfood.application.dto.CustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.CreateCustomerDTO;
+import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
@@ -18,17 +17,14 @@ public class CustomerUseCase {
 		this.customerRepository = customerRepository;
 	}
 
-	public CustomerDTO create(CustomerDTO customerDTO) {
+	public CustomerResponseDTO create(CreateCustomerDTO customerDTO) {
 
 		Customer customer = CustomerMapper.dtoToDomain(customerDTO);
 
 		if (customer != null && customer.isValid()) {
 
 			if (customerRepository.findByCpf(customer.getCpf()) == null) {
-
-				customerRepository.save(customer);
-
-				return customerDTO;
+				return CustomerMapper.domainToResponseDto(customerRepository.save(customer));
 			} else {
 				throw new BusinessException("Cliente já cadastrado");
 			}
@@ -38,18 +34,18 @@ public class CustomerUseCase {
 
 	}
 
-	public CustomerDTO deleteCustomerByCpf(String cpf) {
+	public CustomerResponseDTO deleteCustomerByCpf(String cpf) {
 		Customer customer = customerRepository.findByCpf(cpf);
 
 		if (customer != null) {
 			customerRepository.removeByCpf(cpf);
-			return CustomerMapper.domainToDto(customer);
+			return CustomerMapper.domainToResponseDto(customer);
 		} else {
 			throw new BusinessException("Cliente não encontrado");
 		}
 	}
 
-	public CustomerDTO updateCustomer(String cpf, Customer customerToUpdate) {
+	public CustomerResponseDTO updateCustomer(String cpf, Customer customerToUpdate) {
 
 		Customer existingCustomer = customerRepository.findByCpf(cpf);
 		if (existingCustomer != null && customerToUpdate.isValid()) {
@@ -59,14 +55,14 @@ public class CustomerUseCase {
 			customer.setCpf(customerToUpdate.getCpf());
 
 			customerRepository.save(customer);
-			return CustomerMapper.domainToDto(customer);
+			return CustomerMapper.domainToResponseDto(customer);
 		} else {
 			throw new IllegalArgumentException("Dados inválidos");
 		}
 	}
 
-	public CustomerDTO findCustomerByCpf(String cpf) {
-		CustomerDTO customer = CustomerMapper.domainToDto(customerRepository.findByCpf(cpf));
+	public CustomerResponseDTO findCustomerByCpf(String cpf) {
+		CustomerResponseDTO customer = CustomerMapper.domainToResponseDto(customerRepository.findByCpf(cpf));
 		if (customer != null) {
 			return customer;
 		} else {

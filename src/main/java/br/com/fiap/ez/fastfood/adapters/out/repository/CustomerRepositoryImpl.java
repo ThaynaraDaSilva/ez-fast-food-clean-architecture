@@ -22,7 +22,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 	public Customer save(Customer customer) {
 		CustomerEntity entity = CustomerMapper.domainToEntity(customer);
 		customerJpaRepository.save(entity);
-		return customer;
+		return CustomerMapper.entityToDomain(entity);
 	}
 
 	@Override
