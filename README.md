@@ -75,7 +75,7 @@ br.com.fiap.ez.fastfood
 │   └── security
 ├── APIApplication.java
 k8s/            # Arquivos de manifesto Kubernetes
-postman/        # Collection para testes no Postman
+postman-jmeter/        # Collection para testes no Postman
 ```
 
 ## Instruções de Configuração e Execução
