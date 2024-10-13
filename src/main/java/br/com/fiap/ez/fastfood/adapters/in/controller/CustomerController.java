@@ -83,7 +83,7 @@ public class CustomerController {
 			}
 			return new ResponseEntity<>(customersDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
 		}
 
 	}
@@ -96,7 +96,7 @@ public class CustomerController {
 			CustomerResponseDTO customerDTO = customerUseCase.findCustomerByCpf(cpf);
 			return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 		} catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
 		}
 
 	}

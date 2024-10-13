@@ -89,7 +89,7 @@ public class ProductController {
         try {
         	return new ResponseEntity<>(productUseCase.findProductByCategoryId(id), HttpStatus.OK);
         }catch (BusinessException e){
-        	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        	return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
         
     }

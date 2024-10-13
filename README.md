@@ -104,16 +104,12 @@ cd ez-fast-food-clean-architecture
 ### Execução com Kubernetes
 Para iniciar a aplicação e o banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
 
-Crie o namespace para o projeto:
+
+Criação de namespace e aplicando os manifestos do Kubernetes:
 
 ```sh
-kubectl create namespace ezfastfood
-```
+kubectl apply -f k8s/namespace.yaml && kubectl apply -f k8s/
 
-Aplique os manifestos do Kubernetes:
-
-```sh
-kubectl apply -f k8s/
 ```
 
 Isso irá:

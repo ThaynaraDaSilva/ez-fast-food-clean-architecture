@@ -34,7 +34,7 @@ public class CustomExceptionHandler {
 	        HttpStatus status = HttpStatus.CONFLICT;
 
 	        if (message.contains("Cliente não encontrado")) {
-	            status = HttpStatus.NOT_FOUND;
+	            status = HttpStatus.OK;
 	        } else if (message.contains("Dados inválidos")) {
 	            status = HttpStatus.BAD_REQUEST;
 	        }else if(message.contains("Cliente já cadastrado")) {
@@ -45,6 +45,9 @@ public class CustomExceptionHandler {
 	        	status = HttpStatus.BAD_REQUEST;
 	        }else if (message.contains("Produto não pode ser excluído,pois já faz parte de pedidos.")) {
 	        	status = HttpStatus.CONFLICT;
+	        }
+	        else if(message.contains("Não há pedidos com status 'Pronto', 'Em preparação' ou 'Recebido'")) {
+	        	status = HttpStatus.OK;
 	        }
 
 	        else { 
@@ -58,6 +61,6 @@ public class CustomExceptionHandler {
 	 
 	 	@ExceptionHandler(EntityNotFoundException.class)
 	    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
-	        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+	        return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
 	    }
 }

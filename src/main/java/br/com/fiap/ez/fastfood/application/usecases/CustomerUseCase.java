@@ -67,6 +67,7 @@ public class CustomerUseCase {
 			CustomerResponseDTO customerDTO = CustomerMapper.domainToResponseDto(customerRepository.findByCpf(cpf));
 			return customerDTO;
 		} else {
+			System.out.println("ENTREI NO ELSE");
 			throw new BusinessException("Cliente não encontrado");
 		}	       
 	}

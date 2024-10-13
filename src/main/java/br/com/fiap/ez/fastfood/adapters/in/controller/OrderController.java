@@ -10,10 +10,14 @@ import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
 import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -58,7 +62,7 @@ public class OrderController {
 			return new ResponseEntity<>(orderUseCase.listAllOrders(), HttpStatus.OK);
 		} catch (BusinessException e) {
 			
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
 		}
 
 	}
@@ -70,18 +74,23 @@ public class OrderController {
 		try {
 			return new ResponseEntity<>(orderUseCase.listUncompletedOrders(), HttpStatus.OK);
 		} catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			Map<String, String> response = new HashMap<>();
+	        response.put("message:", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 
 	}
 
+	@Hidden
 	@Operation(summary = "List unfinished orders")
 	@GetMapping(path = "/list-orders-in-queue", produces = "application/json")
 	public ResponseEntity<?> listUnfinishedOrders() {
 		try {
 			return new ResponseEntity<>(orderUseCase.listUnfinishedOrders(), HttpStatus.OK);
 		} catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+			Map<String, String> response = new HashMap<>();
+	        response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.OK);
 		}
 
 	}

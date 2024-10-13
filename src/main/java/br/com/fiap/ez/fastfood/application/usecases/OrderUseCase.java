@@ -102,7 +102,12 @@ public class OrderUseCase {
 	
 	public List<OrderResponseDTO> listUncompletedOrders() {
 		List<Order> uncompletedOrders = orderRepository.listUnCompletedOrders();
-		return uncompletedOrders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
+		if(!uncompletedOrders.isEmpty()) {
+			return uncompletedOrders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
+		}else {
+			throw new BusinessException("Não há pedidos com status 'Pronto', 'Em preparação' ou 'Recebido'");
+		}
+		
 	}
 	
 	
