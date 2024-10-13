@@ -78,7 +78,7 @@ VALUES
 ('PETIT GATEAU', 'TIRA GOSTO','7.00',4);
 
 INSERT INTO EZ_FASTFOOD.ORDER (order_number, customer_id, order_time, total_price, order_status, customer_name, completed_time) 
-VALUES ('001 Thay', 1, NOW(), 120.50, 'COMPLETED', 'Thaynara da Silva', NOW()),
+VALUES ('001 Thay', 1, NOW(), 20.5, 'WAITING_PAYMENT', 'Thaynara da Silva', NULL);
 
 INSERT INTO EZ_FASTFOOD.ORDER_ITEMS (order_id, product_id, quantity, price) 
 VALUES (1, 1, 1, 20.50);
