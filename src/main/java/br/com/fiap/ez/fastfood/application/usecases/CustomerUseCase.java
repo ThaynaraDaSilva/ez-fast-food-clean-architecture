@@ -62,12 +62,13 @@ public class CustomerUseCase {
 	}
 
 	public CustomerResponseDTO findCustomerByCpf(String cpf) {
-		CustomerResponseDTO customer = CustomerMapper.domainToResponseDto(customerRepository.findByCpf(cpf));
+		Customer customer = customerRepository.findByCpf(cpf);
 		if (customer != null) {
-			return customer;
+			CustomerResponseDTO customerDTO = CustomerMapper.domainToResponseDto(customerRepository.findByCpf(cpf));
+			return customerDTO;
 		} else {
 			throw new BusinessException("Cliente não encontrado");
-		}
+		}	       
 	}
 
 	public List<Customer> listCustomers() {
