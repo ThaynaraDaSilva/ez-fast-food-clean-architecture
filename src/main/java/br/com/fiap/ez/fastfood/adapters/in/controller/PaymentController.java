@@ -29,22 +29,16 @@ public class PaymentController {
 
 	@PostMapping("/webhook/status")
 	public ResponseEntity<?> registirPaymentStatus(@RequestBody PaymentDTO paymentDTO) {
-		try {
-			return new ResponseEntity<>(paymentUseCase.registerPaymentStatus(paymentDTO),HttpStatus.OK);
-		}catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+	
+		
+		return new ResponseEntity<>(paymentUseCase.registerPaymentStatus(paymentDTO),HttpStatus.OK);
 	
 	}
 	
 	@GetMapping(path = "/check-status")
 	public ResponseEntity<?> checkPaymentStatus(@Parameter Long paymentId) {
-		try {
-			return new ResponseEntity<>(paymentUseCase.checkPaymentStatus(paymentId),HttpStatus.OK);
-		}catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	
+
+		return new ResponseEntity<>(paymentUseCase.checkPaymentStatus(paymentId),HttpStatus.OK);
 	}
 
 }

@@ -31,30 +31,6 @@ public class CustomExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
-	/*
-	 * @ExceptionHandler(BusinessException.class) public
-	 * ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
-	 * String message = ex.getMessage(); HttpStatus status = HttpStatus.CONFLICT;
-	 * 
-	 * if (message.contains("Cliente não encontrado")) { status = HttpStatus.OK; }
-	 * else if (message.contains("Dados inválidos")) { status =
-	 * HttpStatus.BAD_REQUEST; }else if(message.contains("Cliente já cadastrado")) {
-	 * status = HttpStatus.CONFLICT; }else
-	 * if(message.contains("CPF ou senha errada.")){ status =
-	 * HttpStatus.UNAUTHORIZED; }else if(message.contains("Lista de pedidos vazia"))
-	 * { status = HttpStatus.BAD_REQUEST; }else if (message.
-	 * contains("Produto não pode ser excluído,pois já faz parte de pedidos.")) {
-	 * status = HttpStatus.CONFLICT; } else if(message.
-	 * contains("Não há pedidos com status 'Pronto', 'Em preparação' ou 'Recebido'"
-	 * )) { status = HttpStatus.OK; }
-	 * 
-	 * else { message = "Erro desconhecido"; status =
-	 * HttpStatus.INTERNAL_SERVER_ERROR; // condicao padrao }
-	 * 
-	 * ErrorResponse errorResponse = new ErrorResponse(message); return new
-	 * ResponseEntity<>(errorResponse, status); }
-	 */
-
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<Map<String, String>> handleBusinessException(BusinessException ex) {
 		String message = ex.getMessage();
@@ -99,6 +75,10 @@ public class CustomExceptionHandler {
         //Category
         statusMapping.put("Categoria escolhida não existe.", HttpStatus.OK);
         
+        //Payment
+        statusMapping.put("Este pagamento já foi confirmado ou recusado.", HttpStatus.OK);
+        statusMapping.put(" Não existe pagamento com este id.", HttpStatus.OK);
+               
 
         // Return the mapped status or INTERNAL_SERVER_ERROR if no match is found
         return statusMapping.getOrDefault(message, HttpStatus.INTERNAL_SERVER_ERROR);
