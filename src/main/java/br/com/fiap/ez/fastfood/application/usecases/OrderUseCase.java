@@ -84,6 +84,10 @@ public class OrderUseCase {
 			order.setCompletedTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
 		} else if (order.getStatus() == OrderStatus.READY) {
 			order.setStatus(OrderStatus.COMPLETED);
+		} else if (order.getStatus() == OrderStatus.WAITING_PAYMENT) {
+			throw new BusinessException("Pedido não pode ser alterado, uma vez que o pagamento ainda não foi confirmado.");
+		}else if (order.getStatus() == OrderStatus.CANCELLED) {
+			throw new BusinessException("Pedido não pode ser atualizado, uma vez que está cancelado por falta de pagamento.");
 		}
 
 		order = orderRepository.save(order);
@@ -96,7 +100,11 @@ public class OrderUseCase {
 	}
 
 	public List<OrderResponseDTO> listAllOrders() {
+	
 		List<Order> orders = orderRepository.findAll();
+		if(orders.isEmpty()) {
+			throw new BusinessException("Lista de pedidos vazia");
+		}
 		return orders.stream().map(OrderMapper::domainToResponseDTO).collect(Collectors.toList());
 	}
 	

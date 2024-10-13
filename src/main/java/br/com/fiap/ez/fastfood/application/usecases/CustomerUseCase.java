@@ -1,13 +1,16 @@
 package br.com.fiap.ez.fastfood.application.usecases;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.application.dto.CreateCustomerDTO;
 import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
+import br.com.fiap.ez.fastfood.domain.model.Order;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
+import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 
 public class CustomerUseCase {
 
@@ -67,19 +70,25 @@ public class CustomerUseCase {
 			CustomerResponseDTO customerDTO = CustomerMapper.domainToResponseDto(customerRepository.findByCpf(cpf));
 			return customerDTO;
 		} else {
-			System.out.println("ENTREI NO ELSE");
 			throw new BusinessException("Cliente não encontrado");
 		}	       
 	}
 
-	public List<Customer> listCustomers() {
-		return customerRepository.findAll();
+	public List<CustomerResponseDTO> listCustomers() {
+
+		List<Customer> customers = customerRepository.findAll();
+		if(!customers.isEmpty()) {
+			return customers.stream().map(CustomerMapper::domainToResponseDto).collect(Collectors.toList());
+		}else {
+		throw new BusinessException("Não há clientes cadastrados.");
+		}
+		
 	}
 
-	public Customer authenticate(String cpf) {
+	public CustomerResponseDTO authenticate(String cpf) {
 		Customer customer = customerRepository.findByCpf(cpf);
 		if (customer != null) {
-			return customer;
+			return CustomerMapper.domainToResponseDto(customer);
 		} else {
 			throw new BusinessException("CPF ou senha errada.");
 		}
