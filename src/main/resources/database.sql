@@ -77,6 +77,15 @@ VALUES
 ('BATATA FRITA', 'FRITAS ONDULADAS','11.90',3),
 ('PETIT GATEAU', 'TIRA GOSTO','7.00',4);
 
+INSERT INTO EZ_FASTFOOD.ORDER (order_number, customer_id, order_time, total_price, order_status, customer_name, completed_time) 
+VALUES ('001 Thay', 1, NOW(), 120.50, 'COMPLETED', 'Thaynara da Silva', NOW()),
+
+INSERT INTO EZ_FASTFOOD.ORDER_ITEMS (order_id, product_id, quantity, price) 
+VALUES (1, 1, 1, 20.50);
+
+INSERT INTO EZ_FASTFOOD.PAYMENT (order_id, customer_id, payment_date, payment_price, payment_status) 
+VALUES (1, 1, NULL, 20.50, 'PENDING');
+
 /*
 CODIGO PARA QUANDO ENUM EH ALTERADO
 ALTER TABLE ez_fastfood.order DROP CONSTRAINT order_order_status_check;
