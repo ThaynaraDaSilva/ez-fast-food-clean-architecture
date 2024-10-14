@@ -285,7 +285,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{host}}orders/update-order-status?orderId=1",
+							"raw": "{{host}}orders/update-order-status?orderId=2",
 							"host": [
 								"{{host}}orders"
 							],
@@ -295,7 +295,7 @@
 							"query": [
 								{
 									"key": "orderId",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
@@ -314,7 +314,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"paymentId\": 1,\r\n  \"paymentStatus\": \"OK\"\r\n}",
+							"raw": "{\r\n  \"paymentId\": 2,\r\n  \"paymentStatus\": \"OK\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -340,7 +340,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}payments/check-status?paymentId=1",
+							"raw": "{{host}}payments/check-status?paymentId=2",
 							"host": [
 								"{{host}}payments"
 							],
@@ -350,7 +350,7 @@
 							"query": [
 								{
 									"key": "paymentId",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
