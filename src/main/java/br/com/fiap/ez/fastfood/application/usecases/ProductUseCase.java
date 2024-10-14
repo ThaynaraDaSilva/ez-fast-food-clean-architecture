@@ -88,7 +88,7 @@ public class ProductUseCase {
     	List <Product> products =  productRepository.findProductByCategoryId(id);
     	
     	if(products.isEmpty()) {
-    		throw new EntityNotFoundException("Não há produtos cadastrados com esta categoria.");
+    		throw new BusinessException("Não há produtos cadastrados com esta categoria.");
     	}
     	return products.stream().map(ProductMapper::domainToResponseDto).collect(Collectors.toList());
     }

@@ -83,7 +83,7 @@ public class ProductController {
     }
 	
 	@Operation(summary = "Find Product by Category Id")
-	@GetMapping("/find-by-category-id/{id}")
+	@GetMapping(path = "/find-by-category-id/{id}", produces = "application/json")
 	public ResponseEntity<?> getProductByCategoryId(@PathVariable Long id) {
 	    
         return new ResponseEntity<>(productUseCase.findProductByCategoryId(id), HttpStatus.OK);
