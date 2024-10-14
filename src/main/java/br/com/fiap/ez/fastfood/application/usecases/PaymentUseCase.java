@@ -24,7 +24,6 @@ public class PaymentUseCase {
 
 	}
 
-
 	public void registerPayment(Order order) {
 
 		Payment payment = new Payment();
@@ -40,34 +39,40 @@ public class PaymentUseCase {
 
 	public PaymentDTO registerPaymentStatus(PaymentDTO paymentDto) {
 		Payment payment = paymentRepository.findPaymentById(paymentDto.getPaymentId());
-		Order order = orderRepository.findOrderById(payment.getOrder().getId());
-		
-		//payment
-		payment.setPaymentDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-		payment.setPaymentStatus(PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()));
-		paymentRepository.registerPaymentStatus(payment);
-		
-		//order
-	    if(PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()) == PaymentStatus.OK) {
-	    	order.setStatus(OrderStatus.RECEIVED);
-	    }else {
-	    	order.setStatus(OrderStatus.CANCELLED); 	
-	    }
-	    order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
-	    orderRepository.save(order);
-	    
-		return PaymentMapper.domainToResponseDto(payment);
-
-	}
-	
-	public PaymentDTO checkPaymentStatus(Long paymentId) {
-		Payment payment = paymentRepository.findPaymentById(paymentId);
-		if(payment !=null) {
-			return PaymentMapper.domainToResponseDto(payment);
-		}else {
+		if (payment == null) {
 			throw new BusinessException("Não existe pagamento com este id");
 		}
-		
-		
+		Order order = orderRepository.findOrderById(payment.getOrder().getId());
+
+		// payment
+		if (payment.getPaymentStatus() == PaymentStatus.PENDING) {
+			payment.setPaymentDate(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+			payment.setPaymentStatus(PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()));
+			paymentRepository.registerPaymentStatus(payment);
+
+			// order
+			if (PaymentStatus.valueOf(paymentDto.getPaymentStatus().toUpperCase()) == PaymentStatus.OK) {
+				order.setStatus(OrderStatus.RECEIVED);
+			} else {
+				order.setStatus(OrderStatus.CANCELLED);
+			}
+			order.setOrderTime(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")));
+			orderRepository.save(order);
+
+			return PaymentMapper.domainToResponseDto(payment);
+		} else {
+			throw new BusinessException("Este pagamento já foi confirmado ou recusado.");
+		}
+
+	}
+
+	public PaymentDTO checkPaymentStatus(Long paymentId) {
+		Payment payment = paymentRepository.findPaymentById(paymentId);
+		if (payment != null) {
+			return PaymentMapper.domainToResponseDto(payment);
+		} else {
+			throw new BusinessException("Não existe pagamento com este id");
+		}
+
 	}
 }
