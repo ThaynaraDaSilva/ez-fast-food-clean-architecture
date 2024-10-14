@@ -30,7 +30,7 @@ public class ProductUseCase {
         if(category !=null) {
         	product.setCategory(category);
         }else {
-        	throw new BusinessException("Categoria não existe");
+        	throw new BusinessException("Categoria escolhida não existe.");
         }
         product = productRepository.save(product);
         return ProductMapper.domainToResponseDto(product);
@@ -38,12 +38,13 @@ public class ProductUseCase {
     
     public ProductResponseDTO updateProduct(Long id, ProductDTO productDTO) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado com id " + id));
+                .orElseThrow(() -> new BusinessException("Produto escolhido não foi encontrado."));
 
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         Category category = categoryRepository.findById(productDTO.getCategoryId());
+       
         if(category !=null) {
         	product.setCategory(category);
         }else {
@@ -61,7 +62,7 @@ public class ProductUseCase {
     public ProductResponseDTO findById(Long id) {
         return productRepository.findById(id)
                 .map(ProductMapper::domainToResponseDto)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado com id " + id));
+                .orElseThrow(() -> new BusinessException("Produto não foi encontrado."));
     }
 
     public List<ProductResponseDTO> findAll() {
@@ -74,17 +75,21 @@ public class ProductUseCase {
     public void deleteById(Long id) {
         if (productRepository.existsById(id)) {
         	if(productRepository.isProductAssociatedWithOrderItems(id)) {
-        		throw new BusinessException("Produto não pode ser excluído,pois já faz parte de pedidos.");
+        		throw new BusinessException("Esse produto não pode ser excluído,uma vez que já há pedido(s).");
         	}else {
         		productRepository.deleteById(id);
         	}
         } else {
-            throw new EntityNotFoundException("Produto não encontrado com id " + id);
+            throw new EntityNotFoundException("Produto escolhido não foi encontrado.");
         }
     }
     
     public List<ProductResponseDTO> findProductByCategoryId(Long id){
     	List <Product> products =  productRepository.findProductByCategoryId(id);
+    	
+    	if(products.isEmpty()) {
+    		throw new EntityNotFoundException("Não há produtos cadastrados com esta categoria.");
+    	}
     	return products.stream().map(ProductMapper::domainToResponseDto).collect(Collectors.toList());
     }
 

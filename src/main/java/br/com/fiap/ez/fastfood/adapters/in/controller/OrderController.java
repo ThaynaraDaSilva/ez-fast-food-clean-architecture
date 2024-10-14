@@ -1,5 +1,10 @@
 package br.com.fiap.ez.fastfood.adapters.in.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,14 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.ez.fastfood.application.dto.CreateOrderDTO;
 import br.com.fiap.ez.fastfood.application.usecases.OrderUseCase;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +21,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
 
 @RestController
 @RequestMapping("/api/orders")
@@ -43,66 +39,38 @@ public class OrderController {
 	@PostMapping(path = "/checkout", produces = "application/json")
 	public ResponseEntity<?> registerOrder(@Valid @RequestBody CreateOrderDTO createOrderDTO) {
 
-		try {
-
-			return new ResponseEntity<>(orderUseCase.registerOrder(createOrderDTO), HttpStatus.CREATED);
-
-		} catch (IllegalArgumentException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		} catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+		return new ResponseEntity<>(orderUseCase.registerOrder(createOrderDTO), HttpStatus.CREATED);
 	}
 
 	@Operation(summary = "List all orders")
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<?> listOrders() {
-		try {
-			
-			return new ResponseEntity<>(orderUseCase.listAllOrders(), HttpStatus.OK);
-		} catch (BusinessException e) {
-			
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
-		}
+
+		return new ResponseEntity<>(orderUseCase.listAllOrders(), HttpStatus.OK);
 
 	}
-	
+
 	@Operation(summary = "List orders with status 'READY', 'IN_PREPARATION', 'RECEIVED' considering order time")
 
 	@GetMapping(path = "/list-uncompleted-orders", produces = "application/json")
 	public ResponseEntity<?> listUnCompletedOrders() {
-		try {
-			return new ResponseEntity<>(orderUseCase.listUncompletedOrders(), HttpStatus.OK);
-		} catch (BusinessException e) {
-			Map<String, String> response = new HashMap<>();
-	        response.put("message:", e.getMessage());
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		}
 
+		return new ResponseEntity<>(orderUseCase.listUncompletedOrders(), HttpStatus.OK);
 	}
 
 	@Hidden
 	@Operation(summary = "List unfinished orders")
 	@GetMapping(path = "/list-orders-in-queue", produces = "application/json")
 	public ResponseEntity<?> listUnfinishedOrders() {
-		try {
-			return new ResponseEntity<>(orderUseCase.listUnfinishedOrders(), HttpStatus.OK);
-		} catch (BusinessException e) {
-			Map<String, String> response = new HashMap<>();
-	        response.put("message", e.getMessage());
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		}
+
+		return new ResponseEntity<>(orderUseCase.listUnfinishedOrders(), HttpStatus.OK);
 
 	}
-	
+
 	@PostMapping(path = "/update-order-status")
 	public ResponseEntity<?> updateOrderStatus(@Parameter Long orderId) {
-		try {
-			return new ResponseEntity<>(orderUseCase.updateOrderStatus(orderId),HttpStatus.OK);
-		}catch (BusinessException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	
+
+		return new ResponseEntity<>(orderUseCase.updateOrderStatus(orderId), HttpStatus.OK);
 	}
 
 }

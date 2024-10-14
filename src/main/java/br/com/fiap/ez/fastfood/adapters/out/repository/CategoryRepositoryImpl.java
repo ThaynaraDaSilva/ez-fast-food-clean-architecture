@@ -20,7 +20,11 @@ public class CategoryRepositoryImpl  implements CategoryRepository{
 	@Override
 	public Category findById(Long id) {
 		CategoryEntity entity = jpaCategoryRepository.findCategoryById(id);
-        return CategoryMapper.entityToDomain(entity);
+		if(entity!= null) {
+			 return CategoryMapper.entityToDomain(entity);
+		}
+		return null;
+       
 	}
 
 	
