@@ -285,7 +285,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{host}}orders/update-order-status?orderId=1",
+							"raw": "{{host}}orders/update-order-status?orderId=2",
 							"host": [
 								"{{host}}orders"
 							],
@@ -295,7 +295,7 @@
 							"query": [
 								{
 									"key": "orderId",
-									"value": "1"
+									"value": "2"
 								}
 							]
 						}
