@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,36 +31,56 @@ public class CustomExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
-	 @ExceptionHandler(BusinessException.class)
-	    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
-	        String message = ex.getMessage();
-	        HttpStatus status = HttpStatus.CONFLICT;
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<Map<String, String>> handleBusinessException(BusinessException ex) {
+		String message = ex.getMessage();
+		HttpStatus status = mapBusinessExceptionToStatus(message); // Your existing method to map status
 
-	        if (message.contains("Cliente não encontrado")) {
-	            status = HttpStatus.NOT_FOUND;
-	        } else if (message.contains("Dados inválidos")) {
-	            status = HttpStatus.BAD_REQUEST;
-	        }else if(message.contains("Cliente já cadastrado")) {
-	        	status = HttpStatus.CONFLICT;
-	        }else if(message.contains("CPF ou senha errada.")){
-	        	status = HttpStatus.UNAUTHORIZED;
-	        }else if(message.contains("Lista de pedidos vazia")) {
-	        	status = HttpStatus.BAD_REQUEST;
-	        }else if (message.contains("Produto não pode ser excluído,pois já faz parte de pedidos.")) {
-	        	status = HttpStatus.CONFLICT;
-	        }
+		Map<String, String> response = new HashMap<>();
+		response.put("message", message);
 
-	        else { 
-	        	message = "Erro desconhecido";
-	        	status = HttpStatus.INTERNAL_SERVER_ERROR; // condicao padrao 
-	        }
-			 
-	        ErrorResponse errorResponse = new ErrorResponse(message);
-	        return new ResponseEntity<>(errorResponse, status);
-	    }
-	 
-	 	@ExceptionHandler(EntityNotFoundException.class)
-	    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
-	        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-	    }
+		return new ResponseEntity<>(response, status);
+	}
+
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
+	}
+	
+	private HttpStatus mapBusinessExceptionToStatus(String message) {
+        // Define specific mappings from message content to status codes
+        Map<String, HttpStatus> statusMapping = new HashMap<>();
+        
+        //customer
+        statusMapping.put("Cliente não encontrado", HttpStatus.OK);
+        statusMapping.put("Dados inválidos", HttpStatus.BAD_REQUEST);
+        statusMapping.put("Cliente já cadastrado", HttpStatus.CONFLICT);
+        statusMapping.put("CPF ou senha errada.", HttpStatus.UNAUTHORIZED);
+        statusMapping.put("Não há clientes cadastrados.", HttpStatus.OK);
+        
+        
+        //order
+        statusMapping.put("Lista de pedidos vazia.", HttpStatus.OK);
+        statusMapping.put("Não há pedidos com status 'Pronto', 'Em preparação' ou 'Recebido'", HttpStatus.OK);
+        statusMapping.put("Pedido não pode ser alterado, uma vez que o pagamento ainda não foi confirmado.",HttpStatus.OK);
+        statusMapping.put("Pedido não pode ser atualizado, uma vez que está cancelado por falta de pagamento.",HttpStatus.OK);
+        
+        //product
+        statusMapping.put("Produto não pode ser excluído, pois já faz parte de pedidos.", HttpStatus.OK);
+        statusMapping.put("Produto escolhido não foi encontrado.", HttpStatus.OK);
+        statusMapping.put("Produto não foi encontrado.", HttpStatus.OK);
+        statusMapping.put("Esse produto não pode ser excluído,uma vez que já há pedido(s).", HttpStatus.OK);
+        statusMapping.put("Não há produtos cadastrados com esta categoria.", HttpStatus.OK);
+       
+        //Category
+        statusMapping.put("Categoria escolhida não existe.", HttpStatus.OK);
+        
+        //Payment
+        statusMapping.put("Este pagamento já foi confirmado ou recusado.", HttpStatus.OK);
+        statusMapping.put(" Não existe pagamento com este id.", HttpStatus.OK);
+               
+
+        // Return the mapped status or INTERNAL_SERVER_ERROR if no match is found
+        return statusMapping.getOrDefault(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

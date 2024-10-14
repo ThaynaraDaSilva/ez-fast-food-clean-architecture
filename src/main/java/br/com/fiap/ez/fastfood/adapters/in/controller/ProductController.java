@@ -55,8 +55,8 @@ public class ProductController {
 	@ApiResponse(responseCode = "400", description = "Invalid input data") })
 	@PutMapping("update-by-id/{id}")
 	public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-	    ProductResponseDTO updatedProduct = productUseCase.updateProduct(id, productDTO);
-	    return ResponseEntity.ok(updatedProduct);
+	    
+	    return new ResponseEntity<>(productUseCase.updateProduct(id, productDTO), HttpStatus.OK);
 	}
 
 	@Operation(summary = "Remove Product by id")
@@ -65,32 +65,28 @@ public class ProductController {
 	@DeleteMapping("delete-by-id/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productUseCase.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 	@Operation(summary = "List all products")
 	@GetMapping(path = "/list-all", produces = "application/json")
 	public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> products = productUseCase.findAll();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        return new ResponseEntity<>(productUseCase.findAll(), HttpStatus.OK);
     }
 
 	@Hidden
 	@Operation(summary = "Find Product by ID")
 	@GetMapping("/find-by-id/{id}")
 	public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
-        ProductResponseDTO productResponseDTO = productUseCase.findById(id);
-        return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
+  
+        return new ResponseEntity<>(productUseCase.findById(id), HttpStatus.OK);
     }
 	
 	@Operation(summary = "Find Product by Category Id")
-	@GetMapping("/find-by-category-id/{id}")
+	@GetMapping(path = "/find-by-category-id/{id}", produces = "application/json")
 	public ResponseEntity<?> getProductByCategoryId(@PathVariable Long id) {
-        try {
-        	return new ResponseEntity<>(productUseCase.findProductByCategoryId(id), HttpStatus.OK);
-        }catch (BusinessException e){
-        	return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+	    
+        return new ResponseEntity<>(productUseCase.findProductByCategoryId(id), HttpStatus.OK);
         
     }
 }
