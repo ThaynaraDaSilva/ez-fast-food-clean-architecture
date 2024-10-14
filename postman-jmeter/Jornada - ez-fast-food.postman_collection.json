@@ -144,7 +144,7 @@
 			"response": []
 		},
 		{
-			"name": "List-uncompleted-orders",
+			"name": "List uncompleted orders",
 			"request": {
 				"method": "GET",
 				"header": [],
