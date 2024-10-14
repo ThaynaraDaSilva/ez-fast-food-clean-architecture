@@ -176,7 +176,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"PETIT GATEAU\",\r\n    \"description\": \"TIRA GOSTO\",\r\n    \"category_id\": 4,\r\n    \"price\": 15\r\n}",
+							"raw": "{\r\n    \"name\": \"X-FILÉ\",\r\n    \"description\": \"FILÉ MIGNON, QUEIJO PRATA, ALFACE, TOMATE, CEBOLA E MOLHO DA CASA\",\r\n    \"category_id\": 1,\r\n    \"price\": 50\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -184,13 +184,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}products/update-by-id/6",
+							"raw": "{{host}}products/update-by-id/7",
 							"host": [
 								"{{host}}products"
 							],
 							"path": [
 								"update-by-id",
-								"6"
+								"7"
 							]
 						}
 					},
@@ -202,13 +202,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}products/delete-by-id/6",
+							"raw": "{{host}}products/delete-by-id/7",
 							"host": [
 								"{{host}}products"
 							],
 							"path": [
 								"delete-by-id",
-								"6"
+								"7"
 							]
 						}
 					},
