@@ -237,7 +237,7 @@
 					"response": []
 				},
 				{
-					"name": "List orders with status",
+					"name": "List uncompleted orders",
 					"request": {
 						"method": "GET",
 						"header": [],
