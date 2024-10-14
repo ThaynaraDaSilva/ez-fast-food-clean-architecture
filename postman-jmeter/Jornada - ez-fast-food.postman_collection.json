@@ -8,23 +8,6 @@
 	},
 	"item": [
 		{
-			"name": "List all customers",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}customers/list-all",
-					"host": [
-						"{{host}}customers"
-					],
-					"path": [
-						"list-all"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create a new customer",
 			"request": {
 				"method": "POST",
@@ -45,6 +28,23 @@
 					],
 					"path": [
 						"create-new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}customers/list-all",
+					"host": [
+						"{{host}}customers"
+					],
+					"path": [
+						"list-all"
 					]
 				}
 			},
@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"customer_name\": \"Flavio Fernando da Silva\",\r\n  \"customer_cpf\": \"000.000.000-01\",\r\n  \"order_items\": [\r\n    {\r\n      \"product_id\": 1,\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n  \"customer_name\": \"Thaynara da Silva\",\r\n  \"customer_cpf\": \"359.380.170-17\",\r\n  \"order_items\": [\r\n    {\r\n      \"product_id\": 6,\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -144,17 +144,17 @@
 			"response": []
 		},
 		{
-			"name": "List all orders",
+			"name": "List uncompleted orders",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}orders/list-all",
+					"raw": "{{host}}orders/list-uncompleted-orders",
 					"host": [
 						"{{host}}orders"
 					],
 					"path": [
-						"list-all"
+						"list-uncompleted-orders"
 					]
 				}
 			},
@@ -184,17 +184,17 @@
 			"response": []
 		},
 		{
-			"name": "List orders with status",
+			"name": "List all orders",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}orders/list-uncompleted-orders",
+					"raw": "{{host}}orders/list-all",
 					"host": [
 						"{{host}}orders"
 					],
 					"path": [
-						"list-uncompleted-orders"
+						"list-all"
 					]
 				}
 			},

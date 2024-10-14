@@ -39,13 +39,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}customers/find-by-cpf/000.000.000-01",
+							"raw": "{{host}}customers/find-by-cpf/359.380.170-17",
 							"host": [
 								"{{host}}customers"
 							],
 							"path": [
 								"find-by-cpf",
-								"000.000.000-01"
+								"359.380.170-17"
 							]
 						}
 					},
@@ -84,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"cpf\": \"000.000.000-01\"\r\n}",
+							"raw": "{\r\n  \"cpf\": \"359.380.170-17\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -98,61 +98,6 @@
 							],
 							"path": [
 								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Payment",
-			"item": [
-				{
-					"name": "Register Payment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"paymentId\": 1,\r\n  \"paymentStatus\": \"OK\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}payments/webhook/status",
-							"host": [
-								"{{host}}payments"
-							],
-							"path": [
-								"webhook",
-								"status"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Check status",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}payments/check-status?paymentId=1",
-							"host": [
-								"{{host}}payments"
-							],
-							"path": [
-								"check-status"
-							],
-							"query": [
-								{
-									"key": "paymentId",
-									"value": "1"
-								}
 							]
 						}
 					},
@@ -231,7 +176,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"X-BURGUER\",\r\n    \"description\": \"CARNE BOVINA, QUEIJO PRATA, ALFACE, TOMATE, CEBOLA E MOLHO DA CASA\",\r\n    \"category_id\": 1,\r\n    \"price\": 30.5\r\n}",
+							"raw": "{\r\n    \"name\": \"PETIT GATEAU\",\r\n    \"description\": \"TIRA GOSTO\",\r\n    \"category_id\": 4,\r\n    \"price\": 15\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -239,13 +184,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}products/update-by-id/1",
+							"raw": "{{host}}products/update-by-id/6",
 							"host": [
 								"{{host}}products"
 							],
 							"path": [
 								"update-by-id",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -257,13 +202,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}products/delete-by-id/1",
+							"raw": "{{host}}products/delete-by-id/6",
 							"host": [
 								"{{host}}products"
 							],
 							"path": [
 								"delete-by-id",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -292,24 +237,7 @@
 					"response": []
 				},
 				{
-					"name": "List unfinished orders",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}orders/list-orders-in-queue",
-							"host": [
-								"{{host}}orders"
-							],
-							"path": [
-								"list-orders-in-queue"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "List orders with status",
+					"name": "List uncompleted orders",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -332,7 +260,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"customer_name\": \"Flavio Fernando da Silva\",\r\n  \"customer_cpf\": \"000.000.000-01\",\r\n  \"order_items\": [\r\n    {\r\n      \"product_id\": 1,\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+							"raw": "{\r\n  \"customer_name\": \"Thaynara da Silva\",\r\n  \"customer_cpf\": \"359.380.170-17\",\r\n  \"order_items\": [\r\n    {\r\n      \"product_id\": 1,\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -367,6 +295,61 @@
 							"query": [
 								{
 									"key": "orderId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Register Payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"paymentId\": 1,\r\n  \"paymentStatus\": \"OK\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}payments/webhook/status",
+							"host": [
+								"{{host}}payments"
+							],
+							"path": [
+								"webhook",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}payments/check-status?paymentId=1",
+							"host": [
+								"{{host}}payments"
+							],
+							"path": [
+								"check-status"
+							],
+							"query": [
+								{
+									"key": "paymentId",
 									"value": "1"
 								}
 							]
