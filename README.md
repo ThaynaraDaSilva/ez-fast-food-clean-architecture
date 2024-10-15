@@ -112,17 +112,6 @@ git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
 cd ez-fast-food-clean-architecture
 ```
 
-### Como compilar o projeto (caso necessário)
-```sh
-git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
-cd ez-fast-food-clean-architecture
-### Compilação local
-mvn clean package -Pdev
-## Compilação para publicação com K8s
-### Desta forma o 'application.properties' terá parametros que serão injetados com valores no momento de subir os pods.
-mvn clean package -Pprd
-```
-
 ### Execução com kubernetes
 Para iniciar o container da API e do banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
 
@@ -134,6 +123,17 @@ kubectl apply -f k8s/namespace.yaml && kubectl apply -f k8s/
 kubectl apply -f k8s/namespace.yaml
 ## 2.
 kubectl apply -f k8s/
+```
+
+### Como compilar o projeto (caso necessário)
+```sh
+git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
+cd ez-fast-food-clean-architecture
+### Compilação local
+mvn clean package -Pdev
+## Compilação para publicação com K8s
+### Desta forma o 'application.properties' terá parametros que serão injetados com valores no momento de subir os pods.
+mvn clean package -Pprd
 ```
 
 ## Documentação das APIs
