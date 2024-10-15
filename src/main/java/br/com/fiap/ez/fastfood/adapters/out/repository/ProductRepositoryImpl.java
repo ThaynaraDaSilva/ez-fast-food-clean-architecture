@@ -6,11 +6,7 @@ import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.domain.model.Product;
 import br.com.fiap.ez.fastfood.domain.repository.ProductRepository;
-import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
-import br.com.fiap.ez.fastfood.infrastructure.persistence.OrderEntity;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.ProductEntity;
-import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
-import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.ProductMapper;
 
 public class ProductRepositoryImpl implements ProductRepository {

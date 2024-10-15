@@ -6,11 +6,9 @@ import java.util.stream.Collectors;
 import br.com.fiap.ez.fastfood.application.dto.CreateCustomerDTO;
 import br.com.fiap.ez.fastfood.application.dto.CustomerResponseDTO;
 import br.com.fiap.ez.fastfood.domain.model.Customer;
-import br.com.fiap.ez.fastfood.domain.model.Order;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
-import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 
 public class CustomerUseCase {
 

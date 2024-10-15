@@ -1,13 +1,11 @@
 package br.com.fiap.ez.fastfood.adapters.out.repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.com.fiap.ez.fastfood.domain.model.Customer;
 import br.com.fiap.ez.fastfood.domain.repository.CustomerRepository;
 import br.com.fiap.ez.fastfood.infrastructure.mapper.CustomerMapper;
-import br.com.fiap.ez.fastfood.infrastructure.mapper.OrderMapper;
 import br.com.fiap.ez.fastfood.infrastructure.persistence.CustomerEntity;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
