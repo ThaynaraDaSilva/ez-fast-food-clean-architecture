@@ -1,6 +1,8 @@
 
 package br.com.fiap.ez.fastfood.frameworks.config;
 
+//manter para habilitar seguranca em futuro techchallenge
+
 /*import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

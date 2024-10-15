@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.ez.fastfood.application.dto.PaymentDTO;
 import br.com.fiap.ez.fastfood.application.usecases.PaymentUseCase;
-import br.com.fiap.ez.fastfood.frameworks.exception.BusinessException;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/payments")
 @Tag(name = "Payment API", description = "Webhook to confirm or deny a order's payment")
 public class PaymentController {
-	
+
 	private final PaymentUseCase paymentUseCase;
 
 	public PaymentController(PaymentUseCase paymentUseCase) {
@@ -29,16 +27,15 @@ public class PaymentController {
 
 	@PostMapping("/webhook/status")
 	public ResponseEntity<?> registirPaymentStatus(@RequestBody PaymentDTO paymentDTO) {
-	
-		
-		return new ResponseEntity<>(paymentUseCase.registerPaymentStatus(paymentDTO),HttpStatus.OK);
-	
+
+		return new ResponseEntity<>(paymentUseCase.registerPaymentStatus(paymentDTO), HttpStatus.OK);
+
 	}
-	
+
 	@GetMapping(path = "/check-status")
 	public ResponseEntity<?> checkPaymentStatus(@Parameter Long paymentId) {
 
-		return new ResponseEntity<>(paymentUseCase.checkPaymentStatus(paymentId),HttpStatus.OK);
+		return new ResponseEntity<>(paymentUseCase.checkPaymentStatus(paymentId), HttpStatus.OK);
 	}
 
 }

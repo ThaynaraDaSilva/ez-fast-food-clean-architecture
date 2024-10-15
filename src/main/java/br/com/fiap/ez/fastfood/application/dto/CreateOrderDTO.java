@@ -3,7 +3,6 @@ package br.com.fiap.ez.fastfood.application.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -19,7 +18,6 @@ public class CreateOrderDTO {
 	@JsonProperty("order_items")
 	private List<OrderItemDTO> orderItems;
 
-	// Getters and setters
 
 	public String getCustomerName() {
 		return customerName;
