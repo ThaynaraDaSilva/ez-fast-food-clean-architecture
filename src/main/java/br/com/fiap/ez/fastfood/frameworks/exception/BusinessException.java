@@ -15,8 +15,6 @@
 
 package br.com.fiap.ez.fastfood.frameworks.exception;
 
-import org.springframework.http.HttpStatus;
-
 public class BusinessException extends RuntimeException {
 	//private final HttpStatus status;
 	
