@@ -125,11 +125,11 @@ kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/
 ```
 
-## Documentação de APIs
-```sh
+## Documentação das APIs
+
 1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
-2. Foi disponibilizado uma **collection do postman**, disponível no diretório postman-jmeter/ deste repositório.
-```
+2. Foi disponibilizado uma **collection do postman**, no diretório postman-jmeter/ deste repositório.
+
 ## Validação da API com Postman
 
 ### 1. Baixar a Collection:
