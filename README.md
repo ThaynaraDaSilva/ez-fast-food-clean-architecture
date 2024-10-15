@@ -69,7 +69,7 @@ postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 - **Listar pedidos não finalizados**(http://localhost:30000/orders/list-uncompleted-orders)
   - regra 1: considerar somente pedidos com os status **READY** , **IN_PREPARATION** e **RECEIVED**.
   - regra 2: pedidos mais antigos devem aparecer primeiro.
-  - 
+  
 ### Pagamento (Webhook)
 - **Atualizar status do pagamento** (http://localhost:30000/payments/webhook/status):
   - regra: somente permitido atualizar o status para **OK** ou **CANCELLED** se o pagamento estiver com o status: **PENDING**
@@ -98,19 +98,18 @@ Esses endpoints foram implementados para facilitar as validações.
 - Kubernetes habilitado no Docker Desktop.
 
 **Instruções para habilitar Kubernetes no Docker Desktop:**
-
+```sh
 1. Abra o Docker Desktop.
 2. Vá para as Configurações.
 3. Selecione a aba Kubernetes.
 4. Marque a opção Enable Kubernetes.
 5. Clique em Apply & Restart para aplicar as mudanças.
-
+```
 ### Clonar o repositório
 
 ```sh
 git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
 cd ez-fast-food-clean-architecture
-
 ```
 
 ### Execução com kubernetes
@@ -127,28 +126,34 @@ kubectl apply -f k8s/
 ```
 
 ## Documentação de APIs
+```sh
 1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
 2. Foi disponibilizado uma **collection do postman**, disponível no diretório postman-jmeter/ deste repositório.
-
+```
 ## Validação da API com Postman
 
 ### 1. Baixar a Collection:
+```sh
 1.1. Navegue até o diretório e baixe o arquivo .json correspondente à collection de endpoints.
+```
 
 ### 2. Importar a collection no postman:
+```sh
 2.1. Inicie o postman.
 2.2. No canto superior esquerdo, clique em *Import*.
 2.3. Arraste e solte o arquivo .json ou selecione-o manualmente para importar a collection.
+```
 
 ### 3. Selecionar o Ambiente:
+```sh
 3.1. Certifique-se de que o *environment* **ez-local** está configurado e selecionado no postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
 
 3.2. Caso o *environment* ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman-jmeter/, importe-o da mesma forma que fez com a *collection* e selecione-o no canto superior direito da interface do postman.
-
+```
 ### Collection 1 - Jornada do fluxo de pedido
 
 - A collection criada para o ez-fast-food contém todos os endpoints documentados no Swagger. Dentro dela, há um conjunto específico chamado Jornada - ez-fast-food, que deve ser usado para seguir o fluxo de pedido na sequência correta. Esse fluxo inclui os seguintes passos:
-
+```sh
 1. Listar Todos os Clientes: Execute o endpoint List all customers para visualizar os clientes cadastrados.
 
 2. Cadastrar Novo Cliente: Use Create a new customer para criar um cliente.
@@ -168,7 +173,7 @@ kubectl apply -f k8s/
 9. Listar Todos os Pedidos: Com o endpoint List all orders, visualize todos os pedidos feitos.
 
 Siga essa ordem na collection Jornada - ez-fast-food para simular o fluxo completo de um pedido.
-
+```
 ##  Apache JMeter
 Essa ferramenta foi utilizada para estressar a API durante nossas validações de HPA.
 
