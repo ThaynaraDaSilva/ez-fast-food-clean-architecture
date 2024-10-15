@@ -37,7 +37,7 @@ k8s/                      # Arquivos de manifesto Kubernetes
 postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 ```
 
-## Modelagem do Banco de Dados
+## Modelagem do banco de dados
 
 ![modelagem](https://github.com/user-attachments/assets/bfa15302-2957-47cc-afdf-85cea99b5b7a)
 ## Tecnologias utilizadas
@@ -55,6 +55,7 @@ postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 ### Cliente
 - **Cadastro do cliente** (http://localhost:30000/customers/create-new)
 - **Identificação do cliente via CPF** (http://localhost:30000/customers/find-by-cpf/{cpf})
+- **Login** (http://localhost:30000/customers/customers/login)
   
 ### Produto
 - **Criar Produto** (http://localhost:30000/products/create-new)
@@ -68,17 +69,17 @@ postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 - **Listar pedidos não finalizados**(http://localhost:30000/orders/list-uncompleted-orders)
   - regra 1: considerar somente pedidos com os status **READY** , **IN_PREPARATION** e **RECEIVED**.
   - regra 2: pedidos mais antigos devem aparecer primeiro.
-
+  - 
 ### Pagamento (Webhook)
 - **Atualizar status do pagamento** (http://localhost:30000/payments/webhook/status):
-  - regra: somente permitodo atualizar o status para **OK** ou **CANCELLED** se o pagamento estiver com o status: **PENDING**
+  - regra: somente permitido atualizar o status para **OK** ou **CANCELLED** se o pagamento estiver com o status: **PENDING**
 
 ## Entregas Extras
 Esses endpoints foram implementados para facilitar as validações. 
 ### Cliente
 - **Filtrar cliente por CPF** (http://localhost:30000/customers/find-by-cpf/{cpf})
 - **Listar todos os clientes** (http://localhost:30000/customers/list-all) 
-- **Login** (http://localhost:30000/customers/customers/login)
+
 
 ### Produto
 - **Listar todos os produtos** (http://localhost:30000/products/list-all)
@@ -104,7 +105,7 @@ Esses endpoints foram implementados para facilitar as validações.
 4. Marque a opção Enable Kubernetes.
 5. Clique em Apply & Restart para aplicar as mudanças.
 
-### Clonar o Repositório
+### Clonar o repositório
 
 ```sh
 git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
@@ -112,42 +113,37 @@ cd ez-fast-food-clean-architecture
 
 ```
 
-### Execução com Kubernetes
-Para iniciar a aplicação e o banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
-
-
-Criação de namespace e aplicando os manifestos do Kubernetes:
+### Execução com kubernetes
+Para iniciar o container da API e do banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
 
 ```sh
+# o comando cria o namespace e aplica manifestos k8s presentes no diretório
 kubectl apply -f k8s/namespace.yaml && kubectl apply -f k8s/
-
+# ou execute dessa forma:
+## 1.
+kubectl apply -f k8s/namespace.yaml
+## 2.
+kubectl apply -f k8s/
 ```
 
-Isso irá:
-
-1. Subir os contêineres da aplicação e do PostgreSQL no Kubernetes.
-2. Garantir que a aplicação esteja rodando corretamente.
-
 ## Documentação de APIs
-A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
+1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
+2. Foi disponibilizado uma **collection do postman**, disponível no diretório postman-jmeter/ deste repositório.
 
 ## Validação da API com Postman
 
-### **Baixar a Collection:**
+### 1. Baixar a Collection:
+1.1. Navegue até o diretório e baixe o arquivo .json correspondente à collection de endpoints.
 
-- A collection de testes pode ser encontrada no diretório postman-jmeter/ deste repositório.
-- Navegue até o diretório e baixe o arquivo .json correspondente à collection de endpoints.
+### 2. Importar a collection no postman:
+2.1. Inicie o postman.
+2.2. No canto superior esquerdo, clique em *Import*.
+2.3. Arraste e solte o arquivo .json ou selecione-o manualmente para importar a collection.
 
-### **Importar a Collection no Postman:**
+### 3. Selecionar o Ambiente:
+3.1. Certifique-se de que o *environment* **ez-local** está configurado e selecionado no postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
 
-- Abra o Postman.
-- No canto superior esquerdo, clique em Import.
-- Arraste e solte o arquivo .json ou selecione-o manualmente para importar a collection.
-
-### **Selecionar o Ambiente:**
-
-- Certifique-se de que o ambiente ez-local está configurado e selecionado no Postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
-- Caso o ambiente ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman/, importe-o da mesma forma que fez com a collection e selecione-o no canto superior direito da interface do Postman.
+3.2. Caso o *environment* ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman-jmeter/, importe-o da mesma forma que fez com a *collection* e selecione-o no canto superior direito da interface do postman.
 
 ### Collection 1 - Jornada do fluxo de pedido
 
@@ -178,7 +174,6 @@ Essa ferramenta foi utilizada para estressar a API durante nossas validações d
 
 - Link para download: https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
 - Arquivo "ez-fast-food-api.jmx" disponível no diretório: postman-jmeter/ deste repositório.
-
 
 ## Desenvolvido por:
 @tchfer : RM357414<br>
