@@ -1,15 +1,15 @@
 # EZ-Fast-Food - Clean Architecture e Kubernetes
 
-## Descrição
+## Contextualização
 
 O **EZ-Fast-Food API** é uma solução desenvolvida para uma lanchonete em expansão, utilizando a arquitetura limpa (Clean Architecture) para assegurar uma separação clara entre a lógica de negócios e os detalhes de infraestrutura. A API é implantada com Docker Kubernetes.
 
 ## Desenho de arquitetura
 ![image](https://github.com/user-attachments/assets/0c53ef23-645c-4125-a7e5-12f00b48bc1b)
 
-## Arquitetura Limpa (Clean Architecture)
+## Arquitetura limpa (Clean architecture)
 
-A Clean Architecture foi adotada para garantir uma separação clara das responsabilidades do sistema, facilitando a manutenção e a evolução do software ao isolar a lógica de negócios dos detalhes de implementação.
+A *clean architecture* foi adotada para garantir uma separação clara das responsabilidades da API, facilitando a manutenção e a evolução da solução ao isolar a lógica de negócios dos detalhes de implementação.
 
 ## Estrutura de diretórios do projeto
 ```
@@ -53,8 +53,8 @@ postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 ## Entregáveis
 
 ### Cliente
-- Cadastro do Cliente
-- Identificação do Cliente via CPF
+- **Cadastro do cliente** (http://localhost:30000/customers/create-new)
+- **Identificação do cliente via CPF** (http://localhost:30000/customers/find-by-cpf/{cpf})
   
 ### Produto
 - **Criar Produto** (http://localhost:30000/products/create-new)
@@ -77,7 +77,7 @@ postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 Esses endpoints foram implementados para facilitar as validações. 
 ### Cliente
 - **Filtrar cliente por CPF** (http://localhost:30000/customers/find-by-cpf/{cpf})
-- **Listar todos os clientes** (http://localhost:30000/customers/customers/list-all) 
+- **Listar todos os clientes** (http://localhost:30000/customers/list-all) 
 - **Login** (http://localhost:30000/customers/customers/login)
 
 ### Produto
@@ -133,25 +133,23 @@ A documentação das APIs está disponível no Swagger e pode ser acessada em ht
 
 ## Validação da API com Postman
 
-### Baixar e Importar a Collection no Postman
-
-#### **Baixar a Collection:**
+### **Baixar a Collection:**
 
 - A collection de testes pode ser encontrada no diretório postman-jmeter/ deste repositório.
 - Navegue até o diretório e baixe o arquivo .json correspondente à collection de endpoints.
 
-#### **Importar a Collection no Postman:**
+### **Importar a Collection no Postman:**
 
 - Abra o Postman.
 - No canto superior esquerdo, clique em Import.
 - Arraste e solte o arquivo .json ou selecione-o manualmente para importar a collection.
 
-#### **Selecionar o Ambiente:**
+### **Selecionar o Ambiente:**
 
 - Certifique-se de que o ambiente ez-local está configurado e selecionado no Postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
 - Caso o ambiente ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman/, importe-o da mesma forma que fez com a collection e selecione-o no canto superior direito da interface do Postman.
 
-#### **Jornada do Fluxo de Pedido**
+### Collection 1 - Jornada do fluxo de pedido
 
 - A collection criada para o ez-fast-food contém todos os endpoints documentados no Swagger. Dentro dela, há um conjunto específico chamado Jornada - ez-fast-food, que deve ser usado para seguir o fluxo de pedido na sequência correta. Esse fluxo inclui os seguintes passos:
 
