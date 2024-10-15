@@ -5,6 +5,7 @@
 O **EZ-Fast-Food API** é uma solução desenvolvida para uma lanchonete em expansão, utilizando a arquitetura limpa (Clean Architecture) para assegurar uma separação clara entre a lógica de negócios e os detalhes de infraestrutura. A API é implantada com Docker Kubernetes.
 
 ## Desenho de arquitetura
+![image](https://github.com/user-attachments/assets/0c53ef23-645c-4125-a7e5-12f00b48bc1b)
 
 ## Arquitetura Limpa (Clean Architecture)
 
