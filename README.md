@@ -2,83 +2,93 @@
 
 ## Descrição
 
-O **EZ-Fast-Food** é um sistema desenvolvido para uma lanchonete em expansão, que utiliza a arquitetura limpa (Clean Architecture) para garantir uma separação clara entre a lógica de negócios e os detalhes de infraestrutura, e é implantado usando Docker e Kubernetes.
+O **EZ-Fast-Food API** é uma solução desenvolvida para uma lanchonete em expansão, utilizando a arquitetura limpa (Clean Architecture) para assegurar uma separação clara entre a lógica de negócios e os detalhes de infraestrutura. A API é implantada com Docker Kubernetes.
 
-## Entregáveis
+## Desenho de arquitetura
 
-### Cliente
-- **Cadastro do Cliente** 
-- **Identificação do Cliente via CPF** 
-  
-### Produto
-- **Criar, Editar e Remover Produtos**
-  - **Criar Produto:** 
-  - **Editar Produto:** 
-  - **Remover Produto:**
-- **Buscar Produtos por Categoria** 
-
-### Pedido
-- **Fake Checkout**
-  - Envio dos produtos escolhidos para a fila (checkout é a finalização do pedido). 
-- **Listar todos os Pedidos** 
-
-## Entregas Extras
-Esses endpoints foram implementados para facilitar as validações. 
-### Cliente
-- **Filtrar Cliente por CPF** 
-
-### Produto
-- **Listar Todos os Produtos** 
-
-### Pedidos
-- **Listar Todos os Pedidos Não Finalizados** 
-
-## Tecnologias Utilizadas
-
-- **Java 17**
-- **Spring Boot 3.3.1**
-- **Hibernate**
-- **PostgreSQL**
-- **Docker**
-- **Kubernetes**
-- **OpenApi**
-
-## Modelagem do Banco de Dados
-
-![modelagem](https://github.com/user-attachments/assets/bfa15302-2957-47cc-afdf-85cea99b5b7a)
-
-## Arquitetura
-
-### Arquitetura Limpa (Clean Architecture)
+## Arquitetura Limpa (Clean Architecture)
 
 A Clean Architecture foi adotada para garantir uma separação clara das responsabilidades do sistema, facilitando a manutenção e a evolução do software ao isolar a lógica de negócios dos detalhes de implementação.
 
-### Estrutura de Diretórios
-
+## Estrutura de diretórios do projeto
 ```
 br.com.fiap.ez.fastfood
 ├── adapters
 │   ├── in
+│   │   └── controller
 │   └── out
+│       └── repository
 ├── application
 │   ├── usecases
 │   └── dto
 ├── domain
-│   └── model
+│   ├── model
 │   └── repository
-├── infrastructure
-│   ├── persistence
-│   ├── mapper
-│   └── config
-├── config
+├── frameworks
+│   ├── config
 │   └── exception
-│   └── security
+├── infrastructure
+│   ├── config
+│   ├── mapper
+│   └── persistence
 ├── APIApplication.java
-k8s/            # Arquivos de manifesto Kubernetes
-postman-jmeter/        # Collection para testes no Postman
+k8s/                      # Arquivos de manifesto Kubernetes
+postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 ```
 
-## Instruções de Configuração e Execução
+## Modelagem do Banco de Dados
+
+![modelagem](https://github.com/user-attachments/assets/bfa15302-2957-47cc-afdf-85cea99b5b7a)
+## Tecnologias utilizadas
+
+- Java 17
+- Spring Boot 3.3.1
+- Hibernate
+- PostgreSQL 12
+- Docker
+- Kubernetes
+- OpenApi
+
+## Entregáveis
+
+### Cliente
+- Cadastro do Cliente
+- Identificação do Cliente via CPF
+  
+### Produto
+- **Criar Produto** (http://localhost:30000/products/create-new)
+- **Editar Produto** (http://localhost:30000/products/update-by-id/{id})
+- **Remover Produto** (http://localhost:30000/products/delete-by-id/{id})
+  - regra 1: não é permitido remover um produto que está associado a pedido.
+- **Buscar produtos por categoria** (http://localhost:30000/products/find-by-category-id/{id})
+
+### Pedido
+- **Fake checkout** (http://localhost:30000/orders/checkout): envio dos produtos escolhidos para a fila (checkout é a finalização do pedido).
+- **Listar pedidos não finalizados**(http://localhost:30000/orders/list-uncompleted-orders)
+  - regra 1: considerar somente pedidos com os status **READY** , **IN_PREPARATION** e **RECEIVED**.
+  - regra 2: pedidos mais antigos devem aparecer primeiro.
+
+### Pagamento (Webhook)
+- **Atualizar status do pagamento** (http://localhost:30000/payments/webhook/status):
+  - regra: somente permitodo atualizar o status para **OK** ou **CANCELLED** se o pagamento estiver com o status: **PENDING**
+
+## Entregas Extras
+Esses endpoints foram implementados para facilitar as validações. 
+### Cliente
+- **Filtrar cliente por CPF** (http://localhost:30000/customers/find-by-cpf/{cpf})
+- **Listar todos os clientes** (http://localhost:30000/customers/customers/list-all) 
+- **Login** (http://localhost:30000/customers/customers/login)
+
+### Produto
+- **Listar todos os produtos** (http://localhost:30000/products/list-all)
+
+### Pedidos
+- **Listar todos os pedidos** (http://localhost:30000/orders/list-all)
+
+### Pagamento
+- **Verificar status do pagamento** (http://localhost:30000/payments/check-status?paymentId={id})
+
+## Instruções de configuração e execução
 
 ### Pré-requisitos
 
