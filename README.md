@@ -128,9 +128,11 @@ kubectl apply -f k8s/
 ## Documentação das APIs
 
 1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
-2. Foi disponibilizado uma **collection do postman**, no diretório postman-jmeter/ deste repositório.
+2. Foi disponibilizado **duas collections** do **postman**, no diretório postman-jmeter/ deste repositório.
+   1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
+   2. Collection geral: em ordem de execução para validar todas as funcionalidades.
 
-## Validação da API com Postman
+### Validação da API com Postman
 
 ### 1. Baixar a Collection:
 ```sh
@@ -150,30 +152,33 @@ kubectl apply -f k8s/
 
 3.2. Caso o *environment* ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman-jmeter/, importe-o da mesma forma que fez com a *collection* e selecione-o no canto superior direito da interface do postman.
 ```
-### Collection 1 - Jornada do fluxo de pedido
 
-- A collection criada para o ez-fast-food contém todos os endpoints documentados no Swagger. Dentro dela, há um conjunto específico chamado Jornada - ez-fast-food, que deve ser usado para seguir o fluxo de pedido na sequência correta. Esse fluxo inclui os seguintes passos:
+### Collection 1 - Jornada do fluxo de pedido desde cadastro de cliente
+Esse fluxo inclui os seguintes passos:
 ```sh
-1. Listar Todos os Clientes: Execute o endpoint List all customers para visualizar os clientes cadastrados.
+1. Listar todos os clientes: execute o cenário 'List all customers' para visualizar os clientes já cadastrados. 
 
-2. Cadastrar Novo Cliente: Use Create a new customer para criar um cliente.
+2. Cadastrar novo cliente: execute o cenário 'create a new customer' para cadastrar um novo cliente.
 
-3. Listar Todos os Produtos: Execute List all products para visualizar os produtos disponíveis e ver quais os IDs dos produtos para fazer um pedido.
+3. Listar todos os produtos: execute o 'list all products' para visualizar os produtos disponíveis e ver quais os IDs dos produtos para fazer um pedido.
 
-4. Criar um Pedido (Fake Checkout): No endpoint Register a new order, selecione um produto pelo product_id e crie o pedido.
+4. Criar um pedido (fake checkout): execute o 'register a new order', selecione um produto pelo product_id e crie o pedido.
 
-5. Registrar Pagamento: No endpoint Register a new payment, passe o order_id gerado anteriormente para realizar o pagamento.
+5. Registrar pagamento: execute o 'resgister payment', passando o order_id gerado anteriormente para realizar o pagamento.
 
-6. Verificar Status do Pagamento: Execute Check payment status, passando o paymentId para verificar o status.
+6. Verificar status do pagamento: execute o 'Check payment status', passando o paymentId para verificar o status.
 
-7. Listar Pedidos por Status: Execute List orders with status para ver pedidos que estão na fila de de preparação.
+7. Listar pedidos por status: execute o 'List uncompleted orders' para obter a lista de pedidos não concluídos.
 
-8. Atualizar Status do Pedido: Execute Update order status, alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
+8. Atualizar status do pedido: Execute o 'Update order status', alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
 
-9. Listar Todos os Pedidos: Com o endpoint List all orders, visualize todos os pedidos feitos.
-
-Siga essa ordem na collection Jornada - ez-fast-food para simular o fluxo completo de um pedido.
+9. Listar rodos os pedidos: com o endpoint 'List all orders', visualize todos os pedidos feitos, independente do status do pedido.
 ```
+
+**Observação**: 
+1. Já deixamos uma massa de dados automatizada para que você somente execute os endpoints.
+2. O fluxo mapeado não representa a navegação via frontend. Há endpoints tais como 'listar clientes' que estão presentes nesta jornada do backend apenas para apoiar o usuário final na validação.
+
 ##  Apache JMeter
 Essa ferramenta foi utilizada para estressar a API durante nossas validações de HPA.
 
