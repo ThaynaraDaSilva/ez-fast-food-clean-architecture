@@ -66,13 +66,13 @@ postman-jmeter/            # Collection para testes no Postman e Apache JMeter
 
 ### Pedido
 - **Fake checkout** (http://localhost:30000/orders/checkout): envio dos produtos escolhidos para a fila (checkout é a finalização do pedido).
-- **Listar pedidos não finalizados**(http://localhost:30000/orders/list-uncompleted-orders)
+- **Listar pedidos não finalizados** (http://localhost:30000/orders/list-uncompleted-orders)
   - regra 1: considerar somente pedidos com os status **READY** , **IN_PREPARATION** e **RECEIVED**.
   - regra 2: pedidos mais antigos devem aparecer primeiro.
   
 ### Pagamento (Webhook)
 - **Atualizar status do pagamento** (http://localhost:30000/payments/webhook/status):
-  - regra: somente permitido atualizar o status para **OK** ou **CANCELLED** se o pagamento estiver com o status: **PENDING**
+  - regra 1: somente permitido atualizar o status para **OK** ou **CANCELLED** se o pagamento estiver com o status: **PENDING**
 
 ## Entregas Extras
 Esses endpoints foram implementados para facilitar as validações. 
@@ -140,8 +140,8 @@ kubectl apply -f k8s/
 
 1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
 2. Foi disponibilizado **duas collections** do **postman**, no diretório postman-jmeter/ deste repositório.
-  2.1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
-  2.2. Collection geral: em ordem de execução para validar todas as funcionalidades.
+  - 2.1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
+  - 2.2. Collection geral: em ordem de execução para validar todas as funcionalidades.
 
 ### Validação da API com Postman
 
