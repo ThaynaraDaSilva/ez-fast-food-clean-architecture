@@ -140,8 +140,9 @@ kubectl apply -f k8s/
 
 1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
 2. Foi disponibilizado **duas collections** do **postman**, no diretório postman-jmeter/ deste repositório.
-  - 2.1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
-  - 2.2. Collection geral: em ordem de execução para validar todas as funcionalidades.
+
+  2.1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
+  2.2. Collection geral: em ordem de execução para validar todas as funcionalidades.
 
 ### Validação da API com Postman
 
