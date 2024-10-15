@@ -167,26 +167,25 @@ kubectl apply -f k8s/
 ### Collection 1 - Jornada do fluxo de pedido desde cadastro de cliente
 Esse fluxo inclui os seguintes passos:
 
-1. Listar todos os clientes: execute o cenário 'List all customers' para visualizar os clientes já cadastrados. 
+1. Cadastrar novo cliente: execute o cenário 'create a new customer' para cadastrar um novo cliente.
 
-2. Cadastrar novo cliente: execute o cenário 'create a new customer' para cadastrar um novo cliente.
+2. Listar todos os clientes: execute o cenário 'List all customers' para visualizar os clientes já cadastrados. 
 
 3. Listar todos os produtos: execute o 'list all products' para visualizar os produtos disponíveis e ver quais os IDs dos produtos para fazer um pedido.
 
-4. Criar um pedido (fake checkout): execute o 'register a new order', selecione um produto pelo product_id e crie o pedido.
+4. Criar um pedido (fake checkout): execute o 'register a new order', fornecendo o produto pelo product_id para criação do pedido.
 
 5. Registrar pagamento: execute o 'resgister payment', passando o order_id gerado anteriormente para realizar o pagamento.
 
 6. Verificar status do pagamento: execute o 'Check payment status', passando o paymentId para verificar o status.
 
-7. Listar pedidos por status: execute o 'List uncompleted orders' para obter a lista de pedidos não concluídos.
+7. Listar pedidos não concluídos: execute o 'List uncompleted orders' para obter a lista de pedidos não concluídos.
 
-8. Atualizar status do pedido: execute o 'Update order status', alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
+8. Atualizar status do pedido: execute o 'Update order status', quando quiser atribuir para: RECEIVED, IN_PREPARATION, READY, ou COMPLETED. Cada execução, seguirá a ordem de status informada anteriormente.
 
-9. Listar rodos os pedidos: com o endpoint 'List all orders', visualize todos os pedidos feitos, independente do status do pedido.
+9. Listar todos os pedidos: com o endpoint 'List all orders', visualize todos os pedidos feitos, independente do status.
 
-
-**Observação**: 
+**Observações**:
 1. Já deixamos uma massa de dados automatizada para que você somente execute os endpoints.
 2. O fluxo mapeado não representa a navegação via frontend. Há endpoints tais como 'listar clientes' que estão presentes nesta jornada do backend apenas para apoiar o usuário final na validação.
 
