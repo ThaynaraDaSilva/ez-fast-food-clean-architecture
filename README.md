@@ -116,8 +116,13 @@ cd ez-fast-food-clean-architecture
 Para iniciar o container da API e do banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
 
 ```sh
+CMD e Bash
 # o comando cria o namespace e aplica manifestos k8s presentes no diretório
 kubectl apply -f k8s/namespace.yaml && kubectl apply -f k8s/
+
+Powershell
+kubectl apply -f k8s/namespace.yaml; kubectl apply -f k8s/
+
 # ou execute dessa forma:
 ## 1.
 kubectl apply -f k8s/namespace.yaml
