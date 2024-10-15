@@ -157,16 +157,16 @@ kubectl apply -f k8s/
 2.3. Arraste e solte o arquivo .json ou selecione-o manualmente para importar a collection.
 ```
 
-### 3. Selecionar o Ambiente:
-```sh
-3.1. Certifique-se de que o *environment* **ez-local** está configurado e selecionado no postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
+### 3. Selecionar o ambiente:
 
-3.2. Caso o *environment* ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman-jmeter/, importe-o da mesma forma que fez com a *collection* e selecione-o no canto superior direito da interface do postman.
-```
+- 3.1. Certifique-se de que o *environment* *ez-local* está configurado e selecionado no postman para garantir que as variáveis de ambiente (como a URL base, http://localhost:30000/api/) sejam utilizadas corretamente.
+
+- 3.2. Caso o *environment* ez-local não esteja importado, baixe o arquivo de ambiente localizado no diretório postman-jmeter/, importe-o da mesma forma que fez com a *collection* e selecione-o no canto superior direito da interface do postman.
+
 
 ### Collection 1 - Jornada do fluxo de pedido desde cadastro de cliente
 Esse fluxo inclui os seguintes passos:
-```sh
+
 1. Listar todos os clientes: execute o cenário 'List all customers' para visualizar os clientes já cadastrados. 
 
 2. Cadastrar novo cliente: execute o cenário 'create a new customer' para cadastrar um novo cliente.
@@ -184,7 +184,7 @@ Esse fluxo inclui os seguintes passos:
 8. Atualizar status do pedido: execute o 'Update order status', alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
 
 9. Listar rodos os pedidos: com o endpoint 'List all orders', visualize todos os pedidos feitos, independente do status do pedido.
-```
+
 
 **Observação**: 
 1. Já deixamos uma massa de dados automatizada para que você somente execute os endpoints.
