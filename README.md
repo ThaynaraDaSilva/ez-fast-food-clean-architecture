@@ -7,7 +7,7 @@ O **EZ-Fast-Food API** é uma solução desenvolvida para uma lanchonete em expa
 ## Desenho de arquitetura
 ![image](https://github.com/user-attachments/assets/0c53ef23-645c-4125-a7e5-12f00b48bc1b)
 
-## Arquitetura limpa (Clean architecture)
+## Arquitetura limpa (*Clean architecture*)
 
 A *clean architecture* foi adotada para garantir uma separação clara das responsabilidades da API, facilitando a manutenção e a evolução da solução ao isolar a lógica de negócios dos detalhes de implementação.
 
@@ -112,6 +112,17 @@ git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
 cd ez-fast-food-clean-architecture
 ```
 
+### Como compilar o projeto (caso necessário)
+```sh
+git clone https://github.com/ThaynaraDaSilva/ez-fast-food-clean-architecture.git
+cd ez-fast-food-clean-architecture
+### Compilação local
+mvn clean package -Pdev
+## Compilação para publicação com K8s
+### Desta forma o 'application.properties' terá parametros que serão injetados com valores no momento de subir os pods.
+mvn clean package -Pprd
+```
+
 ### Execução com kubernetes
 Para iniciar o container da API e do banco de dados PostgreSQL, execute o seguinte comando na raiz desse projeto:
 
@@ -129,8 +140,8 @@ kubectl apply -f k8s/
 
 1. A documentação das APIs está disponível no Swagger e pode ser acessada em http://localhost:30000/swagger-ui/index.html.
 2. Foi disponibilizado **duas collections** do **postman**, no diretório postman-jmeter/ deste repositório.
-   1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
-   2. Collection geral: em ordem de execução para validar todas as funcionalidades.
+  2.1. Collection da jornada: em ordem de execução para apoio na simulação de pedido.
+  2.2. Collection geral: em ordem de execução para validar todas as funcionalidades.
 
 ### Validação da API com Postman
 
