@@ -181,7 +181,7 @@ Esse fluxo inclui os seguintes passos:
 
 7. Listar pedidos por status: execute o 'List uncompleted orders' para obter a lista de pedidos não concluídos.
 
-8. Atualizar status do pedido: Execute o 'Update order status', alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
+8. Atualizar status do pedido: execute o 'Update order status', alterando o status do pedido para RECEIVED, IN_PREPARATION, READY, ou COMPLETED.
 
 9. Listar rodos os pedidos: com o endpoint 'List all orders', visualize todos os pedidos feitos, independente do status do pedido.
 ```
